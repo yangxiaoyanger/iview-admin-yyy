@@ -25,13 +25,17 @@ router.beforeEach((to, from, next) => {
   if (!token && to.name !== LOGIN_PAGE_NAME) {
     // 未登录且要跳转的页面不是登录页
     console.log('未登录且要跳转的页面不是登录页')
-    next({
-      name: LOGIN_PAGE_NAME // 跳转到登录页
+    store.dispatch('getPublicKey').then(user => {
+      next({
+        name: LOGIN_PAGE_NAME // 跳转到登录页
+      })
     })
   } else if (!token && to.name === LOGIN_PAGE_NAME) {
     console.log('未登陆且要跳转的页面是登录页')
     // 未登陆且要跳转的页面是登录页
-    next() // 跳转
+    store.dispatch('getPublicKey').then(user => {
+      next() // 跳转
+    })
   } else if (token && to.name === LOGIN_PAGE_NAME) {
     // 已登录且要跳转的页面是登录页
     console.log('已登录且要跳转的页面是登录页')
@@ -47,6 +51,7 @@ router.beforeEach((to, from, next) => {
         console.log('router index.js getUserInfo')
         turnTo(to, user.access, next)
       }).catch(() => {
+        console.log('router index.js catch')
         setToken('')
         next({
           name: 'login'

@@ -1,6 +1,8 @@
 import {
   login,
+  getPublicKey,
   logout,
+  getNav,
   getUserInfo,
   getMessage,
   getContentByMsgId,
@@ -10,11 +12,17 @@ import {
   getUnreadCount
 } from '@/api/user'
 import { setToken, getToken } from '@/libs/util'
+import { RSAUtils } from '@/libs/security'
 
 export default {
   state: {
+    modulus: '',
+    exponent: '',
     userName: '',
     userId: '',
+    userInfo: {},
+    menulist: {},
+    leaflist: {},
     avatarImgPath: '',
     token: getToken(),
     access: '',
@@ -26,6 +34,21 @@ export default {
     messageContentStore: {}
   },
   mutations: {
+    setExponent (state, exponent) {
+      state.exponent = exponent
+    },
+    setModulus (state, modulus) {
+      state.modulus = modulus
+    },
+    setUserInfo (state, userInfo) {
+      state.userInfo = userInfo
+    },
+    setMenulist (state, menulist) {
+      state.menulist = menulist
+    },
+    setLeaflist (state, leaflist) {
+      state.leaflist = leaflist
+    },
     setAvatar (state, avatarPath) {
       state.avatarImgPath = avatarPath
     },
@@ -73,18 +96,33 @@ export default {
     messageTrashCount: state => state.messageTrashList.length
   },
   actions: {
-    // 登录
-    handleLogin ({ commit }, { userName, password }) {
-      userName = userName.trim()
+    // 获取getPublicKey
+    getPublicKey ({ commit }) {
       return new Promise((resolve, reject) => {
-        login({
-          userName,
-          password
-        }).then(res => {
-          console.log('store handleLogin ', res)
+        getPublicKey().then(res => {
+          commit('setModulus', res.data.data.modulus)
+          commit('setExponent', res.data.data.exponent)
+          // this.setToken(res.data.data.token)
+          resolve(res)
+        }).catch(err => {
+          reject(err)
+        })
+      })
+    },
+    // 登录
+    handleLogin ({ state, commit }, { userName, password }) {
+      userName = userName.trim()
+      var k = RSAUtils.getKeyPair(state.exponent, '', state.modulus)
+      var k2 = 'name=' + userName + '&pwd=' + password
+      var key = RSAUtils.encryptedString(k, k2)
+      return new Promise((resolve, reject) => {
+        login(key).then(res => {
+          console.log('login', res)
           const data = res.data
+          commit('setUserInfo', res.data.data)
           commit('setToken', data.token)
-          resolve()
+          commit('setHasGetInfo', true)
+          resolve(data)
         }).catch(err => {
           reject(err)
         })
@@ -108,15 +146,35 @@ export default {
     },
     // 获取用户相关信息
     getUserInfo ({ state, commit }) {
+      commit('setHasGetInfo', true)
+      return state.userInfo
+      // return new Promise((resolve, reject) => {
+      //   try {
+      //     getUserInfo(state.token).then(res => {
+      //       const data = res.data
+      //       commit('setAvatar', data.avatar)
+      //       commit('setUserName', data.name)
+      //       commit('setUserId', data.user_id)
+      //       commit('setAccess', data.access)
+      //       commit('setHasGetInfo', true)
+      //       resolve(data)
+      //     }).catch(err => {
+      //       reject(err)
+      //     })
+      //   } catch (error) {
+      //     reject(error)
+      //   }
+      // })
+    },
+    // 获取用户菜单
+    getNav ({ state, commit }) {
       return new Promise((resolve, reject) => {
         try {
-          getUserInfo(state.token).then(res => {
+          getNav().then(res => {
             const data = res.data
-            commit('setAvatar', data.avatar)
-            commit('setUserName', data.name)
-            commit('setUserId', data.user_id)
-            commit('setAccess', data.access)
-            commit('setHasGetInfo', true)
+            console.log(res)
+            commit('setMenulist', res.data.data.tree)
+            commit('setLeaflist', res.data.data.tree)
             resolve(data)
           }).catch(err => {
             reject(err)

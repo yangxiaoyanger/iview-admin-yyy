@@ -7,9 +7,8 @@ import { getMessageInit, getContentByMsgId, hasRead, removeReaded, restoreTrash,
 Mock.setup({
   timeout: 1000
 })
-console.log('mock')
 // 登录相关和获取用户信息
-Mock.mock(/\/login/, login)
+Mock.mock(/\/login2/, login)
 Mock.mock(/\/get_info/, getUserInfo)
 Mock.mock(/\/logout/, logout)
 Mock.mock(/\/get_table_data/, getTableData)
@@ -21,7 +20,7 @@ Mock.mock(/\/message\/content/, getContentByMsgId)
 Mock.mock(/\/message\/has_read/, hasRead)
 Mock.mock(/\/message\/remove_readed/, removeReaded)
 Mock.mock(/\/message\/restore/, restoreTrash)
-Mock.mock(/\/message\/count/, messageCount)
+Mock.mock(/\message\/count/, messageCount)
 Mock.mock(/\/get_org_data/, getOrgData)
 Mock.mock(/\/get_tree_select_data/, getTreeSelectData)
 
