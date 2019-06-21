@@ -174,7 +174,7 @@ export default {
             const data = res.data
             console.log(res)
             commit('setMenulist', res.data.data.tree)
-            commit('setLeaflist', res.data.data.tree)
+            commit('setLeaflist', res.data.data.leaf)
             resolve(data)
           }).catch(err => {
             reject(err)

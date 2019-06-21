@@ -53,21 +53,35 @@ export const getMenuByRouter = (list, access) => {
  * @param {Array} list 通过路由列表得到导航菜单列表
  * @returns {Array}
  */
-export const getNavMenuByRouter = (list, access) => {
-  let res = []
-  forEach(list, item => {
-    if (!item.meta || (item.meta && !item.meta.hideInMenu)) {
-      let obj = {
-        icon: (item.meta && item.meta.icon) || '',
-        name: item.name,
-        meta: item.meta
-      }
-      // if ((hasChild(item) || (item.meta && item.meta.showAlways)) && showThisMenuEle(item, access)) {
-      //   obj.children = getMenuByRouter(item.children, access)
-      // }
-      if (item.meta && item.meta.href) obj.href = item.meta.href
-      if (showThisMenuEle(item, access)) res.push(obj)
+export const getSidemenuList = (state, routers, menulist) => {
+  console.log(state, routers, menulist, 6666666666666666)
+}
+/**
+ * @param {Array} list 通过路由列表得到导航菜单列表
+ * @returns {Array}
+ */
+export const getNavMenuByRouter = (list, menulist) => {
+  let res = [];
+  console.log(menulist)
+  forEach(menulist, item => {
+    let obj = {
+      icon: item.iconcls ? item.iconcls : 'fa fa-credit-card',
+      request: item.request,
+      title: item.menuname
     }
+    res.push(obj)
+    // if (!item.meta || (item.meta && !item.meta.hideInMenu)) {
+    //   let obj = {
+    //     icon: (item.meta && item.meta.icon) || '',
+    //     name: item.name,
+    //     meta: item.meta
+    //   }
+    //   // if ((hasChild(item) || (item.meta && item.meta.showAlways)) && showThisMenuEle(item, access)) {
+    //   //   obj.children = getMenuByRouter(item.children, access)
+    //   // }
+    //   if (item.meta && item.meta.href) obj.href = item.meta.href
+    //   if (showThisMenuEle(item, access)) res.push(obj)
+    // }
   })
   return res
 }

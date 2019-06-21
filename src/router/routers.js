@@ -234,7 +234,18 @@ export default [
           icon: 'ios-document',
           title: '上传Csv'
         },
-        component: () => import('@/view/update/update-table.vue')
+        component: () => import('@/view/update/update-table.vue'),
+        children: [
+          {
+            path: 'icons_page',
+            name: 'icons_page',
+            meta: {
+              icon: '_bear',
+              title: '自定义图标'
+            },
+            component: () => import('@/view/components/icons/icons.vue')
+          }
+        ]
       },
       {
         path: 'update_paste_page',

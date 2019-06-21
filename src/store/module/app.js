@@ -2,6 +2,7 @@ import {
   getBreadCrumbList,
   setTagNavListInLocalstorage,
   getMenuByRouter,
+  getSidemenuList,
   getNavMenuByRouter,
   getTagNavListFromLocalstorage,
   getHomeRoute,
@@ -16,6 +17,7 @@ import { saveErrorLogger } from '@/api/data'
 import router from '@/router'
 import routers from '@/router/routers'
 import config from '@/config'
+import { stat } from 'fs';
 const { homeName } = config
 
 const closePage = (state, route) => {
@@ -28,6 +30,7 @@ const closePage = (state, route) => {
 
 export default {
   state: {
+    navMenu: '',
     breadCrumbList: [],
     tagNavList: [],
     homeRoute: {},
@@ -36,13 +39,18 @@ export default {
     hasReadErrorPage: false
   },
   getters: {
+    sidemenuList: (state, getters, rootState) => getSidemenuList(state, routers, rootState.user.menulist),
     menuList: (state, getters, rootState) => getMenuByRouter(routers, rootState.user.access),
-    navMenuList: (state, getters, rootState) => getNavMenuByRouter(routers, rootState.user.access),
+    navMenuList: (state, getters, rootState) => getNavMenuByRouter(routers, rootState.user.menulist),
     errorCount: state => state.errorList.length
   },
   mutations: {
     setBreadCrumb (state, route) {
       state.breadCrumbList = getBreadCrumbList(route, state.homeRoute)
+    },
+    setNavMenu (state, request) {
+      state.navMenu = request
+      console.log(state, 8888888)
     },
     setHomeRoute (state, routes) {
       state.homeRoute = getHomeRoute(routes, homeName)
@@ -103,6 +111,9 @@ export default {
       saveErrorLogger(info).then(() => {
         commit('addError', data)
       })
+    },
+    setNavMenu ({ commit }, request) {
+      commit('setNavMenu', request)
     }
   }
 }

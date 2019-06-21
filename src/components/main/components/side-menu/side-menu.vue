@@ -82,9 +82,11 @@ export default {
       this.$emit('on-coll-change', state);
     },
     handleSelect (name) {
+      console.log(name, 'side-menu handleselect')
       this.$emit('on-select', name)
     },
     getOpenedNamesByActiveName (name) {
+      console.log(name, 'getOpenedNamesByActiveName')
       return this.$route.matched.map(item => item.name).filter(item => item !== name)
     },
     updateOpenName (name) {
@@ -99,6 +101,7 @@ export default {
   },
   watch: {
     activeName (name) {
+      console.log(this.accordion, this.openedNames)
       if (this.accordion) this.openedNames = this.getOpenedNamesByActiveName(name)
       else this.openedNames = getUnion(this.openedNames, this.getOpenedNamesByActiveName(name))
     },

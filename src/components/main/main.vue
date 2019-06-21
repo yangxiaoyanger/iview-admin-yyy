@@ -1,7 +1,7 @@
 <template>
   <Layout style="height: 100%" class="main">
     <Header class="header-con">
-      <header-bar>
+      <header-bar @on-select="selectNav">
         <user :message-unread-count="unreadCount" :user-avatar="userAvatar"/>
         <language v-if="$config.useI18n" @on-lang-change="setLocal" style="margin-right: 10px;" :lang="local"/>
         <error-store v-if="$config.plugin['error-store'] && $config.plugin['error-store'].showInHeader" :has-read="hasReadErrorPage" :count="errorCount"></error-store>
@@ -10,7 +10,7 @@
     </Header>
     <Layout>
       <Sider hide-trigger collapsible :width="256" :collapsed-width="64" v-model="collapsed" class="left-sider" :style="{overflow: 'hidden'}">
-        <side-menu  @on-coll-change="handleCollapsedChange" accordion ref="sideMenu" :active-name="$route.name" :collapsed="collapsed" @on-select="turnToPage" :menu-list="menuList">
+        <side-menu  @on-coll-change="handleCollapsedChange" accordion ref="sideMenu" :active-name="$route.name" :collapsed="collapsed" @on-select="turnToPage" :menu-list="sidemenuList">
           
         </side-menu>
       </Sider>
@@ -92,6 +92,10 @@ export default {
     menuList () {
       return this.$store.getters.menuList
     },
+    sidemenuList () {
+      console.log('sidemenulist=====')
+      return this.$store.getters.sidemenuList
+    },
     local () {
       return this.$store.state.app.local
     },
@@ -113,8 +117,13 @@ export default {
     ]),
     ...mapActions([
       'handleLogin',
-      'getUnreadMessageCount'
+      'getUnreadMessageCount',
+      'setNavMenu'
     ]),
+    selectNav (navRequest) {
+      this.setNavMenu(navRequest)
+      console.log(navRequest, 7777777777)
+    },
     turnToPage (route) {
       let { name, params, query } = {}
       if (typeof route === 'string') name = route

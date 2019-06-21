@@ -1,6 +1,6 @@
 <template>
   <div class="header-bar">
-    <nav-menu :list="navMenuList"></nav-menu>
+    <nav-menu :list="navMenuList" @on-select="selectNav"></nav-menu>
     <!-- 需要放在菜单上面的内容，如Logo，写在side-menu标签内部，如下 -->
         <!-- <div class="logo-con">
           <img v-show="!collapsed" :src="maxLogo" key="max-logo" />
@@ -31,6 +31,31 @@ export default {
     }
   },
   methods: {
+    selectNav (name) {
+      console.log(name, 'handleselect')
+      this.$emit('on-select', name)
+    }
+
+
+    // turnToPage (route) {
+    //   console.log(route, 'route hader-bar')
+    //   let { name, params, query } = {}
+    //   if (typeof route === 'string') name = route
+    //   else {
+    //     name = route.name
+    //     params = route.params
+    //     query = route.query
+    //   }
+    //   if (name.indexOf('isTurnByHref_') > -1) {
+    //     window.open(name.split('_')[1])
+    //     return
+    //   }
+    //   this.$router.push({
+    //     name,
+    //     params,
+    //     query
+    //   })
+    // }
     
   }
 }

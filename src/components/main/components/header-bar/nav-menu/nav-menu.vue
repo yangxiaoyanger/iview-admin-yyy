@@ -3,12 +3,12 @@
       <Menu mode="horizontal">
           <div class="layout-logo"></div>
           <div class="layout-nav">
-            <template  v-for="item in list">
-              <MenuItem :key="`menu-${item.name}`" >
+            <Menu mode="horizontal" active-name="1" @on-select="handleSelect">
+              <menuItem v-for="item in list" :key="`menu-${item.title}`" :name="item.request">
                   <Icon type="ios-navigate"></Icon>
-                  {{item.name}}
+                  {{item.title}}
               </MenuItem>
-            </template>
+            </Menu>
           </div>
       </Menu>
   </div>
@@ -28,6 +28,10 @@ export default {
     }
   },
   methods: {
+    handleSelect (name) {
+      console.log(name, 'handleselect')
+      this.$emit('on-select', name)
+    },
   },
   computed: {
   },
