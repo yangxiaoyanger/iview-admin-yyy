@@ -112,7 +112,8 @@ export default {
         commit('addError', data)
       })
     },
-    setNavMenu ({ commit }, request) {
+    setNavMenu ({ commit, state, rootState }, request) {
+      state.sidemenuList = getSidemenuList(state, routers, rootState.user.menulist)
       commit('setNavMenu', request)
     }
   }

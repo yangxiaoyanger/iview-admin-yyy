@@ -48,20 +48,44 @@ export const getMenuByRouter = (list, access) => {
   })
   return res
 }
-
+/**
+ * @param {Array} list 通过路由列表和navmenu得到侧边栏菜单列表
+ * @returns {Array}
+ */
+// export const getMenuByRouterForSidemenu = (state, routers, navMenu) => {
+//   let res = []
+//   forEach(list, item => {
+//     if (hasChild(item)) {
+//       obj.children = getMenuByRouter(state, routers, item.children)
+//     } else {
+//       let obj = {
+//         icon: item.iconcls ? item.iconcls : 'fa fa-credit-card',
+//         request: item.request,
+//         title: item.menuname
+//       }
+//       res.push(obj)
+//     }
+//   })
+//   return res
+// }
 /**
  * @param {Array} list 通过路由列表得到导航菜单列表
  * @returns {Array}
  */
 export const getSidemenuList = (state, routers, menulist) => {
-  console.log(state, routers, menulist, 6666666666666666)
+  console.log(state, routers, menulist, 6666666666666666);
+  forEach(menulist, item => {
+    if (item.request === state.navMenu) {
+      return this.getMenuByRouterForSidemenu(state, routers, item)
+    }
+  })
 }
 /**
  * @param {Array} list 通过路由列表得到导航菜单列表
  * @returns {Array}
  */
-export const getNavMenuByRouter = (list, menulist) => {
-  let res = [];
+export default (list, menulist) => {
+  let res = []
   console.log(menulist)
   forEach(menulist, item => {
     let obj = {
