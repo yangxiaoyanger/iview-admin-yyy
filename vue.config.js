@@ -39,14 +39,14 @@ module.exports = {
   // 这里写你调用接口的基础路径，来解决跨域，如果设置了代理，那你本地开发环境的axios的baseUrl要写为 '' ，即空字符串
   devServer: {
     // proxy: 'https://water.randee.cn/'
-    port: '8081', //代理端口
-    open: false, //项目启动时是否自动打开浏览器，我这里设置为false,不打开，true表示打开
+    port: '8081', // 代理端口
+    open: false, // 项目启动时是否自动打开浏览器，我这里设置为false,不打开，true表示打开
     proxy: {
-      '/api': {//代理api
-        target: 'http://10.0.30.163:19090', //服务器api地址
-        changeOrigin: true, //是否跨域
+      '/api': {// 代理api
+        target: 'https://water.randee.cn/', // 服务器api地址
+        changeOrigin: true, // 是否跨域
         ws: true, // proxy websockets
-        pathRewrite: {//重写路径
+        pathRewrite: {// 重写路径
           '^/api': '/api'
         }
       }

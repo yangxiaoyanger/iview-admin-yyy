@@ -52,31 +52,35 @@ export const getMenuByRouter = (list, access) => {
  * @param {Array} list 通过路由列表和navmenu得到侧边栏菜单列表
  * @returns {Array}
  */
-// export const getMenuByRouterForSidemenu = (state, routers, navMenu) => {
-//   let res = []
-//   forEach(list, item => {
-//     if (hasChild(item)) {
-//       obj.children = getMenuByRouter(state, routers, item.children)
-//     } else {
-//       let obj = {
-//         icon: item.iconcls ? item.iconcls : 'fa fa-credit-card',
-//         request: item.request,
-//         title: item.menuname
-//       }
-//       res.push(obj)
-//     }
-//   })
-//   return res
-// }
+export const getMenuByRouterForSidemenu = (state, navMenu) => {
+  let res = []
+  console.log('util getMenuByRouterForSidemenu navmenulsit', navMenu)
+  console.log(navMenu)
+  forEach(navMenu, item => {
+    let obj = {
+      icon: item.iconcls ? item.iconcls : 'fa fa-credit-card',
+      request: item.request,
+      title: item.menuname
+    }
+    if (hasChild(item)) {
+      obj.children = getMenuByRouterForSidemenu(state, item.children)
+    }
+    res.push(obj)
+    console.log(res, 'util getMenuByRouterForSidemenu')
+  })
+  console.log(res, ' return util getMenuByRouterForSidemenu')
+  return res
+}
 /**
  * @param {Array} list 通过路由列表得到导航菜单列表
  * @returns {Array}
  */
-export const getSidemenuList = (state, routers, menulist) => {
-  console.log(state, routers, menulist, 6666666666666666);
-  forEach(menulist, item => {
+export const getSidemenuList = (state, menulist) => {
+  return forEach(menulist, item => {
     if (item.request === state.navMenu) {
-      return this.getMenuByRouterForSidemenu(state, routers, item)
+      var res = getMenuByRouterForSidemenu(state, item.children)
+      console.log('util getSidemenuList', res)
+      return res
     }
   })
 }
@@ -84,9 +88,8 @@ export const getSidemenuList = (state, routers, menulist) => {
  * @param {Array} list 通过路由列表得到导航菜单列表
  * @returns {Array}
  */
-export default (list, menulist) => {
+export const getNavMenuByRouter = (list, menulist) => {
   let res = []
-  console.log(menulist)
   forEach(menulist, item => {
     let obj = {
       icon: item.iconcls ? item.iconcls : 'fa fa-credit-card',

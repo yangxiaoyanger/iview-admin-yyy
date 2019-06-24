@@ -17,7 +17,6 @@ import { saveErrorLogger } from '@/api/data'
 import router from '@/router'
 import routers from '@/router/routers'
 import config from '@/config'
-import { stat } from 'fs';
 const { homeName } = config
 
 const closePage = (state, route) => {
@@ -32,6 +31,7 @@ export default {
   state: {
     navMenu: '',
     breadCrumbList: [],
+    sidemenuList: [],
     tagNavList: [],
     homeRoute: {},
     local: localRead('local'),
@@ -39,7 +39,7 @@ export default {
     hasReadErrorPage: false
   },
   getters: {
-    sidemenuList: (state, getters, rootState) => getSidemenuList(state, routers, rootState.user.menulist),
+    // sidemenuList: (state, getters, rootState) => getSidemenuList(state, routers, rootState.user.menulist),
     menuList: (state, getters, rootState) => getMenuByRouter(routers, rootState.user.access),
     navMenuList: (state, getters, rootState) => getNavMenuByRouter(routers, rootState.user.menulist),
     errorCount: state => state.errorList.length
@@ -48,9 +48,13 @@ export default {
     setBreadCrumb (state, route) {
       state.breadCrumbList = getBreadCrumbList(route, state.homeRoute)
     },
+    setSidemenuList (state, sidemenuList) {
+      console.log('store appjs setSidemenuList', state, sidemenuList)
+      state.sidemenuList = sidemenuList
+    },
     setNavMenu (state, request) {
       state.navMenu = request
-      console.log(state, 8888888)
+      console.log('store app setNavMenu')
     },
     setHomeRoute (state, routes) {
       state.homeRoute = getHomeRoute(routes, homeName)
@@ -113,8 +117,12 @@ export default {
       })
     },
     setNavMenu ({ commit, state, rootState }, request) {
-      state.sidemenuList = getSidemenuList(state, routers, rootState.user.menulist)
       commit('setNavMenu', request)
+    },
+    setSidemenuList ({ commit, state, rootState }, request) {
+      var sidemenuList = getSidemenuList(state, rootState.user.menulist)
+      console.log('setSidemenuList sidemenuList commit', sidemenuList)
+      commit('setSidemenuList', sidemenuList)
     }
   }
 }

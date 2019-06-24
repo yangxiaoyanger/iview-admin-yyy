@@ -11,7 +11,7 @@
     <Layout>
       <Sider hide-trigger collapsible :width="256" :collapsed-width="64" v-model="collapsed" class="left-sider" :style="{overflow: 'hidden'}">
         <side-menu  @on-coll-change="handleCollapsedChange" accordion ref="sideMenu" :active-name="$route.name" :collapsed="collapsed" @on-select="turnToPage" :menu-list="sidemenuList">
-          
+
         </side-menu>
       </Sider>
       <Content class="main-content-con">
@@ -77,7 +77,12 @@ export default {
       return this.$store.state.app.tagNavList
     },
     breadCrumbList () {
+      console.log('breadCrumbList')
       return this.$store.state.app.breadCrumbList
+    },
+    sidemenuList () {
+      console.log('sidemenuList')
+      return this.$store.state.app.sidemenuList
     },
     tagRouter () {
       return this.$store.state.app.tagRouter
@@ -91,10 +96,6 @@ export default {
     },
     menuList () {
       return this.$store.getters.menuList
-    },
-    sidemenuList () {
-      console.log('sidemenulist=====')
-      return this.$store.getters.sidemenuList
     },
     local () {
       return this.$store.state.app.local
@@ -113,15 +114,18 @@ export default {
       'addTag',
       'setLocal',
       'setHomeRoute',
-      'closeTag'
+      'closeTag',
+      'setSidemenuList'
     ]),
     ...mapActions([
       'handleLogin',
       'getUnreadMessageCount',
-      'setNavMenu'
+      'setNavMenu',
+      'setSidemenuList'
     ]),
     selectNav (navRequest) {
       this.setNavMenu(navRequest)
+      this.setSidemenuList(navRequest)
       console.log(navRequest, 7777777777)
     },
     turnToPage (route) {
@@ -185,6 +189,7 @@ export default {
       route: { name, params, query, meta }
     })
     this.setBreadCrumb(this.$route)
+    // this.setSidemenuList(this.$route)
     // 设置初始语言
     this.setLocal(this.$i18n.locale)
     // 如果当前打开页面不在标签栏中，跳到homeName页
