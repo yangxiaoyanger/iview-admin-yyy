@@ -18,6 +18,7 @@
     </div>
     <Table :border="showBorder" :stripe="showStripe" :show-header="showHeader" 
     :height="fixedHeader ? 250 : ''" :size="tableSize" :data="tableData3" :columns="tableColumns3"></Table>
+     <Page :total="100" show-sizer show-elevator show-total :styles="pageStyle"/>
   </div>
 </template>
 <script>
@@ -80,7 +81,10 @@
                 showIndex: true,
                 showCheckbox: false,
                 fixedHeader: false,
-                tableSize: 'default'
+                tableSize: 'default',
+                pageStyle: {
+                  marginTop: '20px'
+                }
             }
         },
         computed: {
