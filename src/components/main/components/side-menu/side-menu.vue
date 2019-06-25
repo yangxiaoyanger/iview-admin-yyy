@@ -1,7 +1,6 @@
 <template>
   <div class="side-menu-wrapper">
     <slot></slot>
-    <sider-trigger :collapsed="collapsed" icon="md-menu" @on-change="handleCollpasedChange"></sider-trigger>
     <Menu ref="menu" v-show="!collapsed" :active-name="activeName" :open-names="openedNames" :accordion="accordion" :theme="theme" width="auto" @on-select="handleSelect">
       <template v-for="item in menuList">
         <template v-if="item.children && item.children.length === 1">
@@ -22,6 +21,11 @@
         </Tooltip>
       </template>
     </div>
+    <div class="menu-sider-trigger">
+      <sider-trigger :collapsed="collapsed" icon="md-menu" @on-change="handleCollpasedChange"></sider-trigger>
+    </div>
+    
+    
   </div>
 </template>
 <script>

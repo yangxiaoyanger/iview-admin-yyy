@@ -19,6 +19,62 @@
     <Table :border="showBorder" :stripe="showStripe" :show-header="showHeader" 
     :height="fixedHeader ? 250 : ''" :size="tableSize" :data="tableData3" :columns="tableColumns3"></Table>
      <Page :total="100" show-sizer show-elevator show-total :styles="pageStyle"/>
+
+     <Modal v-model="modal12" draggable scrollable title="编辑弹窗" width="70">
+        <Form :model="formItem" :label-width="80">
+        <FormItem label="Input">
+            <Input v-model="formItem.input" placeholder="Enter something..."></Input>
+        </FormItem>
+        <FormItem label="Select">
+            <Select v-model="formItem.select">
+                <Option value="beijing">New York</Option>
+                <Option value="shanghai">London</Option>
+                <Option value="shenzhen">Sydney</Option>
+            </Select>
+        </FormItem>
+        <FormItem label="DatePicker">
+            <Row>
+                <Col span="4">
+                    <DatePicker type="date" placeholder="Select date" v-model="formItem.date"></DatePicker>
+                </Col>
+                <Col span="1" style="text-align: center">-</Col>
+                <Col span="4">
+                    <TimePicker type="time" placeholder="Select time" v-model="formItem.time"></TimePicker>
+                </Col>
+            </Row>
+        </FormItem>
+        <FormItem label="Radio">
+            <RadioGroup v-model="formItem.radio">
+                <Radio label="male">Male</Radio>
+                <Radio label="female">Female</Radio>
+            </RadioGroup>
+        </FormItem>
+        <FormItem label="Checkbox">
+            <CheckboxGroup v-model="formItem.checkbox">
+                <Checkbox label="Eat"></Checkbox>
+                <Checkbox label="Sleep"></Checkbox>
+                <Checkbox label="Run"></Checkbox>
+                <Checkbox label="Movie"></Checkbox>
+            </CheckboxGroup>
+        </FormItem>
+        <FormItem label="Switch">
+            <i-switch v-model="formItem.switch" size="large">
+                <span slot="open">On</span>
+                <span slot="close">Off</span>
+            </i-switch>
+        </FormItem>
+        <FormItem label="Slider">
+            <Slider v-model="formItem.slider" range></Slider>
+        </FormItem>
+        <FormItem label="Text">
+            <Input v-model="formItem.textarea" type="textarea" :autosize="{minRows: 2,maxRows: 5}" placeholder="Enter something..."></Input>
+        </FormItem>
+        <!-- <FormItem>
+            <Button type="primary">Submit</Button>
+            <Button style="margin-left: 8px">Cancel</Button>
+        </FormItem> -->
+      </Form>
+    </Modal>
   </div>
 </template>
 <script>
@@ -84,6 +140,18 @@
                 tableSize: 'default',
                 pageStyle: {
                   marginTop: '20px'
+                },
+                modal12: false,
+                formItem: {
+                    input: '',
+                    select: '',
+                    radio: 'male',
+                    checkbox: [],
+                    switch: true,
+                    date: '',
+                    time: '',
+                    slider: [20, 50],
+                    textarea: ''
                 }
             }
         },
@@ -221,16 +289,17 @@
                 this.tableData3.splice(index, 1);
             },
             edit (index) {
-              this.$Modal.confirm({
-                    title: 'Title',
-                    content: '<p>Content of dialog</p><p>Content of dialog</p>',
-                    onOk: () => {
-                        this.$Message.info('Clicked ok');
-                    },
-                    onCancel: () => {
-                        this.$Message.info('Clicked cancel');
-                    }
-                });
+              this.modal12 = true;
+              // this.$Modal.confirm({
+              //       title: 'Title',
+              //       content: '<p>Content of dialog</p><p>Content of dialog</p>',
+              //       onOk: () => {
+              //           this.$Message.info('Clicked ok');
+              //       },
+              //       onCancel: () => {
+              //           this.$Message.info('Clicked cancel');
+              //       }
+              //   });
             }
         }
     }
