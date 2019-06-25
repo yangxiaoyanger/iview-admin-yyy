@@ -60,7 +60,8 @@ export const getMenuByRouterForSidemenu = (state, navMenu) => {
     let obj = {
       icon: item.iconcls ? item.iconcls : 'fa fa-credit-card',
       request: item.request,
-      title: item.menuname
+      title: item.menuname,
+      name: item.request
     }
     if (hasChild(item)) {
       obj.children = getMenuByRouterForSidemenu(state, item.children)
@@ -76,13 +77,14 @@ export const getMenuByRouterForSidemenu = (state, navMenu) => {
  * @returns {Array}
  */
 export const getSidemenuList = (state, menulist) => {
-  return forEach(menulist, item => {
+  let res = []
+  forEach(menulist, item => {
     if (item.request === state.navMenu) {
-      var res = getMenuByRouterForSidemenu(state, item.children)
+      res = getMenuByRouterForSidemenu(state, item.children)
       console.log('util getSidemenuList', res)
-      return res
     }
   })
+  return res
 }
 /**
  * @param {Array} list 通过路由列表得到导航菜单列表
@@ -94,7 +96,8 @@ export const getNavMenuByRouter = (list, menulist) => {
     let obj = {
       icon: item.iconcls ? item.iconcls : 'fa fa-credit-card',
       request: item.request,
-      title: item.menuname
+      title: item.menuname,
+      name: item.request
     }
     res.push(obj)
     // if (!item.meta || (item.meta && !item.meta.hideInMenu)) {
@@ -158,14 +161,15 @@ export const getRouteTitleHandled = (route) => {
 }
 
 export const showTitle = (item, vm) => {
-  let { title, __titleIsFunction__ } = item.meta
-  if (!title) return
-  if (useI18n) {
-    if (title.includes('{{') && title.includes('}}') && useI18n) title = title.replace(/({{[\s\S]+?}})/, (m, str) => str.replace(/{{([\s\S]*)}}/, (m, _) => vm.$t(_.trim())))
-    else if (__titleIsFunction__) title = item.meta.title
-    else title = vm.$t(item.name)
-  } else title = (item.meta && item.meta.title) || item.name
-  return title
+  // let { title, __titleIsFunction__ } = item.meta
+  // if (!title) return
+  // if (useI18n) {
+  //   if (title.includes('{{') && title.includes('}}') && useI18n) title = title.replace(/({{[\s\S]+?}})/, (m, str) => str.replace(/{{([\s\S]*)}}/, (m, _) => vm.$t(_.trim())))
+  //   else if (__titleIsFunction__) title = item.meta.title
+  //   else title = vm.$t(item.name)
+  // } else title = (item.meta && item.meta.title) || item.name
+  // return title
+  return item.title
 }
 
 /**
