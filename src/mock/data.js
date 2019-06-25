@@ -5,6 +5,7 @@ import { treeData } from './data/tree-select'
 const Random = Mock.Random
 
 export const getTableData = req => {
+  console.log('mock getTableData')
   let tableData = []
   doCustomTimes(5, () => {
     tableData.push(Mock.mock({

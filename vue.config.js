@@ -50,6 +50,14 @@ module.exports = {
           '^/api': '/api'
         }
       }
+      // '/basicinfo': {// 代理api
+      //   target: 'https://www.easy-mock.com/mock/5add9213ce4d0e69998a6f51/iview-admin/', // 服务器api地址
+      //   changeOrigin: true, // 是否跨域
+      //   ws: true, // proxy websockets
+      //   pathRewrite: {// 重写路径
+      //     // '^/basicinfo': ''
+      //   }
+      // }
     }
   }
 }

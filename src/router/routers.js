@@ -28,6 +28,29 @@ export default [
     component: () => import('@/view/login/login.vue')
   },
   {
+    path: '/basicinfo',
+    name: 'basicinfo',
+    redirect: '/basicinfo',
+    component: Main,
+    meta: {
+      hideInMenu: true,
+      notCache: true
+    },
+    children: [
+      {
+        path: 'waterworksbase',
+        name: 'waterworksbase',
+        meta: {
+          hideInMenu: true,
+          notCache: true,
+          title: '水厂基础信息'
+        },
+        // eslint-disable-next-line no-dupe-keys
+        component: () => import('@/view/components/demotable/demotable.vue')
+      }
+    ]
+  },
+  {
     path: '/',
     name: '_home',
     redirect: '/home',
