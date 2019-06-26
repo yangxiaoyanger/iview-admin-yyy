@@ -24,15 +24,15 @@
        <p slot="header">
             <span>编辑弹窗</span>
         </p>
-        <Form ref="formValidate" :model="formValidate" :rules="ruleValidate" :label-width="80" inline>
+        <Form ref="editFormValidate" :model="editFormValidate" :rules="ruleValidate" :label-width="80" inline>
           <FormItem label="Name" prop="name">
-              <Input v-model="formValidate.name" placeholder="Enter your name"></Input>
+              <Input v-model="editFormValidate.name" placeholder="Enter your name"></Input>
           </FormItem>
           <FormItem label="E-mail" prop="mail">
-              <Input v-model="formValidate.mail" placeholder="Enter your e-mail"></Input>
+              <Input v-model="editFormValidate.mail" placeholder="Enter your e-mail"></Input>
           </FormItem>
           <FormItem label="City" prop="city">
-              <Select v-model="formValidate.city" placeholder="Select your city">
+              <Select v-model="editFormValidate.city" placeholder="Select your city">
                   <Option value="beijing">New York</Option>
                   <Option value="shanghai">London</Option>
                   <Option value="shenzhen">Sydney</Option>
@@ -42,33 +42,33 @@
               <Row>
                   <Col span="11">
                       <FormItem prop="date">
-                          <DatePicker type="date" placeholder="Select date" v-model="formValidate.date"></DatePicker>
+                          <DatePicker type="date" placeholder="Select date" v-model="editFormValidate.date"></DatePicker>
                       </FormItem>
                   </Col>
                   <Col span="2" style="text-align: center">-</Col>
                   <Col span="11">
                       <FormItem prop="time">
-                          <TimePicker type="time" placeholder="Select time" v-model="formValidate.time"></TimePicker>
+                          <TimePicker type="time" placeholder="Select time" v-model="editFormValidate.time"></TimePicker>
                       </FormItem>
                   </Col>
               </Row>
           </FormItem>
           <FormItem label="Gender" prop="gender">
-              <RadioGroup v-model="formValidate.gender">
+              <RadioGroup v-model="editFormValidate.gender">
                   <Radio label="male">Male</Radio>
                   <Radio label="female">Female</Radio>
               </RadioGroup>
           </FormItem>
           <FormItem label="Hobby" prop="interest">
-              <CheckboxGroup v-model="formValidate.interest">
+              <CheckboxGroup v-model="editFormValidate.interest">
                   <Checkbox label="Eat"></Checkbox>
                   <Checkbox label="Sleep"></Checkbox>
                   <Checkbox label="Run"></Checkbox>
                   <Checkbox label="Movie"></Checkbox>
               </CheckboxGroup>
           </FormItem>
-          <FormItem label="Desc" prop="desc">
-              <Input v-model="formValidate.desc" type="textarea" :autosize="{minRows: 2,maxRows: 5}" placeholder="Enter something..."></Input>
+          <FormItem label="Desc" prop="desc" style="width: 100%;">
+              <Input v-model="editFormValidate.desc" type="textarea" :autosize="{minRows: 2,maxRows: 5}" placeholder="Enter something..."></Input>
           </FormItem>
           <!-- <FormItem>
               <Button type="primary" @click="handleSubmit('formValidate')">Submit</Button>
@@ -76,65 +76,37 @@
           </FormItem> -->
       </Form>
       <div slot="footer">
-          <Button type="primary" @click="handleSubmit('formValidate')">确定</Button>
-          <Button @click="handleReset('formValidate')" style="margin-left: 8px">重置</Button>
+          <Button type="primary" @click="handleSubmit('editFormValidate')">确定</Button>
+          <Button @click="handleReset('editFormValidate')" style="margin-left: 8px">重置</Button>
       </div>
     </Modal>
 
-    <Modal v-model="detailModel" draggable scrollable width="70">
+    <Modal v-model="detailModel" draggable scrollable width="60">
         <p slot="header">
             <span>详情弹窗</span>
         </p>
-        <Form ref="formValidate" :model="formValidate" :rules="ruleValidate" :label-width="80" inline>
+        <Form ref="detailFormValidate" :model="detailFormValidate"  :label-width="80" inline class="detail-form">
             <FormItem label="Name" prop="name">
-                <Input v-model="formValidate.name" placeholder="Enter your name"></Input>
+                Enter your name
             </FormItem>
             <FormItem label="E-mail" prop="mail">
-                <Input v-model="formValidate.mail" placeholder="Enter your e-mail"></Input>
+                Enter your e-mail
             </FormItem>
             <FormItem label="City" prop="city">
-                <Select v-model="formValidate.city" placeholder="Select your city">
-                    <Option value="beijing">New York</Option>
-                    <Option value="shanghai">London</Option>
-                    <Option value="shenzhen">Sydney</Option>
-                </Select>
+                Enter your e-mail
             </FormItem>
             <FormItem label="Date">
-                <Row>
-                    <Col span="11">
-                        <FormItem prop="date">
-                            <DatePicker type="date" placeholder="Select date" v-model="formValidate.date"></DatePicker>
-                        </FormItem>
-                    </Col>
-                    <Col span="2" style="text-align: center">-</Col>
-                    <Col span="11">
-                        <FormItem prop="time">
-                            <TimePicker type="time" placeholder="Select time" v-model="formValidate.time"></TimePicker>
-                        </FormItem>
-                    </Col>
-                </Row>
+                Enter your e-mail
             </FormItem>
             <FormItem label="Gender" prop="gender">
-                <RadioGroup v-model="formValidate.gender">
-                    <Radio label="male">Male</Radio>
-                    <Radio label="female">Female</Radio>
-                </RadioGroup>
+                Gender
             </FormItem>
             <FormItem label="Hobby" prop="interest">
-                <CheckboxGroup v-model="formValidate.interest">
-                    <Checkbox label="Eat"></Checkbox>
-                    <Checkbox label="Sleep"></Checkbox>
-                    <Checkbox label="Run"></Checkbox>
-                    <Checkbox label="Movie"></Checkbox>
-                </CheckboxGroup>
+                Gender
             </FormItem>
             <FormItem label="Desc" prop="desc">
-                <Input v-model="formValidate.desc" type="textarea" :autosize="{minRows: 2,maxRows: 5}" placeholder="Enter something..."></Input>
+                Gender
             </FormItem>
-          <!-- <FormItem>
-              <Button type="primary" @click="handleSubmit('formValidate')">Submit</Button>
-              <Button @click="handleReset('formValidate')" style="margin-left: 8px">Reset</Button>
-          </FormItem> -->
       </Form>
       <!-- <div slot="footer">
           <Button type="primary" @click="handleSubmit('formValidate')">确定</Button>
@@ -209,7 +181,7 @@
                 },
                 detailModel: false,
                 editModel: false,
-                formValidate: {
+                editFormValidate: {
                     name: '',
                     mail: '',
                     city: '',
@@ -219,6 +191,7 @@
                     time: '',
                     desc: ''
                 },
+                detailFormValidate: {},
                 ruleValidate: {
                     name: [
                         { required: true, message: 'The name cannot be empty', trigger: 'blur' }
@@ -405,6 +378,11 @@
   }
   .ivu-modal-footer {
     text-align: center
+  }
+  .detail-form .ivu-form-item {
+    margin-bottom: 5px;
+    margin-left: 15%;
+    width: 35%;
   }
 </style>
 
