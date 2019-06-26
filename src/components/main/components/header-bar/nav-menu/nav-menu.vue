@@ -1,7 +1,9 @@
 <template>
   <div class="nav-menu-bar">
       <Menu mode="horizontal">
-          <div class="layout-logo"></div>
+          <div class="logo">
+            城镇供水全过程监管业务平台
+          </div>
           <div class="layout-nav">
             <Menu mode="horizontal" :active-name="activeName" @on-select="handleSelect">
               <menuItem v-for="item in list" :key="`menu-${item.menuid}`" :name="item.request">
@@ -49,4 +51,11 @@ export default {
 </script>
 <style lang="less">
 @import './nav-menu.less';
+.logo {
+    float: left;
+    font-size: 20px;
+    font-weight: normal;
+    color: cornflowerblue;
+    font-family: "Helvetica Neue",Helvetica,Arial,"Microsoft Yahei","Hiragino Sans GB","Heiti SC","WenQuanYi Micro Hei",sans-serif;
+}
 </style>
