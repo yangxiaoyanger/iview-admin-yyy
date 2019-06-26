@@ -81,6 +81,49 @@ export default [
     }]
   },
   {
+    path: '/realtimemonitor',
+    name: '/realtimemonitor',
+    component: Main,
+    meta: {
+      hideInMenu: true,
+      notCache: true,
+      title: '实时监控'
+    },
+    children: [{
+      path: '/realtimemonit/watersoumonit',
+      name: '/realtimemonit/watersoumonit',
+      meta: {
+        hideInMenu: true,
+        notCache: true,
+        title: '水源水监控'
+      },
+      children: [
+        {
+          path: '/realtimemonit/watersoumonit/watersourealtimemonit',
+          name: '/realtimemonit/watersoumonit/watersourealtimemonit',
+          meta: {
+            hideInMenu: true,
+            notCache: true,
+            title: '水源水实时监控'
+          },
+          // eslint-disable-next-line no-dupe-keys
+          component: () => import('@/view/join-page.vue')
+        },
+        {
+          path: '/realtimemonit/watersoumonit/querymonitdata',
+          name: '/realtimemonit/watersoumonit/querymonitdata',
+          meta: {
+            hideInMenu: true,
+            notCache: true,
+            title: '监控数据查询'
+          },
+          // eslint-disable-next-line no-dupe-keys
+          component: () => import('@/view/single-page/message/index.vue')
+        }
+      ]
+    }]
+  },
+  {
     path: '/',
     name: '_home',
     redirect: '/home',

@@ -3,7 +3,7 @@
       <Menu mode="horizontal">
           <div class="layout-logo"></div>
           <div class="layout-nav">
-            <Menu mode="horizontal" @on-select="handleSelect">
+            <Menu mode="horizontal" :active-name="activeName" @on-select="handleSelect">
               <menuItem v-for="item in list" :key="`menu-${item.menuid}`" :name="item.request">
                   <Icon type="ios-navigate"></Icon>
                   {{item.menuname}}
@@ -25,10 +25,15 @@ export default {
       default () {
         return []
       }
-    }
+    },
+    activeName: {
+      type: String,
+      default: ''
+    },
   },
   methods: {
     handleSelect (name) {
+      console.log(name, 'handleselect')
       this.$emit('on-select', name)
     },
   },

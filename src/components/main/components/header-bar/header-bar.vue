@@ -1,6 +1,6 @@
 <template>
   <div class="header-bar">
-    <nav-menu :list="navMenuList" @on-select="selectNav"></nav-menu>
+    <nav-menu :list="navMenuList" @on-select="selectNav" :active-name="$store.state.app.navMenu"></nav-menu>
     <!-- 需要放在菜单上面的内容，如Logo，写在side-menu标签内部，如下 -->
         <!-- <div class="logo-con">
           <img v-show="!collapsed" :src="maxLogo" key="max-logo" />
