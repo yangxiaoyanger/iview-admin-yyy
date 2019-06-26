@@ -18,6 +18,7 @@
 <script>
 import LoginForm from '_c/login-form'
 import { mapActions } from 'vuex'
+import { getFirstChildForMenu } from '@/libs/util'
 export default {
   components: {
     LoginForm
@@ -27,15 +28,18 @@ export default {
       'handleLogin',
       'getUserInfo',
       'getPublicKey',
-      'getNav'
+      'getNav',
+      'setNavMenu',
+      'setSidemenuList'
     ]),
     handleSubmit ({ userName, password }) {
       this.handleLogin({ userName, password }).then(res => {
         this.getNav().then(res => {
-          console.log(res)
-          this.$router.push({
-            name: this.$config.homeName
-          })
+          console.log(res.data.tree[0].request)
+          if (res.data.tree.length) {
+            this.setNavMenu(res.data.tree[0].request)
+            this.setSidemenuList(res.data.tree[0].request)
+          }
         })
         // this.getUserInfo().then(res => {
         //   this.$router.push({

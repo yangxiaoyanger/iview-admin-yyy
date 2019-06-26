@@ -26,8 +26,7 @@ export default {
   },
   computed: {
     navMenuList() {
-      console.log(this.$store.getters.navMenuList)
-      return this.$store.getters.navMenuList
+      return this.$store.getters.menulist
     }
   },
   methods: {

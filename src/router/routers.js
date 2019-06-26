@@ -29,26 +29,57 @@ export default [
   },
   {
     path: '/basicinfo',
-    name: 'basicinfo',
-    redirect: '/basicinfo',
+    name: '/basicinfo',
     component: Main,
     meta: {
       hideInMenu: true,
       notCache: true
     },
-    children: [
-      {
-        path: 'waterworksbase',
-        name: 'waterworksbase',
-        meta: {
-          hideInMenu: true,
-          notCache: true,
-          title: '水厂基础信息'
+    children: [{
+      path: '/basicinfo/urban',
+      name: '/basicinfo/urban',
+      meta: {
+        hideInMenu: true,
+        notCache: true,
+        title: '城市基础信息'
+      },
+      children: [
+        {
+          path: '/basicinfo/urbanbase',
+          name: '/basicinfo/urbanbase',
+          meta: {
+            hideInMenu: true,
+            notCache: true,
+            title: '城市供水基础信息'
+          },
+          // eslint-disable-next-line no-dupe-keys
+          component: () => import('@/view/join-page.vue')
         },
-        // eslint-disable-next-line no-dupe-keys
-        component: () => import('@/view/components/demotable/demotable.vue')
-      }
-    ]
+        {
+          path: '/basicinfo/secondarywater',
+          name: '/basicinfo/secondarywater',
+          meta: {
+            hideInMenu: true,
+            notCache: true,
+            title: '二次供水基础信息'
+          },
+          // eslint-disable-next-line no-dupe-keys
+          component: () => import('@/view/single-page/message/index.vue')
+        }
+        
+      ]
+    },
+    {
+      path: '/basicinfo/waterworksbase',
+      name: '/basicinfo/waterworksbase',
+      meta: {
+        hideInMenu: true,
+        notCache: true,
+        title: '水厂基础信息'
+      },
+      // eslint-disable-next-line no-dupe-keys
+      component: () => import('@/view/components/demotable/demotable.vue')
+    }]
   },
   {
     path: '/',

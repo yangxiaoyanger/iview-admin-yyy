@@ -49,13 +49,36 @@ export const getMenuByRouter = (list, access) => {
   return res
 }
 /**
+ * @param {Object} menu 树形结构的menu获取第一个child路由
+ * @returns {Object}
+ */
+export const getFirstChildForMenu = (menu) => {
+  if (hasChild(menu)) {
+    return getFirstChildForMenu(menu.children[0])
+  } else {
+    return menu
+  }
+}
+
+/**
+ * @param {Object} menu 树形结构的menu获取第一个child路由
+ * @returns {Object}
+ */
+export const getFirstChildForMenuByRequest = (list, request) => {
+  let navItem = {}
+  forEach(list, item => {
+    if (item.request === request) {
+      navItem = getFirstChildForMenu(item)
+    }
+  })
+  return navItem
+}
+/**
  * @param {Array} list 通过路由列表和navmenu得到侧边栏菜单列表
  * @returns {Array}
  */
 export const getMenuByRouterForSidemenu = (state, navMenu) => {
   let res = []
-  console.log('util getMenuByRouterForSidemenu navmenulsit', navMenu)
-  console.log(navMenu)
   forEach(navMenu, item => {
     let obj = {
       icon: item.iconcls ? item.iconcls : 'fa fa-credit-card',
@@ -67,9 +90,7 @@ export const getMenuByRouterForSidemenu = (state, navMenu) => {
       obj.children = getMenuByRouterForSidemenu(state, item.children)
     }
     res.push(obj)
-    console.log(res, 'util getMenuByRouterForSidemenu')
   })
-  console.log(res, ' return util getMenuByRouterForSidemenu')
   return res
 }
 /**
@@ -81,41 +102,10 @@ export const getSidemenuList = (state, menulist) => {
   forEach(menulist, item => {
     if (item.request === state.navMenu) {
       res = getMenuByRouterForSidemenu(state, item.children)
-      console.log('util getSidemenuList', res)
     }
   })
   return res
 }
-/**
- * @param {Array} list 通过路由列表得到导航菜单列表
- * @returns {Array}
- */
-export const getNavMenuByRouter = (list, menulist) => {
-  let res = []
-  forEach(menulist, item => {
-    let obj = {
-      icon: item.iconcls ? item.iconcls : 'fa fa-credit-card',
-      request: item.request,
-      title: item.menuname,
-      name: item.request
-    }
-    res.push(obj)
-    // if (!item.meta || (item.meta && !item.meta.hideInMenu)) {
-    //   let obj = {
-    //     icon: (item.meta && item.meta.icon) || '',
-    //     name: item.name,
-    //     meta: item.meta
-    //   }
-    //   // if ((hasChild(item) || (item.meta && item.meta.showAlways)) && showThisMenuEle(item, access)) {
-    //   //   obj.children = getMenuByRouter(item.children, access)
-    //   // }
-    //   if (item.meta && item.meta.href) obj.href = item.meta.href
-    //   if (showThisMenuEle(item, access)) res.push(obj)
-    // }
-  })
-  return res
-}
-
 /**
  * @param {Array} routeMetched 当前路由metched
  * @returns {Array}

@@ -3,7 +3,7 @@ import {
   setTagNavListInLocalstorage,
   getMenuByRouter,
   getSidemenuList,
-  getNavMenuByRouter,
+  getFirstChildForMenuByRequest,
   getTagNavListFromLocalstorage,
   getHomeRoute,
   getNextRoute,
@@ -39,9 +39,7 @@ export default {
     hasReadErrorPage: false
   },
   getters: {
-    // sidemenuList: (state, getters, rootState) => getSidemenuList(state, routers, rootState.user.menulist),
-    menuList: (state, getters, rootState) => getMenuByRouter(routers, rootState.user.access),
-    navMenuList: (state, getters, rootState) => getNavMenuByRouter(routers, rootState.user.menulist),
+    // menuList: (state, getters, rootState) => getMenuByRouter(routers, rootState.user.access),
     errorCount: state => state.errorList.length
   },
   mutations: {
@@ -49,12 +47,10 @@ export default {
       state.breadCrumbList = getBreadCrumbList(route, state.homeRoute)
     },
     setSidemenuList (state, sidemenuList) {
-      console.log('store appjs setSidemenuList', state, sidemenuList)
       state.sidemenuList = sidemenuList
     },
     setNavMenu (state, request) {
       state.navMenu = request
-      console.log('store app setNavMenu')
     },
     setHomeRoute (state, routes) {
       state.homeRoute = getHomeRoute(routes, homeName)
@@ -121,8 +117,11 @@ export default {
     },
     setSidemenuList ({ commit, state, rootState }, request) {
       var sidemenuList = getSidemenuList(state, rootState.user.menulist)
-      console.log('setSidemenuList sidemenuList commit', sidemenuList)
       commit('setSidemenuList', sidemenuList)
+      console.log('store app setSidemenuList  getFirstChildForMenuByRequest', getFirstChildForMenuByRequest(rootState.user.menulist, request).request)
+      router.push({
+        path: getFirstChildForMenuByRequest(rootState.user.menulist, request).request
+      })
     }
   }
 }

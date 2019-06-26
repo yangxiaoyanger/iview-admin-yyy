@@ -48,6 +48,7 @@ import routers from '@/router/routers'
 import minLogo from '@/assets/images/logo-min.jpg'
 import maxLogo from '@/assets/images/logo.jpg'
 import './main.less'
+import { constants } from 'crypto';
 export default {
   name: 'Main',
   components: {
@@ -81,7 +82,6 @@ export default {
       return this.$store.state.app.breadCrumbList
     },
     sidemenuList () {
-      console.log('sidemenuList')
       return this.$store.state.app.sidemenuList
     },
     tagRouter () {
@@ -123,10 +123,10 @@ export default {
       'setNavMenu',
       'setSidemenuList'
     ]),
-    selectNav (navRequest) {
-      this.setNavMenu(navRequest)
-      this.setSidemenuList(navRequest)
-      console.log(navRequest, 7777777777)
+    selectNav (request) {
+      this.setNavMenu(request)
+      this.setSidemenuList(request)
+      console.log('main.vue selectNav ')
     },
     turnToPage (route) {
       // let { name, params, query } = {}
@@ -148,13 +148,11 @@ export default {
 
       let { path } = {}
       if (typeof route === 'string') path = route
-      console.log(route, 'trun to page route')
       this.$router.push({
         path: route
       })
     },
     handleCollapsedChange (state) {
-      console.log(state)
       this.collapsed = state
     },
     handleCloseTag (res, type, route) {
