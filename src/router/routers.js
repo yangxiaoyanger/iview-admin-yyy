@@ -66,7 +66,6 @@ export default [
           // eslint-disable-next-line no-dupe-keys
           component: () => import('@/view/single-page/message/index.vue')
         }
-        
       ]
     },
     {
