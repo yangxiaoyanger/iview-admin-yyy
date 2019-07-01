@@ -177,13 +177,10 @@ export default {
             getRouter = res.data.data.router
             getRouter = filterAsyncRouter(getRouter)
             console.log(getRouter)
-            commit('setRoutes', res.data.data.tree)
+            commit('setRoutes', getRouter)
             // console.log(res)
             // commit('setMenulist', res.data.data.tree)
             // commit('setLeaflist', res.data.data.leaf)
-
-
-
 
             resolve(getRouter)
           }).catch(err => {

@@ -6,6 +6,7 @@ import iView from 'iview'
 import { setToken, getToken, canTurnTo, setTitle, setRouterInLocalstorage, getRouterFromLocalstorage } from '@/libs/util'
 import config from '@/config'
 const { homeName } = config
+var getRouter
 
 Vue.use(Router)
 const router = new Router({
@@ -22,6 +23,7 @@ const turnTo = (to, access, next) => {
 router.beforeEach((to, from, next) => {
   iView.LoadingBar.start()
   const token = getToken()
+
   if (!token && to.name !== LOGIN_PAGE_NAME) {
     // 未登录且要跳转的页面不是登录页
     console.log('未登录且要跳转的页面不是登录页')
@@ -44,26 +46,43 @@ router.beforeEach((to, from, next) => {
       name: homeName // 跳转到homeName页
     })
   } else {
-    console.log('store.routes', store.routes)
-    if (store.routes) {
-      console.log('已经存在store.routes')
-      const getRouter = store.routes
-      router.options.routes = getRouter // 必须在addroutes前，使用router.options.routes=XXXXX的方法手动添加
-      router.addRoutes(getRouter) // 动态添加路由
-      console.log(router)
-    } else {
-      store.dispatch('getNav').then(res => {
-        const getRouter = res
-        router.options.routes = getRouter // 必须在addroutes前，使用router.options.routes=XXXXX的方法手动添加
-        router.addRoutes(getRouter) // 动态添加路由
-        console.log('router index getRouter', getRouter)
-        console.log(router)
-        next({
-          name: 'home'
+    console.log('store.routes', router)
+    // if (store.state.user.routes) {
+    //   console.log('已经存在store.routes')
+    //   next({
+    //     name: homeName
+    //   })
+    // } else {
+    //   store.dispatch('getNav').then(res => {
+    //     const getRouter = res
+    //     router.options.routes = getRouter // 必须在addroutes前，使用router.options.routes=XXXXX的方法手动添加
+    //     router.addRoutes(getRouter) // 动态添加路由
+    //     console.log('router index getRouter', getRouter)
+    //     console.log(router)
+    //     next({
+    //       name: homeName
+    //     })
+    //   })
+    // }
+    if (!getRouter) {
+      if (!store.state.user.routes) {
+        store.dispatch('getNav').then(res => {
+          getRouter = res
+          router.options.routes = getRouter // 必须在addroutes前，使用router.options.routes=XXXXX的方法手动添加
+          router.addRoutes(getRouter) // 动态添加路由
+          console.log('router index getRouter', getRouter)
+          console.log(router)
+          next({
+            name: homeName
+          })
         })
-      })
+      } else {
+        getRouter = store.state.user.routes
+        next()
+      }
+    } else {
+      next()
     }
-    
     // if (store.state.user.hasGetInfo) {
     //   console.log('store.state.user.hasGetInfo', store.state.user.hasGetInfo)
     //   turnTo(to, store.state.user.access, next)
