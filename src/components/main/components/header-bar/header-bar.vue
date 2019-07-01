@@ -31,7 +31,6 @@ export default {
   },
   methods: {
     selectNav (name) {
-      console.log(name, 'handleselect')
       this.$emit('on-select', name)
     }
 

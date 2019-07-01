@@ -53,3 +53,140 @@ export const restoreTrash = () => {
 export const messageCount = () => {
   return 3
 }
+
+export const getNav = () => {
+  const result = {
+    data: {
+      router: [
+        {
+          path: '/',
+          name: '_home',
+          component: 'Main',
+          meta: {
+            hideInMenu: true,
+            notCache: true
+          },
+          children: [
+            {
+              path: '/home',
+              name: 'home',
+              meta: {
+                hideInMenu: true,
+                title: '首页',
+                notCache: true,
+                icon: 'md-home',
+                hideInBread: true
+              },
+              component: 'single-page/home'
+            }
+          ]
+        },
+        {
+          path: '/components',
+          name: 'components',
+          meta: {
+            icon: 'logo-buffer',
+            title: '组件'
+          },
+          component: 'Main',
+          children: [
+            {
+              path: 'tree_select_page',
+              name: 'tree_select_page',
+              meta: {
+                icon: 'md-arrow-dropdown-circle',
+                title: '树状下拉选择器'
+              },
+              component: 'components/tree-select/index'
+            },
+            {
+              path: 'count_to_page',
+              name: 'count_to_page',
+              meta: {
+                icon: 'md-trending-up',
+                title: '数字渐变'
+              },
+              component: 'components/count-to/count-to'
+            },
+            {
+              path: 'drag_list_page',
+              name: 'drag_list_page',
+              meta: {
+                icon: 'ios-infinite',
+                title: '拖拽列表'
+              },
+              component: 'components/drag-list/drag-list'
+            }
+          ]
+        }
+        
+        // {
+        //   "path": "/",
+        //   "component": "Main",
+        //   "redirect": "/home",
+        //   "children": [
+        //     {
+        //       "path": "dashboard",
+        //       "component": "dashboard/index",
+        //       "meta": {
+        //         "title": "首页",
+        //         "icon": "dashboard"
+        //       }
+        //     }
+        //   ]
+        // },
+        // {
+        //   "path": "/example",
+        //   "component": "Main",
+        //   "redirect": "/example/table",
+        //   "name": "Example",
+        //   "meta": {
+        //     "title": "案例",
+        //     "icon": "example"
+        //   },
+        //   "children": [
+        //     {
+        //       "path": "table",
+        //       "name": "Table",
+        //       "component": "table/index",
+        //       "meta": {
+        //         "title": "表格",
+        //         "icon": "table"
+        //       }
+        //     },
+        //     {
+        //       "path": "tree",
+        //       "name": "Tree",
+        //       "component": "tree/index",
+        //       "meta": {
+        //         "title": "树形菜单",
+        //         "icon": "tree"
+        //       }
+        //     }
+        //   ]
+        // },
+        // {
+        //   "path": "/form",
+        //   "component": "Main",
+        //   "children": [
+        //     {
+        //       "path": "index",
+        //       "name": "Form",
+        //       "component": "form/index",
+        //       "meta": {
+        //         "title": "表单",
+        //         "icon": "form"
+        //       }
+        //     }
+        //   ]
+        // },
+        // {
+        //   "path": "*",
+        //   "redirect": "/404",
+        //   "hidden": true
+        // }
+      ]
+    }
+  }
+  return result
+}

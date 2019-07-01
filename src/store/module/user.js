@@ -11,9 +11,9 @@ import {
   restoreTrash,
   getUnreadCount
 } from '@/api/user'
-import { setToken, getToken } from '@/libs/util'
+import { setToken, getToken, filterAsyncRouter } from '@/libs/util'
 import { RSAUtils } from '@/libs/security'
-
+var getRouter
 export default {
   state: {
     modulus: '',
@@ -21,7 +21,6 @@ export default {
     userName: '',
     userId: '',
     userInfo: {},
-    menulist: {},
     leaflist: {},
     avatarImgPath: '',
     token: getToken(),
@@ -48,6 +47,9 @@ export default {
     },
     setLeaflist (state, leaflist) {
       state.leaflist = leaflist
+    },
+    setRoutes (state, routes) {
+      state.routes = routes
     },
     setAvatar (state, avatarPath) {
       state.avatarImgPath = avatarPath
@@ -93,8 +95,8 @@ export default {
   getters: {
     messageUnreadCount: state => state.messageUnreadList.length,
     messageReadedCount: state => state.messageReadedList.length,
-    messageTrashCount: state => state.messageTrashList.length,
-    menulist: state => state.menulist
+    messageTrashCount: state => state.messageTrashList.length
+    // menulist: state => state.menulist
   },
   actions: {
     // 获取getPublicKey
@@ -168,15 +170,22 @@ export default {
       // })
     },
     // 获取用户菜单
-    getNav ({ state, commit }) {
+    getNav ({ state, commit, router }) {
       return new Promise((resolve, reject) => {
         try {
           getNav().then(res => {
-            const data = res.data
-            console.log(res)
-            commit('setMenulist', res.data.data.tree)
-            commit('setLeaflist', res.data.data.leaf)
-            resolve(data)
+            getRouter = res.data.data.router
+            getRouter = filterAsyncRouter(getRouter)
+            console.log(getRouter)
+            commit('setRoutes', res.data.data.tree)
+            // console.log(res)
+            // commit('setMenulist', res.data.data.tree)
+            // commit('setLeaflist', res.data.data.leaf)
+
+
+
+
+            resolve(getRouter)
           }).catch(err => {
             reject(err)
           })

@@ -9,7 +9,7 @@
       </header-bar>
     </Header>
     <Layout>
-      <Sider hide-trigger collapsible :width="256" :collapsed-width="64" v-model="collapsed" class="left-sider" :style="{overflow: 'hidden'}">
+      <Sider v-show="sidemenuList.length > 0"  hide-trigger collapsible :width="256" :collapsed-width="64" v-model="collapsed" class="left-sider" :style="{overflow: 'hidden'}">
         <side-menu  @on-coll-change="handleCollapsedChange" accordion ref="sideMenu" :active-name="$route.name" :collapsed="collapsed" @on-select="turnToPage" :menu-list="sidemenuList">
 
         </side-menu>
@@ -43,12 +43,13 @@ import Fullscreen from './components/fullscreen'
 import Language from './components/language'
 import ErrorStore from './components/error-store'
 import { mapMutations, mapActions, mapGetters } from 'vuex'
-import { getNewTagList, routeEqual } from '@/libs/util'
+import { getNewTagList, routeEqual, getFirstChildForMenuByRequest } from '@/libs/util'
 import routers from '@/router/routers'
 import minLogo from '@/assets/images/logo-min.jpg'
 import maxLogo from '@/assets/images/logo.jpg'
 import './main.less'
 import { constants } from 'crypto';
+import { stat } from 'fs';
 export default {
   name: 'Main',
   components: {
@@ -92,6 +93,7 @@ export default {
     },
     cacheList () {
       const list = ['ParentView', ...this.tagNavList.length ? this.tagNavList.filter(item => !(item.meta && item.meta.notCache)).map(item => item.name) : []]
+      console.log('macivue cacheList', list)
       return list
     },
     menuList () {
@@ -127,6 +129,10 @@ export default {
       this.setNavMenu(request)
       this.setSidemenuList(request)
       console.log('main.vue selectNav ')
+      // console.log('store app setSidemenuList  getFirstChildForMenuByRequest', getFirstChildForMenuByRequest(rootState.user.menulist, request).request)
+      this.$router.push({
+        path: getFirstChildForMenuByRequest(this.$store.state.user.menulist, request).request
+      })
     },
     turnToPage (route) {
       // let { name, params, query } = {}
@@ -145,7 +151,7 @@ export default {
       //   params,
       //   query
       // })
-
+      console.log(route)
       let { path } = {}
       if (typeof route === 'string') path = route
       this.$router.push({
@@ -173,12 +179,14 @@ export default {
   },
   watch: {
     '$route' (newRoute) {
+      console.log('main.vue $route watch', this.$store.state.app.navMenu)
       const { name, query, params, meta } = newRoute
       this.addTag({
         route: { name, query, params, meta },
         type: 'push'
       })
       this.setBreadCrumb(newRoute)
+      console.log(newRoute)
       this.setTagNavList(getNewTagList(this.tagNavList, newRoute))
       this.$refs.sideMenu.updateOpenName(newRoute.name)
     }
@@ -193,7 +201,9 @@ export default {
     this.addTag({
       route: { name, params, query, meta }
     })
+    
     this.setBreadCrumb(this.$route)
+    console.log("mainvue mounted route", this.$route)
     // this.setSidemenuList(this.$route)
     // 设置初始语言
     this.setLocal(this.$i18n.locale)

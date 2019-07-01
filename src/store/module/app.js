@@ -39,11 +39,12 @@ export default {
     hasReadErrorPage: false
   },
   getters: {
-    // menuList: (state, getters, rootState) => getMenuByRouter(routers, rootState.user.access),
+    menuList: (state, getters, rootState) => getMenuByRouter(routers, rootState.user.access),
     errorCount: state => state.errorList.length
   },
   mutations: {
     setBreadCrumb (state, route) {
+      console.log(state, route, 88888)
       state.breadCrumbList = getBreadCrumbList(route, state.homeRoute)
     },
     setSidemenuList (state, sidemenuList) {
@@ -118,10 +119,10 @@ export default {
     setSidemenuList ({ commit, state, rootState }, request) {
       var sidemenuList = getSidemenuList(state, rootState.user.menulist)
       commit('setSidemenuList', sidemenuList)
-      console.log('store app setSidemenuList  getFirstChildForMenuByRequest', getFirstChildForMenuByRequest(rootState.user.menulist, request).request)
-      router.push({
-        path: getFirstChildForMenuByRequest(rootState.user.menulist, request).request
-      })
+      // console.log('store app setSidemenuList  getFirstChildForMenuByRequest', getFirstChildForMenuByRequest(rootState.user.menulist, request).request)
+      // router.push({
+      //   path: getFirstChildForMenuByRequest(rootState.user.menulist, request).request
+      // })
     }
   }
 }

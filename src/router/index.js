@@ -3,7 +3,7 @@ import Router from 'vue-router'
 import routes from './routers'
 import store from '@/store'
 import iView from 'iview'
-import { setToken, getToken, canTurnTo, setTitle } from '@/libs/util'
+import { setToken, getToken, canTurnTo, setTitle, setRouterInLocalstorage, getRouterFromLocalstorage } from '@/libs/util'
 import config from '@/config'
 const { homeName } = config
 
@@ -39,25 +39,51 @@ router.beforeEach((to, from, next) => {
   } else if (token && to.name === LOGIN_PAGE_NAME) {
     // 已登录且要跳转的页面是登录页
     console.log('已登录且要跳转的页面是登录页')
+    console.log(router)
     next({
       name: homeName // 跳转到homeName页
     })
   } else {
-    if (store.state.user.hasGetInfo) {
-      turnTo(to, store.state.user.access, next)
+    console.log('store.routes', store.routes)
+    if (store.routes) {
+      console.log('已经存在store.routes')
+      const getRouter = store.routes
+      router.options.routes = getRouter // 必须在addroutes前，使用router.options.routes=XXXXX的方法手动添加
+      router.addRoutes(getRouter) // 动态添加路由
+      console.log(router)
     } else {
-      store.dispatch('getUserInfo').then(user => {
-        // 拉取用户信息，通过用户权限和跳转的页面的name来判断是否有权限访问;access必须是一个数组，如：['super_admin'] ['super_admin', 'admin']
-        console.log('router index.js getUserInfo')
-        turnTo(to, user.access, next)
-      }).catch(() => {
-        console.log('router index.js catch')
-        setToken('')
+      store.dispatch('getNav').then(res => {
+        const getRouter = res
+        router.options.routes = getRouter // 必须在addroutes前，使用router.options.routes=XXXXX的方法手动添加
+        router.addRoutes(getRouter) // 动态添加路由
+        console.log('router index getRouter', getRouter)
+        console.log(router)
         next({
-          name: 'login'
+          name: 'home'
         })
       })
     }
+    
+    // if (store.state.user.hasGetInfo) {
+    //   console.log('store.state.user.hasGetInfo', store.state.user.hasGetInfo)
+    //   turnTo(to, store.state.user.access, next)
+    // } else {
+    //   // store.dispatch('getUserInfo').then(user => {
+    //   //   // 拉取用户信息，通过用户权限和跳转的页面的name来判断是否有权限访问;access必须是一个数组，如：['super_admin'] ['super_admin', 'admin']
+    //   //   console.log('router index.js getUserInfo', router)
+    //   //   // next({
+    //   //   //   name: homeName // 跳转到homeName页
+    //   //   // })
+    //   //   // turnTo(to, user.access, next)
+    //   // }).catch(() => {
+    //   //   console.log('router index.js catch')
+    //   //   setToken('')
+    //   //   // localSave('router', '')
+    //   //   // next({
+    //   //   //   name: 'login'
+    //   //   // })
+    //   // })
+    // }
   }
 })
 

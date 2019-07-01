@@ -2,8 +2,11 @@ import Cookies from 'js-cookie'
 // cookie保存的天数
 import config from '@/config'
 import { forEach, hasOneOf, objEqual } from '@/libs/tools'
+// 获取组件的方法
+import Main from '@/components/main'
 const { title, cookieExpires, useI18n } = config
-
+const _import = require('../router/_import_' + process.env.NODE_ENV) // Layout 是架构组件，不在后台返回，在文件里单独引入
+import home from '@/view/single-page/home'
 export const TOKEN_KEY = 'token'
 
 export const setToken = (token) => {
@@ -47,6 +50,30 @@ export const getMenuByRouter = (list, access) => {
     }
   })
   return res
+}
+
+/**
+ * @param {Object} // 遍历后台传来的路由字符串，转换为组件对象
+ * @returns {Object}
+ */
+export const filterAsyncRouter = (asyncRouterMap) => {
+  const accessedRouters = asyncRouterMap.filter(route => {
+    if (route.component) {
+      if (route.component === 'Main') { // Main组件特殊处理
+        route.component = Main
+      } else {
+        // route.component = require('@/view/' + route.component).default
+        route.component = _import(route.component)
+        console.log('util reout.component', route.component)
+        // route.component =  home
+      }
+    }
+    if (route.children && route.children.length) {
+      route.children = filterAsyncRouter(route.children)
+    }
+    return true
+  })
+  return accessedRouters
 }
 /**
  * @param {Object} menu 树形结构的menu获取第一个child路由
@@ -173,6 +200,19 @@ export const setTagNavListInLocalstorage = list => {
  */
 export const getTagNavListFromLocalstorage = () => {
   const list = localStorage.tagNaveList
+  return list ? JSON.parse(list) : []
+}
+/**
+ * @description 本地存储和获取后端路由
+ */
+export const setRouterInLocalstorage = list => {
+  localStorage.router = JSON.stringify(list)
+}
+/**
+ * @returns {Array} 本地存储和获取后端路由
+ */
+export const getRouterFromLocalstorage = () => {
+  const list = localStorage.router
   return list ? JSON.parse(list) : []
 }
 
