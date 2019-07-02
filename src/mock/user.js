@@ -67,6 +67,7 @@ export const getNav = () => {
             hideInMenu: true,
             notCache: true,
             icon: 'md-home',
+            title: '首页',
             hideInBread: true
           },
           children: [
@@ -74,11 +75,8 @@ export const getNav = () => {
               path: '/home',
               name: 'home',
               meta: {
-                hideInMenu: true,
-                title: '首页',
-                notCache: true,
-                icon: 'md-home',
-                hideInBread: true
+                icon: 'logo-buffer',
+                title: '首页'
               },
               component: 'single-page/home'
             }
@@ -90,14 +88,14 @@ export const getNav = () => {
           component: 'Main',
           meta: {
             hideInMenu: true,
-            notCache: true
+            notCache: true,
+            title: '基础信息'
           },
           children: [{
             path: 'urban',
             name: 'urban',
             meta: {
-              hideInMenu: true,
-              notCache: true,
+              icon: 'logo-buffer',
               title: '城市基础信息'
             },
             children: [
@@ -132,45 +130,6 @@ export const getNav = () => {
             },
             // eslint-disable-next-line no-dupe-keys
             component: 'components/demotable/demotable'
-          }]
-        },
-        {
-          path: 'realtimemonitor',
-          name: 'realtimemonitor',
-          component: 'Main',
-          meta: {
-            hideInMenu: true,
-            notCache: true,
-            title: '实时监控'
-          },
-          children: [{
-            path: 'watersoumonit',
-            name: 'watersoumonit',
-            meta: {
-              icon: 'md-arrow-dropdown-circle',
-              title: '水源水监控'
-            },
-            children: [
-              {
-                path: 'watersourealtimemonit',
-                name: 'watersourealtimemonit',
-                meta: {
-                  icon: 'md-arrow-dropdown-circle',
-                  title: '水源水实时监控'
-                },
-                component: 'join-page'
-              },
-              {
-                path: 'querymonitdata',
-                name: 'querymonitdata',
-                meta: {
-                  icon: 'md-arrow-dropdown-circle',
-                  title: '监控数据查询'
-                },
-                // eslint-disable-next-line no-dupe-keys
-                component: 'single-page/message/index'
-              }
-            ]
           }]
         },
         {
@@ -210,73 +169,36 @@ export const getNav = () => {
               component: 'components/drag-list/drag-list'
             }
           ]
+        },
+        {
+          path: '/realtimemonitor',
+          name: 'realtimemonitor',
+          meta: {
+            icon: 'logo-buffer',
+            title: '实时监控'
+          },
+          component: 'Main',
+          children: [
+            {
+              path: 'watersourealtimemonit',
+              name: 'watersourealtimemonit',
+              meta: {
+                icon: 'md-arrow-dropdown-circle',
+                title: '水源水实时监控'
+              },
+              component: 'join-page'
+            },
+            {
+              path: 'querymonitdata',
+              name: 'querymonitdata',
+              meta: {
+                icon: 'md-arrow-dropdown-circle',
+                title: '监控数据查询'
+              },
+              component: 'single-page/message/index'
+            }
+          ]
         }
-        
-        // {
-        //   "path": "/",
-        //   "component": "Main",
-        //   "redirect": "/home",
-        //   "children": [
-        //     {
-        //       "path": "dashboard",
-        //       "component": "dashboard/index",
-        //       "meta": {
-        //         "title": "首页",
-        //         "icon": "dashboard"
-        //       }
-        //     }
-        //   ]
-        // },
-        // {
-        //   "path": "/example",
-        //   "component": "Main",
-        //   "redirect": "/example/table",
-        //   "name": "Example",
-        //   "meta": {
-        //     "title": "案例",
-        //     "icon": "example"
-        //   },
-        //   "children": [
-        //     {
-        //       "path": "table",
-        //       "name": "Table",
-        //       "component": "table/index",
-        //       "meta": {
-        //         "title": "表格",
-        //         "icon": "table"
-        //       }
-        //     },
-        //     {
-        //       "path": "tree",
-        //       "name": "Tree",
-        //       "component": "tree/index",
-        //       "meta": {
-        //         "title": "树形菜单",
-        //         "icon": "tree"
-        //       }
-        //     }
-        //   ]
-        // },
-        // {
-        //   "path": "/form",
-        //   "component": "Main",
-        //   "children": [
-        //     {
-        //       "path": "index",
-        //       "name": "Form",
-        //       "component": "form/index",
-        //       "meta": {
-        //         "title": "表单",
-        //         "icon": "form"
-        //       }
-        //     }
-        //   ]
-        // },
-        // {
-        //   "path": "*",
-        //   "redirect": "/404",
-        //   "hidden": true
-        // }
       ]
     }
   }

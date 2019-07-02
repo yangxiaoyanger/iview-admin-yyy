@@ -1,7 +1,10 @@
 export default {
   home: '首页',
+  _home: '首页',
   login: '登录',
   components: '组件',
+  basicinfo: '基础信息',
+  realtimemonitor: '实时监控',
   count_to_page: '数字渐变',
   tables_page: '多功能表格',
   split_pane_page: '分割窗口',

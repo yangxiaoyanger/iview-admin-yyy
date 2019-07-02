@@ -8,7 +8,7 @@
             <Menu mode="horizontal" :active-name="activeName" @on-select="handleSelect">
               <menuItem v-for="item in list" :key="`menu-${item.name}`" :name="item.name">
                   <Icon type="ios-navigate"></Icon>
-                  {{ item.name }}
+                  {{ showTitle(item) }}
               </MenuItem>
             </Menu>
           </div>
@@ -37,6 +37,9 @@ export default {
     handleSelect (name) {
       this.$emit('on-select', name)
     },
+    showTitle (item) {
+      return showTitle(item, this)
+    }
   },
   computed: {
   },
