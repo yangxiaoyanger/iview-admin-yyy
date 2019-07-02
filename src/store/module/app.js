@@ -15,7 +15,6 @@ import {
 } from '@/libs/util'
 import { saveErrorLogger } from '@/api/data'
 import router from '@/router'
-import routers from '@/router/routers'
 import config from '@/config'
 const { homeName } = config
 
@@ -40,6 +39,7 @@ export default {
   },
   getters: {
     menuList: (state, getters, rootState) => { // 所有的menulist
+      console.log('getMenuByRouter(rootState.user.routes, rootState.user.access)', rootState.user.routes, getMenuByRouter(rootState.user.routes, rootState.user.access))
       return getMenuByRouter(rootState.user.routes, rootState.user.access)
     },
     errorCount: state => state.errorList.length,

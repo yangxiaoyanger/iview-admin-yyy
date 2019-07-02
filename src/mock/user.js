@@ -62,9 +62,12 @@ export const getNav = () => {
           path: '/',
           name: '_home',
           component: 'Main',
+          redirect: '/home',
           meta: {
             hideInMenu: true,
-            notCache: true
+            notCache: true,
+            icon: 'md-home',
+            hideInBread: true
           },
           children: [
             {
@@ -80,6 +83,95 @@ export const getNav = () => {
               component: 'single-page/home'
             }
           ]
+        },
+        {
+          path: 'basicinfo',
+          name: 'basicinfo',
+          component: 'Main',
+          meta: {
+            hideInMenu: true,
+            notCache: true
+          },
+          children: [{
+            path: 'urban',
+            name: 'urban',
+            meta: {
+              hideInMenu: true,
+              notCache: true,
+              title: '城市基础信息'
+            },
+            children: [
+              {
+                path: 'urbanbase',
+                name: 'urbanbase',
+                meta: {
+                  icon: 'md-arrow-dropdown-circle',
+                  title: '城市供水基础信息'
+                },
+                // eslint-disable-next-line no-dupe-keys
+                component: 'components/demotable/demotable'
+              },
+              {
+                path: 'secondarywater',
+                name: 'secondarywater',
+                meta: {
+                  icon: 'md-arrow-dropdown-circle',
+                  title: '二次供水基础信息'
+                },
+                // eslint-disable-next-line no-dupe-keys
+                component: 'components/demotable/demotable'
+              }
+            ]
+          },
+          {
+            path: 'waterworksbase',
+            name: 'waterworksbase',
+            meta: {
+              icon: 'md-arrow-dropdown-circle',
+              title: '水厂基础信息'
+            },
+            // eslint-disable-next-line no-dupe-keys
+            component: 'components/demotable/demotable'
+          }]
+        },
+        {
+          path: 'realtimemonitor',
+          name: 'realtimemonitor',
+          component: 'Main',
+          meta: {
+            hideInMenu: true,
+            notCache: true,
+            title: '实时监控'
+          },
+          children: [{
+            path: 'watersoumonit',
+            name: 'watersoumonit',
+            meta: {
+              icon: 'md-arrow-dropdown-circle',
+              title: '水源水监控'
+            },
+            children: [
+              {
+                path: 'watersourealtimemonit',
+                name: 'watersourealtimemonit',
+                meta: {
+                  icon: 'md-arrow-dropdown-circle',
+                  title: '水源水实时监控'
+                },
+                component: 'join-page'
+              },
+              {
+                path: 'querymonitdata',
+                name: 'querymonitdata',
+                meta: {
+                  icon: 'md-arrow-dropdown-circle',
+                  title: '监控数据查询'
+                },
+                // eslint-disable-next-line no-dupe-keys
+                component: 'single-page/message/index'
+              }
+            ]
+          }]
         },
         {
           path: '/components',

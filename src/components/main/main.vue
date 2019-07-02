@@ -126,7 +126,6 @@ export default {
     selectNav (name) {
       this.setNavMenu(name)
       this.setSidemenuList(name)
-      // console.log('store app setSidemenuList  getFirstChildForMenuByRequest', getFirstChildForMenuByRequest(rootState.user.menulist, request).request)
       this.$router.push({
         name: getFirstChildForMenuByRequest(this.$store.state.user.routers, name).name
       })
@@ -198,7 +197,6 @@ export default {
     })
     
     this.setBreadCrumb(this.$route)
-    // this.setSidemenuList(this.$route)
     // 设置初始语言
     this.setLocal(this.$i18n.locale)
     // 如果当前打开页面不在标签栏中，跳到homeName页
