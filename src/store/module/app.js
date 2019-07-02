@@ -39,12 +39,16 @@ export default {
     hasReadErrorPage: false
   },
   getters: {
-    menuList: (state, getters, rootState) => getMenuByRouter(routers, rootState.user.access),
-    errorCount: state => state.errorList.length
+    menuList: (state, getters, rootState) => { // 所有的menulist
+      return getMenuByRouter(rootState.user.routes, rootState.user.access)
+    },
+    errorCount: state => state.errorList.length,
+    sidemenuList: (state, getters, rootState) => { // 侧边栏
+      return state.sidemenuList
+    }
   },
   mutations: {
     setBreadCrumb (state, route) {
-      console.log(state, route, 88888)
       state.breadCrumbList = getBreadCrumbList(route, state.homeRoute)
     },
     setSidemenuList (state, sidemenuList) {
@@ -117,12 +121,8 @@ export default {
       commit('setNavMenu', request)
     },
     setSidemenuList ({ commit, state, rootState }, request) {
-      var sidemenuList = getSidemenuList(state, rootState.user.menulist)
+      var sidemenuList = getSidemenuList(state, rootState.user.routes)
       commit('setSidemenuList', sidemenuList)
-      // console.log('store app setSidemenuList  getFirstChildForMenuByRequest', getFirstChildForMenuByRequest(rootState.user.menulist, request).request)
-      // router.push({
-      //   path: getFirstChildForMenuByRequest(rootState.user.menulist, request).request
-      // })
     }
   }
 }

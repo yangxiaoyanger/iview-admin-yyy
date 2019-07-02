@@ -51,6 +51,29 @@ export const getMenuByRouter = (list, access) => {
   })
   return res
 }
+/**
+ * @param {Array} list 通过路由列表得到菜单列表
+ * @returns {Array}
+ */
+export const getNavlistByRouter = (list, access) => {
+  let res = []
+  forEach(list, item => {
+    if (!item.meta || (item.meta && !item.meta.hideInMenu)) {
+      let obj = {
+        icon: (item.meta && item.meta.icon) || '',
+        name: item.name,
+        meta: item.meta
+      }
+      // if ((hasChild(item) || (item.meta && item.meta.showAlways)) && showThisMenuEle(item, access)) {
+      //   obj.children = getMenuByRouter(item.children, access)
+      // }
+      if (item.meta && item.meta.href) obj.href = item.meta.href
+      if (showThisMenuEle(item, access)) res.push(obj)
+    }
+  })
+  console.log('getNavlistByRouter', list, res)
+  return res
+}
 
 /**
  * @param {Object} // 遍历后台传来的路由字符串，转换为组件对象
@@ -62,10 +85,7 @@ export const filterAsyncRouter = (asyncRouterMap) => {
       if (route.component === 'Main') { // Main组件特殊处理
         route.component = Main
       } else {
-        // route.component = require('@/view/' + route.component).default
         route.component = _import(route.component)
-        console.log('util reout.component', route.component)
-        // route.component =  home
       }
     }
     if (route.children && route.children.length) {
@@ -91,10 +111,10 @@ export const getFirstChildForMenu = (menu) => {
  * @param {Object} menu 树形结构的menu获取第一个child路由
  * @returns {Object}
  */
-export const getFirstChildForMenuByRequest = (list, request) => {
+export const getFirstChildForMenuByRequest = (list, name) => {
   let navItem = {}
   forEach(list, item => {
-    if (item.request === request) {
+    if (item.name === name) {
       navItem = getFirstChildForMenu(item)
     }
   })
@@ -108,11 +128,16 @@ export const getMenuByRouterForSidemenu = (state, navMenu) => {
   let res = []
   forEach(navMenu, item => {
     let obj = {
-      icon: item.iconcls ? item.iconcls : 'fa fa-credit-card',
-      request: item.request,
-      title: item.menuname,
-      name: item.request
+      icon: (item.meta && item.meta.icon) || '',
+      name: item.name,
+      meta: item.meta
     }
+    // let obj = {
+    //   icon: item.iconcls ? item.iconcls : 'fa fa-credit-card',
+    //   request: item.request,
+    //   title: item.menuname,
+    //   name: item.request
+    // }
     if (hasChild(item)) {
       obj.children = getMenuByRouterForSidemenu(state, item.children)
     }
@@ -127,7 +152,7 @@ export const getMenuByRouterForSidemenu = (state, navMenu) => {
 export const getSidemenuList = (state, menulist) => {
   let res = []
   forEach(menulist, item => {
-    if (item.request === state.navMenu) {
+    if (item.name === state.navMenu) {
       res = getMenuByRouterForSidemenu(state, item.children)
     }
   })
@@ -178,15 +203,14 @@ export const getRouteTitleHandled = (route) => {
 }
 
 export const showTitle = (item, vm) => {
-  // let { title, __titleIsFunction__ } = item.meta
-  // if (!title) return
-  // if (useI18n) {
-  //   if (title.includes('{{') && title.includes('}}') && useI18n) title = title.replace(/({{[\s\S]+?}})/, (m, str) => str.replace(/{{([\s\S]*)}}/, (m, _) => vm.$t(_.trim())))
-  //   else if (__titleIsFunction__) title = item.meta.title
-  //   else title = vm.$t(item.name)
-  // } else title = (item.meta && item.meta.title) || item.name
-  // return title
-  return item.title
+  let { title, __titleIsFunction__ } = item.meta
+  if (!title) return
+  if (useI18n) {
+    if (title.includes('{{') && title.includes('}}') && useI18n) title = title.replace(/({{[\s\S]+?}})/, (m, str) => str.replace(/{{([\s\S]*)}}/, (m, _) => vm.$t(_.trim())))
+    else if (__titleIsFunction__) title = item.meta.title
+    else title = vm.$t(item.name)
+  } else title = (item.meta && item.meta.title) || item.name
+  return title
 }
 
 /**

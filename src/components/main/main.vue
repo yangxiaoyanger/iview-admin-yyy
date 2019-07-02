@@ -79,11 +79,10 @@ export default {
       return this.$store.state.app.tagNavList
     },
     breadCrumbList () {
-      console.log('breadCrumbList')
       return this.$store.state.app.breadCrumbList
     },
     sidemenuList () {
-      return this.$store.state.app.sidemenuList
+      return this.$store.getters.sidemenuList
     },
     tagRouter () {
       return this.$store.state.app.tagRouter
@@ -93,7 +92,6 @@ export default {
     },
     cacheList () {
       const list = ['ParentView', ...this.tagNavList.length ? this.tagNavList.filter(item => !(item.meta && item.meta.notCache)).map(item => item.name) : []]
-      console.log('macivue cacheList', list)
       return list
     },
     menuList () {
@@ -125,38 +123,37 @@ export default {
       'setNavMenu',
       'setSidemenuList'
     ]),
-    selectNav (request) {
-      this.setNavMenu(request)
-      this.setSidemenuList(request)
-      console.log('main.vue selectNav ')
+    selectNav (name) {
+      this.setNavMenu(name)
+      this.setSidemenuList(name)
       // console.log('store app setSidemenuList  getFirstChildForMenuByRequest', getFirstChildForMenuByRequest(rootState.user.menulist, request).request)
       this.$router.push({
-        path: getFirstChildForMenuByRequest(this.$store.state.user.menulist, request).request
+        name: getFirstChildForMenuByRequest(this.$store.state.user.routers, name).name
       })
     },
     turnToPage (route) {
-      // let { name, params, query } = {}
-      // if (typeof route === 'string') name = route
-      // else {
-      //   name = route.name
-      //   params = route.params
-      //   query = route.query
-      // }
-      // if (name.indexOf('isTurnByHref_') > -1) {
-      //   window.open(name.split('_')[1])
-      //   return
-      // }
-      // this.$router.push({
-      //   name,
-      //   params,
-      //   query
-      // })
-      console.log(route)
-      let { path } = {}
-      if (typeof route === 'string') path = route
+      let { name, params, query } = {}
+      if (typeof route === 'string') name = route
+      else {
+        name = route.name
+        params = route.params
+        query = route.query
+      }
+      if (name.indexOf('isTurnByHref_') > -1) {
+        window.open(name.split('_')[1])
+        return
+      }
       this.$router.push({
-        path: route
+        name,
+        params,
+        query
       })
+      // console.log(route)
+      // let { path } = {}
+      // if (typeof route === 'string') path = route
+      // this.$router.push({
+      //   path: route
+      // })
     },
     handleCollapsedChange (state) {
       this.collapsed = state
@@ -179,14 +176,12 @@ export default {
   },
   watch: {
     '$route' (newRoute) {
-      console.log('main.vue $route watch', this.$store.state.app.navMenu)
       const { name, query, params, meta } = newRoute
       this.addTag({
         route: { name, query, params, meta },
         type: 'push'
       })
       this.setBreadCrumb(newRoute)
-      console.log(newRoute)
       this.setTagNavList(getNewTagList(this.tagNavList, newRoute))
       this.$refs.sideMenu.updateOpenName(newRoute.name)
     }
@@ -196,14 +191,13 @@ export default {
      * @description 初始化设置面包屑导航和标签导航
      */
     this.setTagNavList()
-    this.setHomeRoute(routers)
+    this.setHomeRoute(this.$route)
     const { name, params, query, meta } = this.$route
     this.addTag({
       route: { name, params, query, meta }
     })
     
     this.setBreadCrumb(this.$route)
-    console.log("mainvue mounted route", this.$route)
     // this.setSidemenuList(this.$route)
     // 设置初始语言
     this.setLocal(this.$i18n.locale)

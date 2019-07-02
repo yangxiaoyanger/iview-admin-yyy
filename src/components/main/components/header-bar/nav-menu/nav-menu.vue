@@ -6,9 +6,9 @@
           </div>
           <div class="layout-nav">
             <Menu mode="horizontal" :active-name="activeName" @on-select="handleSelect">
-              <menuItem v-for="item in list" :key="`menu-${item.menuid}`" :name="item.request">
+              <menuItem v-for="item in list" :key="`menu-${item.name}`" :name="item.name">
                   <Icon type="ios-navigate"></Icon>
-                  {{item.menuname}}
+                  {{ item.name }}
               </MenuItem>
             </Menu>
           </div>
@@ -16,7 +16,7 @@
   </div>
 </template>
 <script>
-
+import { showTitle } from '@/libs/util'
 export default {
   name: 'NavMenu',
   components: {
@@ -35,7 +35,6 @@ export default {
   },
   methods: {
     handleSelect (name) {
-      console.log(name, 'handleselect')
       this.$emit('on-select', name)
     },
   },

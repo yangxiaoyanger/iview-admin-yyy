@@ -21,7 +21,6 @@ export default {
     userName: '',
     userId: '',
     userInfo: {},
-    leaflist: {},
     avatarImgPath: '',
     token: getToken(),
     access: '',
@@ -41,12 +40,6 @@ export default {
     },
     setUserInfo (state, userInfo) {
       state.userInfo = userInfo
-    },
-    setMenulist (state, menulist) {
-      state.menulist = menulist
-    },
-    setLeaflist (state, leaflist) {
-      state.leaflist = leaflist
     },
     setRoutes (state, routes) {
       state.routes = routes
@@ -95,8 +88,8 @@ export default {
   getters: {
     messageUnreadCount: state => state.messageUnreadList.length,
     messageReadedCount: state => state.messageReadedList.length,
-    messageTrashCount: state => state.messageTrashList.length
-    // menulist: state => state.menulist
+    messageTrashCount: state => state.messageTrashList.length,
+    routes: state => state.routes
   },
   actions: {
     // 获取getPublicKey
@@ -176,12 +169,7 @@ export default {
           getNav().then(res => {
             getRouter = res.data.data.router
             getRouter = filterAsyncRouter(getRouter)
-            console.log(getRouter)
             commit('setRoutes', getRouter)
-            // console.log(res)
-            // commit('setMenulist', res.data.data.tree)
-            // commit('setLeaflist', res.data.data.leaf)
-
             resolve(getRouter)
           }).catch(err => {
             reject(err)

@@ -41,37 +41,16 @@ router.beforeEach((to, from, next) => {
   } else if (token && to.name === LOGIN_PAGE_NAME) {
     // 已登录且要跳转的页面是登录页
     console.log('已登录且要跳转的页面是登录页')
-    console.log(router)
     next({
       name: homeName // 跳转到homeName页
     })
   } else {
-    console.log('store.routes', router)
-    // if (store.state.user.routes) {
-    //   console.log('已经存在store.routes')
-    //   next({
-    //     name: homeName
-    //   })
-    // } else {
-    //   store.dispatch('getNav').then(res => {
-    //     const getRouter = res
-    //     router.options.routes = getRouter // 必须在addroutes前，使用router.options.routes=XXXXX的方法手动添加
-    //     router.addRoutes(getRouter) // 动态添加路由
-    //     console.log('router index getRouter', getRouter)
-    //     console.log(router)
-    //     next({
-    //       name: homeName
-    //     })
-    //   })
-    // }
     if (!getRouter) {
       if (!store.state.user.routes) {
         store.dispatch('getNav').then(res => {
           getRouter = res
           router.options.routes = getRouter // 必须在addroutes前，使用router.options.routes=XXXXX的方法手动添加
           router.addRoutes(getRouter) // 动态添加路由
-          console.log('router index getRouter', getRouter)
-          console.log(router)
           next({
             name: homeName
           })
