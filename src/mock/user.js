@@ -124,13 +124,20 @@ export const getNav = () => {
           },
           {
             path: 'waterworksbase',
-            name: 'waterworksbase',
-            meta: {
-              icon: 'md-arrow-dropdown-circle',
-              title: '水厂基础信息'
-            },
-            // eslint-disable-next-line no-dupe-keys
-            component: 'components/demotable/demotable'
+            name: '_waterworksbase',
+            component: 'SubMain',
+            children: [
+              {
+                path: 'waterworksbase',
+                name: 'waterworksbase',
+                meta: {
+                  icon: 'md-arrow-dropdown-circle',
+                  title: '水厂基础信息'
+                },
+                // eslint-disable-next-line no-dupe-keys
+                component: 'components/demotable/demotable'
+              }
+            ]
           }]
         },
         {
@@ -144,7 +151,7 @@ export const getNav = () => {
           children: [
             {
               path: 'tree_select_page',
-              name: 'tree_select_page',
+              name: '_tree_select_page',
               component: 'SubMain',
               children: [
                 {
@@ -161,7 +168,7 @@ export const getNav = () => {
             },
             {
               path: 'count_to_page',
-              name: 'count_to_page',
+              name: '_count_to_page',
               component: 'SubMain',
               children: [
                 {
@@ -203,13 +210,13 @@ export const getNav = () => {
           component: 'Main',
           children: [
             {
-              path: 'urbanbase',
-              name: '_urbanbase',
+              path: 'watersourealtimemonit',
+              name: '_watersourealtimemonit',
               component: 'SubMain',
               children: [
                 {
-                  path: 'urbanbase',
-                  name: 'urbanbase',
+                  path: 'watersourealtimemonit',
+                  name: 'watersourealtimemonit',
                   meta: {
                     icon: 'md-arrow-dropdown-circle',
                     title: '水源水实时监控'

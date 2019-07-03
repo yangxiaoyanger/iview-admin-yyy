@@ -1,4 +1,5 @@
 import {
+  getBreadCrumbList,
   setTagNavListInLocalstorage,
   getMenuByRouter,
   getSidemenuList,
@@ -37,7 +38,6 @@ export default {
   },
   getters: {
     menuList: (state, getters, rootState) => { // 所有的menulist
-      console.log('getMenuByRouter(rootState.user.routes, rootState.user.access)', rootState.user.routes, getMenuByRouter(rootState.user.routes, rootState.user.access))
       return getMenuByRouter(rootState.user.routes, rootState.user.access)
     },
     errorCount: state => state.errorList.length,
@@ -47,7 +47,7 @@ export default {
   },
   mutations: {
     setBreadCrumb (state, route) {
-      // state.breadCrumbList = getBreadCrumbList(route, state.homeRoute)
+      state.breadCrumbList = getBreadCrumbList(route, state.homeRoute)
     },
     setSidemenuList (state, sidemenuList) {
       state.sidemenuList = sidemenuList

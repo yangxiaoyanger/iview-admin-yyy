@@ -10,7 +10,7 @@
           <!-- <div class="tag-nav-wrapper">
             <tags-nav :value="$route" @input="handleClick" :list="tagNavList" @on-close="handleCloseTag"/>
           </div> -->
-          <custom-bread-crumb show-icon style="margin-left: 30px;" :list="breadCrumbList"></custom-bread-crumb>
+          <custom-bread-crumb show-icon :list="breadCrumbList"></custom-bread-crumb>
           <Content class="content-wrapper">
             <keep-alive :include="cacheList">
               <router-view/>
@@ -115,7 +115,6 @@ export default {
     selectNav (name) {
       this.setNavMenu(name)
       this.setSidemenuList(name)
-      console.log('main.vue getFirstChildForMenuByRequest', getFirstChildForMenuByRequest(this.$store.getters.routes, name).name)
       this.$router.push({
         name: getFirstChildForMenuByRequest(this.$store.getters.routes, name).name
       })
@@ -132,20 +131,11 @@ export default {
         window.open(name.split('_')[1])
         return
       }
-      console.log( name,
-        params,
-        query)
       this.$router.push({
         name,
         params,
         query
       })
-      // console.log(route)
-      // let { path } = {}
-      // if (typeof route === 'string') path = route
-      // this.$router.push({
-      //   path: route
-      // })
     },
     handleCollapsedChange (state) {
       this.collapsed = state
@@ -173,7 +163,6 @@ export default {
         route: { name, query, params, meta },
         type: 'push'
       })
-      console.log('main.vue $route', newRoute)
       this.setBreadCrumb(newRoute)
       this.setTagNavList(getNewTagList(this.tagNavList, newRoute))
       this.$refs.sideMenu.updateOpenName(newRoute.name)
@@ -184,7 +173,7 @@ export default {
      * @description 初始化设置面包屑导航和标签导航
      */
     this.setTagNavList()
-    this.setHomeRoute(this.$route)
+    this.setHomeRoute(this.$store.getters.routes)
     const { name, params, query, meta } = this.$route
     this.addTag({
       route: { name, params, query, meta }

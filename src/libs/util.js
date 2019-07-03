@@ -8,7 +8,6 @@ import SubMain from '@/components/main/submain.vue'
 
 const { title, cookieExpires, useI18n } = config
 const _import = require('../router/_import_' + process.env.NODE_ENV) // Layout 是架构组件，不在后台返回，在文件里单独引入
-import home from '@/view/single-page/home'
 export const TOKEN_KEY = 'token'
 
 export const setToken = (token) => {
@@ -95,7 +94,6 @@ export const getNavlistByRouter = (list, access) => {
       if (showThisMenuEle(item, access)) res.push(obj)
     }
   })
-  console.log('getNavlistByRouter', list, res)
   return res
 }
 
@@ -189,7 +187,6 @@ export const getSidemenuList = (state, menulist) => {
  * @returns {Array}
  */
 export const getBreadCrumbList = (route, homeRoute) => {
-  console.log(...homeRoute)
   let homeItem = { ...homeRoute, icon: homeRoute.meta.icon }
   let routeMetched = route.matched
   if (routeMetched.some(item => item.name === homeRoute.name)) return [homeItem]
