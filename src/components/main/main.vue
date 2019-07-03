@@ -9,25 +9,7 @@
       </header-bar>
     </Header>
     <Layout>
-      <Sider v-show="sidemenuList.length > 0"  hide-trigger collapsible :width="256" :collapsed-width="64" v-model="collapsed" class="left-sider" :style="{overflow: 'hidden'}">
-        <side-menu  @on-coll-change="handleCollapsedChange" accordion ref="sideMenu" :active-name="$route.name" :collapsed="collapsed" @on-select="turnToPage" :menu-list="sidemenuList">
-
-        </side-menu>
-      </Sider>
-      <Content class="main-content-con">
-        <Layout class="main-layout-con">
-          <!-- <div class="tag-nav-wrapper">
-            <tags-nav :value="$route" @input="handleClick" :list="tagNavList" @on-close="handleCloseTag"/>
-          </div> -->
-          <custom-bread-crumb show-icon style="margin-left: 30px;" :list="breadCrumbList"></custom-bread-crumb>
-          <Content class="content-wrapper">
-            <keep-alive :include="cacheList">
-              <router-view/>
-            </keep-alive>
-            <ABackTop :height="100" :bottom="80" :right="50" container=".content-wrapper"></ABackTop>
-          </Content>
-        </Layout>
-      </Content>
+        <router-view/>
     </Layout>
     <!-- <Footer>Footer</Footer> -->
   </Layout>
@@ -126,8 +108,9 @@ export default {
     selectNav (name) {
       this.setNavMenu(name)
       this.setSidemenuList(name)
+      console.log('main.vue getFirstChildForMenuByRequest', getFirstChildForMenuByRequest(this.$store.getters.routes, name).name)
       this.$router.push({
-        name: getFirstChildForMenuByRequest(this.$store.state.user.routers, name).name
+        name: getFirstChildForMenuByRequest(this.$store.getters.routes, name).name
       })
     },
     turnToPage (route) {
@@ -142,6 +125,9 @@ export default {
         window.open(name.split('_')[1])
         return
       }
+      console.log( name,
+        params,
+        query)
       this.$router.push({
         name,
         params,
@@ -180,6 +166,7 @@ export default {
         route: { name, query, params, meta },
         type: 'push'
       })
+      console.log('main.vue $route', newRoute)
       this.setBreadCrumb(newRoute)
       this.setTagNavList(getNewTagList(this.tagNavList, newRoute))
       this.$refs.sideMenu.updateOpenName(newRoute.name)

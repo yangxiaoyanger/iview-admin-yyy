@@ -4,6 +4,8 @@ import config from '@/config'
 import { forEach, hasOneOf, objEqual } from '@/libs/tools'
 // 获取组件的方法
 import Main from '@/components/main'
+import SubMain from '@/components/main/submain.vue'
+
 const { title, cookieExpires, useI18n } = config
 const _import = require('../router/_import_' + process.env.NODE_ENV) // Layout 是架构组件，不在后台返回，在文件里单独引入
 import home from '@/view/single-page/home'
@@ -106,6 +108,8 @@ export const filterAsyncRouter = (asyncRouterMap) => {
     if (route.component) {
       if (route.component === 'Main') { // Main组件特殊处理
         route.component = Main
+      } else if (route.component === 'SubMain') {
+        route.component = SubMain
       } else {
         route.component = _import(route.component)
       }

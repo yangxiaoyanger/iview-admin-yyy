@@ -98,6 +98,7 @@ export const getNav = () => {
               icon: 'logo-buffer',
               title: '城市基础信息'
             },
+            component: 'SubMain',
             children: [
               {
                 path: 'urbanbase',
@@ -144,29 +145,51 @@ export const getNav = () => {
             {
               path: 'tree_select_page',
               name: 'tree_select_page',
-              meta: {
-                icon: 'md-arrow-dropdown-circle',
-                title: '树状下拉选择器'
-              },
-              component: 'components/tree-select/index'
+              component: 'SubMain',
+              children: [
+                {
+                  path: 'tree_select_page',
+                  name: 'tree_select_page',
+                  meta: {
+                    icon: 'md-arrow-dropdown-circle',
+                    title: '树状下拉选择器'
+                  },
+                  // eslint-disable-next-line no-dupe-keys
+                  component: 'components/tree-select/index'
+                }
+              ]
             },
             {
               path: 'count_to_page',
               name: 'count_to_page',
-              meta: {
-                icon: 'md-trending-up',
-                title: '数字渐变'
-              },
-              component: 'components/count-to/count-to'
+              component: 'SubMain',
+              children: [
+                {
+                  path: 'count_to_page',
+                  name: 'count_to_page',
+                  meta: {
+                    icon: 'md-trending-up',
+                    title: '数字渐变'
+                  },
+                  component: 'components/count-to/count-to'
+                }
+              ]
             },
             {
               path: 'drag_list_page',
-              name: 'drag_list_page',
-              meta: {
-                icon: 'ios-infinite',
-                title: '拖拽列表'
-              },
-              component: 'components/drag-list/drag-list'
+              name: '_drag_list_page',
+              component: 'SubMain',
+              children: [
+                {
+                  path: 'drag_list_page',
+                  name: 'drag_list_page',
+                  meta: {
+                    icon: 'ios-infinite',
+                    title: '拖拽列表'
+                  },
+                  component: 'components/drag-list/drag-list'
+                }
+              ]
             }
           ]
         },
@@ -180,22 +203,38 @@ export const getNav = () => {
           component: 'Main',
           children: [
             {
-              path: 'watersourealtimemonit',
-              name: 'watersourealtimemonit',
-              meta: {
-                icon: 'md-arrow-dropdown-circle',
-                title: '水源水实时监控'
-              },
-              component: 'join-page'
+              path: 'urbanbase',
+              name: '_urbanbase',
+              component: 'SubMain',
+              children: [
+                {
+                  path: 'urbanbase',
+                  name: 'urbanbase',
+                  meta: {
+                    icon: 'md-arrow-dropdown-circle',
+                    title: '水源水实时监控'
+                  },
+                  // eslint-disable-next-line no-dupe-keys
+                  component: 'join-page'
+                }
+              ]
             },
             {
               path: 'querymonitdata',
-              name: 'querymonitdata',
-              meta: {
-                icon: 'md-arrow-dropdown-circle',
-                title: '监控数据查询'
-              },
-              component: 'single-page/message/index'
+              name: '_querymonitdata',
+              redirect: '/querymonitdata',
+              component: 'SubMain',
+              children: [
+                {
+                  path: 'querymonitdata',
+                  name: 'querymonitdata',
+                  meta: {
+                    icon: 'md-arrow-dropdown-circle',
+                    title: '监控数据查询'
+                  },
+                  component: 'single-page/message/index'
+                }
+              ]
             }
           ]
         }

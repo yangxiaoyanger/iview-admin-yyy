@@ -1,9 +1,7 @@
 import {
-  getBreadCrumbList,
   setTagNavListInLocalstorage,
   getMenuByRouter,
   getSidemenuList,
-  getFirstChildForMenuByRequest,
   getTagNavListFromLocalstorage,
   getHomeRoute,
   getNextRoute,
@@ -49,7 +47,7 @@ export default {
   },
   mutations: {
     setBreadCrumb (state, route) {
-      state.breadCrumbList = getBreadCrumbList(route, state.homeRoute)
+      // state.breadCrumbList = getBreadCrumbList(route, state.homeRoute)
     },
     setSidemenuList (state, sidemenuList) {
       state.sidemenuList = sidemenuList
