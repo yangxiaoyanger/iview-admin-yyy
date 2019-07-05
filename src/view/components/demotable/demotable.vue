@@ -22,64 +22,64 @@
             <Page :total="100" show-sizer show-elevator show-total :styles="pageStyle"/>
 
             <Modal v-model="editModel" draggable scrollable width="70">
-            <p slot="header">
+                <p slot="header">
                     <span>编辑弹窗</span>
                 </p>
                 <Form ref="editFormValidate" :model="editFormValidate" :rules="ruleValidate" :label-width="80" inline>
-                <FormItem label="Name" prop="name">
-                    <Input v-model="editFormValidate.name" placeholder="Enter your name"></Input>
-                </FormItem>
-                <FormItem label="E-mail" prop="mail">
-                    <Input v-model="editFormValidate.mail" placeholder="Enter your e-mail"></Input>
-                </FormItem>
-                <FormItem label="City" prop="city">
-                    <Select v-model="editFormValidate.city" placeholder="Select your city">
-                        <Option value="beijing">New York</Option>
-                        <Option value="shanghai">London</Option>
-                        <Option value="shenzhen">Sydney</Option>
-                    </Select>
-                </FormItem>
-                <FormItem label="Date">
-                    <Row>
-                        <Col span="11">
-                            <FormItem prop="date">
-                                <DatePicker type="date" placeholder="Select date" v-model="editFormValidate.date"></DatePicker>
-                            </FormItem>
-                        </Col>
-                        <Col span="2" style="text-align: center">-</Col>
-                        <Col span="11">
-                            <FormItem prop="time">
-                                <TimePicker type="time" placeholder="Select time" v-model="editFormValidate.time"></TimePicker>
-                            </FormItem>
-                        </Col>
-                    </Row>
-                </FormItem>
-                <FormItem label="Gender" prop="gender">
-                    <RadioGroup v-model="editFormValidate.gender">
-                        <Radio label="male">Male</Radio>
-                        <Radio label="female">Female</Radio>
-                    </RadioGroup>
-                </FormItem>
-                <FormItem label="Hobby" prop="interest">
-                    <CheckboxGroup v-model="editFormValidate.interest">
-                        <Checkbox label="Eat"></Checkbox>
-                        <Checkbox label="Sleep"></Checkbox>
-                        <Checkbox label="Run"></Checkbox>
-                        <Checkbox label="Movie"></Checkbox>
-                    </CheckboxGroup>
-                </FormItem>
-                <FormItem label="Desc" prop="desc" style="width: 100%;">
-                    <Input v-model="editFormValidate.desc" type="textarea" :autosize="{minRows: 2,maxRows: 5}" placeholder="Enter something..."></Input>
-                </FormItem>
-                <!-- <FormItem>
-                    <Button type="primary" @click="handleSubmit('formValidate')">Submit</Button>
-                    <Button @click="handleReset('formValidate')" style="margin-left: 8px">Reset</Button>
-                </FormItem> -->
-            </Form>
-            <div slot="footer">
-                <Button type="primary" @click="handleSubmit('editFormValidate')">确定</Button>
-                <Button @click="handleReset('editFormValidate')" style="margin-left: 8px">重置</Button>
-            </div>
+                    <FormItem label="Name" prop="name">
+                        <Input v-model="editFormValidate.name" placeholder="Enter your name"></Input>
+                    </FormItem>
+                    <FormItem label="E-mail" prop="mail">
+                        <Input v-model="editFormValidate.mail" placeholder="Enter your e-mail"></Input>
+                    </FormItem>
+                    <FormItem label="City" prop="city">
+                        <Select v-model="editFormValidate.city" placeholder="Select your city">
+                            <Option value="beijing">New York</Option>
+                            <Option value="shanghai">London</Option>
+                            <Option value="shenzhen">Sydney</Option>
+                        </Select>
+                    </FormItem>
+                    <FormItem label="Date">
+                        <Row>
+                            <Col span="11">
+                                <FormItem prop="date">
+                                    <DatePicker type="date" placeholder="Select date" v-model="editFormValidate.date"></DatePicker>
+                                </FormItem>
+                            </Col>
+                            <Col span="2" style="text-align: center">-</Col>
+                            <Col span="11">
+                                <FormItem prop="time">
+                                    <TimePicker type="time" placeholder="Select time" v-model="editFormValidate.time"></TimePicker>
+                                </FormItem>
+                            </Col>
+                        </Row>
+                    </FormItem>
+                    <FormItem label="Gender" prop="gender">
+                        <RadioGroup v-model="editFormValidate.gender">
+                            <Radio label="male">Male</Radio>
+                            <Radio label="female">Female</Radio>
+                        </RadioGroup>
+                    </FormItem>
+                    <FormItem label="Hobby" prop="interest">
+                        <CheckboxGroup v-model="editFormValidate.interest">
+                            <Checkbox label="Eat"></Checkbox>
+                            <Checkbox label="Sleep"></Checkbox>
+                            <Checkbox label="Run"></Checkbox>
+                            <Checkbox label="Movie"></Checkbox>
+                        </CheckboxGroup>
+                    </FormItem>
+                    <FormItem label="Desc" prop="desc" style="width: 100%;">
+                        <Input v-model="editFormValidate.desc" type="textarea" :autosize="{minRows: 2,maxRows: 5}" placeholder="Enter something..."></Input>
+                    </FormItem>
+                    <!-- <FormItem>
+                        <Button type="primary" @click="handleSubmit('formValidate')">Submit</Button>
+                        <Button @click="handleReset('formValidate')" style="margin-left: 8px">Reset</Button>
+                    </FormItem> -->
+                </Form>
+                <div slot="footer">
+                    <Button type="primary" @click="handleSubmit('editFormValidate')">确定</Button>
+                    <Button @click="handleReset('editFormValidate')" style="margin-left: 8px">重置</Button>
+                </div>
             </Modal>
 
             <Modal v-model="detailModel" draggable scrollable width="60">
