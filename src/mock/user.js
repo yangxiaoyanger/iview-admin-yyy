@@ -83,7 +83,7 @@ export const getNav = () => {
           ]
         },
         {
-          path: 'basicinfo',
+          path: '/basicinfo',
           name: 'basicinfo',
           component: 'Main',
           meta: {
@@ -107,7 +107,6 @@ export const getNav = () => {
                   icon: 'md-arrow-dropdown-circle',
                   title: '城市供水基础信息'
                 },
-                // eslint-disable-next-line no-dupe-keys
                 component: 'components/demotable/demotable'
               },
               {
@@ -117,7 +116,6 @@ export const getNav = () => {
                   icon: 'md-arrow-dropdown-circle',
                   title: '二次供水基础信息'
                 },
-                // eslint-disable-next-line no-dupe-keys
                 component: 'components/demotable/demotable'
               }
             ]
@@ -128,13 +126,12 @@ export const getNav = () => {
             component: 'SubMain',
             children: [
               {
-                path: 'waterworksbase',
+                path: 'waterworksbase2',
                 name: 'waterworksbase',
                 meta: {
                   icon: 'md-arrow-dropdown-circle',
                   title: '水厂基础信息'
                 },
-                // eslint-disable-next-line no-dupe-keys
                 component: 'components/demotable/demotable'
               }
             ]
@@ -152,10 +149,14 @@ export const getNav = () => {
             {
               path: 'tree_select_page',
               name: '_tree_select_page',
+              meta: {
+                icon: 'logo-buffer',
+                title: '城市基础信息2222'
+              },
               component: 'SubMain',
               children: [
                 {
-                  path: 'tree_select_page',
+                  path: 'tree_select_page2',
                   name: 'tree_select_page',
                   meta: {
                     icon: 'md-arrow-dropdown-circle',
@@ -163,6 +164,16 @@ export const getNav = () => {
                   },
                   // eslint-disable-next-line no-dupe-keys
                   component: 'components/tree-select/index'
+                },
+                {
+                  path: 'tree_select_page3',
+                  name: 'tree_select_page3',
+                  meta: {
+                    icon: 'md-arrow-dropdown-circle',
+                    title: '树状下拉选择器2'
+                  },
+                  // eslint-disable-next-line no-dupe-keys
+                  component: 'components/demotable/demotable'
                 }
               ]
             },
@@ -172,7 +183,7 @@ export const getNav = () => {
               component: 'SubMain',
               children: [
                 {
-                  path: 'count_to_page',
+                  path: 'count_to_page2',
                   name: 'count_to_page',
                   meta: {
                     icon: 'md-trending-up',
@@ -188,7 +199,7 @@ export const getNav = () => {
               component: 'SubMain',
               children: [
                 {
-                  path: 'drag_list_page',
+                  path: 'drag_list_page2',
                   name: 'drag_list_page',
                   meta: {
                     icon: 'ios-infinite',
@@ -215,7 +226,7 @@ export const getNav = () => {
               component: 'SubMain',
               children: [
                 {
-                  path: 'watersourealtimemonit',
+                  path: 'watersourealtimemonit2',
                   name: 'watersourealtimemonit',
                   meta: {
                     icon: 'md-arrow-dropdown-circle',
@@ -233,7 +244,7 @@ export const getNav = () => {
               component: 'SubMain',
               children: [
                 {
-                  path: 'querymonitdata',
+                  path: 'querymonitdata2',
                   name: 'querymonitdata',
                   meta: {
                     icon: 'md-arrow-dropdown-circle',
