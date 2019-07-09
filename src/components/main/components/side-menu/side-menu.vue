@@ -103,10 +103,8 @@ export default {
   },
   watch: {
     activeName (name) {
-      console.log('side-menu active', this)
       if (this.accordion) this.openedNames = this.getOpenedNamesByActiveName(name)
       else this.openedNames = getUnion(this.openedNames, this.getOpenedNamesByActiveName(name))
-      console.log('side-menu activeName ', this.openedNames, name)
     },
     openNames (newNames) {
       this.openedNames = newNames
