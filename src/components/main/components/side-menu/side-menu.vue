@@ -90,6 +90,7 @@ export default {
     },
     getOpenedNamesByActiveName (name) {
       return this.$route.matched.map(item => item.name).filter(item => item !== name)
+      console.log(name, 'getOpenedNamesByActiveName', this.$route.matched.map(item => item.name).filter(item => item !== name))
     },
     updateOpenName (name) {
       if (name === this.$config.homeName) this.openedNames = []
@@ -103,6 +104,7 @@ export default {
   },
   watch: {
     activeName (name) {
+      console.log(name, 'sidemenu activeName', this.activeName)
       if (this.accordion) this.openedNames = this.getOpenedNamesByActiveName(name)
       else this.openedNames = getUnion(this.openedNames, this.getOpenedNamesByActiveName(name))
     },

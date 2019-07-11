@@ -111,6 +111,7 @@ export default {
       this.$router.push({
         name: getFirstChildForMenuByRequest(this.$store.getters.routes, name).name
       })
+      console.log(name, 'main.vue', this.$route.name)
     },
     // turnToPage (route) {
     //   let { name, params, query } = {}

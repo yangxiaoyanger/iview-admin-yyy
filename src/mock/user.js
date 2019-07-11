@@ -82,61 +82,61 @@ export const getNav = () => {
             }
           ]
         },
-        {
-          path: '/basicinfo',
-          name: 'basicinfo',
-          component: 'Main',
-          meta: {
-            hideInMenu: true,
-            notCache: true,
-            title: '基础信息'
-          },
-          children: [{
-            path: 'urban',
-            name: 'urban',
-            meta: {
-              icon: 'logo-buffer',
-              title: '城市基础信息'
-            },
-            component: 'SubMain',
-            children: [
-              {
-                path: 'urbanbase',
-                name: 'urbanbase',
-                meta: {
-                  icon: 'md-arrow-dropdown-circle',
-                  title: '城市供水基础信息'
-                },
-                component: 'components/demotable/demotable'
-              },
-              {
-                path: 'secondarywater',
-                name: 'secondarywater',
-                meta: {
-                  icon: 'md-arrow-dropdown-circle',
-                  title: '二次供水基础信息'
-                },
-                component: 'components/demotable/demotable'
-              }
-            ]
-          },
-          {
-            path: 'waterworksbase',
-            name: '_waterworksbase',
-            component: 'SubMain',
-            children: [
-              {
-                path: 'waterworksbase2',
-                name: 'waterworksbase',
-                meta: {
-                  icon: 'md-arrow-dropdown-circle',
-                  title: '水厂基础信息'
-                },
-                component: 'components/demotable/demotable'
-              }
-            ]
-          }]
-        },
+        // {
+        //   path: '/basicinfo',
+        //   name: 'basicinfo',
+        //   component: 'Main',
+        //   meta: {
+        //     hideInMenu: true,
+        //     notCache: true,
+        //     title: '基础信息'
+        //   },
+        //   children: [{
+        //     path: 'urban',
+        //     name: 'urban',
+        //     meta: {
+        //       icon: 'logo-buffer',
+        //       title: '城市基础信息'
+        //     },
+        //     component: 'SubMain',
+        //     children: [
+        //       {
+        //         path: 'urbanbase',
+        //         name: 'urbanbase',
+        //         meta: {
+        //           icon: 'md-arrow-dropdown-circle',
+        //           title: '城市供水基础信息'
+        //         },
+        //         component: 'components/demotable/demotable'
+        //       },
+        //       {
+        //         path: 'secondarywater',
+        //         name: 'secondarywater',
+        //         meta: {
+        //           icon: 'md-arrow-dropdown-circle',
+        //           title: '二次供水基础信息'
+        //         },
+        //         component: 'components/demotable/demotable'
+        //       }
+        //     ]
+        //   },
+        //   {
+        //     path: 'waterworksbase',
+        //     name: '_waterworksbase',
+        //     component: 'SubMain',
+        //     children: [
+        //       {
+        //         path: 'waterworksbase2',
+        //         name: 'waterworksbase',
+        //         meta: {
+        //           icon: 'md-arrow-dropdown-circle',
+        //           title: '水厂基础信息'
+        //         },
+        //         component: 'components/demotable/demotable'
+        //       }
+        //     ]
+        //   }]
+        // },
         {
           path: '/components',
           name: 'components',
@@ -162,8 +162,7 @@ export const getNav = () => {
                     icon: 'md-arrow-dropdown-circle',
                     title: '树状下拉选择器'
                   },
-                  // eslint-disable-next-line no-dupe-keys
-                  component: 'components/tree-select/index'
+                  component: 'components/demotable/demotable'
                 },
                 {
                   path: 'tree_select_page3',
@@ -172,7 +171,6 @@ export const getNav = () => {
                     icon: 'md-arrow-dropdown-circle',
                     title: '树状下拉选择器2'
                   },
-                  // eslint-disable-next-line no-dupe-keys
                   component: 'components/demotable/demotable'
                 }
               ]
@@ -232,7 +230,6 @@ export const getNav = () => {
                     icon: 'md-arrow-dropdown-circle',
                     title: '水源水实时监控'
                   },
-                  // eslint-disable-next-line no-dupe-keys
                   component: 'join-page'
                 }
               ]

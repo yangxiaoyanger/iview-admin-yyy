@@ -118,6 +118,7 @@ export default {
       this.$router.push({
         name: getFirstChildForMenuByRequest(this.$store.getters.routes, name).name
       })
+      console.log('$route.name submain.vue', this.$route.name)
     },
     turnToPage (route) {
       let { name, params, query } = {}
@@ -166,6 +167,7 @@ export default {
       this.setBreadCrumb(newRoute)
       this.setTagNavList(getNewTagList(this.tagNavList, newRoute))
       this.$refs.sideMenu.updateOpenName(newRoute.name)
+      console.log('this.$refs.sideMenu.updateOpenName(newRoute.name)')
     }
   },
   mounted () {

@@ -113,7 +113,6 @@ export default {
       var key = RSAUtils.encryptedString(k, k2)
       return new Promise((resolve, reject) => {
         login(key).then(res => {
-          console.log('login', res)
           const data = res.data
           commit('setUserInfo', res.data.data)
           commit('setToken', data.token)
