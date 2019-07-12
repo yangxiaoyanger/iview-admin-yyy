@@ -16,6 +16,7 @@ const router = new Router({
 const LOGIN_PAGE_NAME = 'login'
 
 const turnTo = (to, access, next) => {
+  console.log('turnto')
   if (canTurnTo(to.name, access, routes)) next() // 有权限，可访问
   else next({ replace: true, name: 'error_401' }) // 无权限，重定向到401页面
 }
@@ -23,7 +24,7 @@ const turnTo = (to, access, next) => {
 router.beforeEach((to, from, next) => {
   iView.LoadingBar.start()
   const token = getToken()
-
+  console.log(from, to.name)
   if (!token && to.name !== LOGIN_PAGE_NAME) {
     // 未登录且要跳转的页面不是登录页
     console.log('未登录且要跳转的页面不是登录页')
@@ -51,11 +52,14 @@ router.beforeEach((to, from, next) => {
           getRouter = res
           router.options.routes = getRouter // 必须在addroutes前，使用router.options.routes=XXXXX的方法手动添加
           router.addRoutes(getRouter) // 动态添加路由
+          console.log('已经登陆跳转的不是登录页，并且没有getRouter', to.name)
           next({
             name: homeName
           })
+          // next()
         })
       } else {
+        console.log('已经登陆跳转的不是登录页，并且有getRouter', to.name)
         getRouter = store.state.user.routes
         next()
       }

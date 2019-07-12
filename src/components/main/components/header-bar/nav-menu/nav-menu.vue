@@ -5,7 +5,7 @@
             城镇供水全过程监管业务平台
           </div>
           <div class="layout-nav">
-            <Menu mode="horizontal" :active-name="activeName" @on-select="handleSelect">
+            <Menu ref="navmenu" mode="horizontal" :active-name="activeName" @on-select="handleSelect">
               <menuItem v-for="item in list" :key="`menu-${item.name}`" :name="item.name">
                   <Icon type="ios-navigate"></Icon>
                   {{ showTitle(item) }}
@@ -44,7 +44,12 @@ export default {
   computed: {
   },
   watch: {
-    
+    // activeName (name) {
+    //    console.log('activeName', name)
+    //   this.$nextTick(() => {
+    //     this.$refs.navmenu.updateActiveName()
+    //   })
+    // }
   },
   mounted () {
     
