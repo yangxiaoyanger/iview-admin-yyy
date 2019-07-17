@@ -116,7 +116,7 @@ export const getNav = () => {
                   icon: 'md-arrow-dropdown-circle',
                   title: '二次供水基础信息'
                 },
-                component: 'components/demotable/demotable'
+                component: 'components/tree-select/index.vue'
               }
             ]
           },
@@ -132,7 +132,7 @@ export const getNav = () => {
                   icon: 'md-arrow-dropdown-circle',
                   title: '水厂基础信息'
                 },
-                component: 'components/demotable/demotable'
+                component: 'components/org-tree'
               }
             ]
           }]
@@ -151,27 +151,27 @@ export const getNav = () => {
               name: '_tree_select_page',
               meta: {
                 icon: 'logo-buffer',
-                title: '城市基础信息2222'
+                title: '组件列表'
               },
               component: 'SubMain',
               children: [
                 {
                   path: 'tree_select_page2',
-                  name: 'tree_select_page',
+                  name: 'Markdown编辑器',
                   meta: {
                     icon: 'md-arrow-dropdown-circle',
                     title: '树状下拉选择器'
                   },
-                  component: 'components/demotable/demotable'
+                  component: 'components/markdown/markdown.vue'
                 },
                 {
                   path: 'tree_select_page3',
                   name: 'tree_select_page3',
                   meta: {
                     icon: 'md-arrow-dropdown-circle',
-                    title: '树状下拉选择器2'
+                    title: '自定义图标'
                   },
-                  component: 'components/demotable/demotable'
+                  component: 'components/icons/icons.vue'
                 }
               ]
             },
@@ -228,7 +228,7 @@ export const getNav = () => {
                   name: 'watersourealtimemonit',
                   meta: {
                     icon: 'md-arrow-dropdown-circle',
-                    title: '水源水实时监控'
+                    title: 'QQ群'
                   },
                   component: 'join-page'
                 }
@@ -245,7 +245,7 @@ export const getNav = () => {
                   name: 'querymonitdata',
                   meta: {
                     icon: 'md-arrow-dropdown-circle',
-                    title: '监控数据查询'
+                    title: '消息中心'
                   },
                   component: 'single-page/message/index'
                 }

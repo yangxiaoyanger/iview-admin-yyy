@@ -16,6 +16,21 @@
                     <Radio label="default">medium(default)</Radio>
                     <Radio label="small">small</Radio>
                 </Radio-group>
+                <div class="button-group pull-right">
+                    <Button>Default</Button>
+                    <Button type="primary">Primary</Button>
+                    <Button type="dashed">Dashed</Button>
+                    <Button type="text">Text</Button>
+
+                    <Button type="info">Info</Button>
+                    <Button type="success">Success</Button>
+                    <Button type="warning">Warning</Button>
+                    <Button type="error">Error</Button>
+                    <br><br>
+                </div>
+                <div class="clear-fix"></div>
+                
+                
             </div>
             <Table :border="showBorder" :stripe="showStripe" :show-header="showHeader" 
             :height="fixedHeader ? 250 : ''" :size="tableSize" :data="tableData3" :columns="tableColumns3"></Table>
