@@ -76,7 +76,8 @@ export const getNav = () => {
               name: 'home',
               meta: {
                 icon: 'logo-buffer',
-                title: '首页'
+                title: '首页',
+                showAlways: false
               },
               component: 'single-page/home'
             }
@@ -87,6 +88,7 @@ export const getNav = () => {
           name: 'basicinfo',
           component: 'Main',
           meta: {
+            icon: 'logo-buffer',
             hideInMenu: true,
             notCache: true,
             title: '基础信息'
@@ -98,7 +100,7 @@ export const getNav = () => {
               icon: 'logo-buffer',
               title: '城市基础信息'
             },
-            component: 'SubMain',
+            component: 'parentView',
             children: [
               {
                 path: 'urbanbase',
@@ -123,7 +125,7 @@ export const getNav = () => {
           {
             path: 'waterworksbase',
             name: '_waterworksbase',
-            component: 'SubMain',
+            component: 'parentView',
             children: [
               {
                 path: 'waterworksbase2',
@@ -153,7 +155,7 @@ export const getNav = () => {
                 icon: 'logo-buffer',
                 title: '组件列表'
               },
-              component: 'SubMain',
+              component: 'parentView',
               children: [
                 {
                   path: 'tree_select_page2',
@@ -178,7 +180,7 @@ export const getNav = () => {
             {
               path: 'count_to_page',
               name: '_count_to_page',
-              component: 'SubMain',
+              component: 'parentView',
               children: [
                 {
                   path: 'count_to_page2',
@@ -194,7 +196,7 @@ export const getNav = () => {
             {
               path: 'drag_list_page',
               name: '_drag_list_page',
-              component: 'SubMain',
+              component: 'parentView',
               children: [
                 {
                   path: 'drag_list_page2',
@@ -221,7 +223,7 @@ export const getNav = () => {
             {
               path: 'watersourealtimemonit',
               name: '_watersourealtimemonit',
-              component: 'SubMain',
+              component: 'parentView',
               children: [
                 {
                   path: 'watersourealtimemonit2',
@@ -238,7 +240,7 @@ export const getNav = () => {
               path: 'querymonitdata',
               name: '_querymonitdata',
               redirect: '/querymonitdata',
-              component: 'SubMain',
+              component: 'parentView',
               children: [
                 {
                   path: 'querymonitdata2',

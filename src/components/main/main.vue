@@ -9,7 +9,25 @@
       </header-bar>
     </Header>
     <Layout>
-        <router-view/>
+        <Sider v-show="sidemenuList.length > 0"  hide-trigger collapsible :width="256" :collapsed-width="64" v-model="collapsed" class="left-sider" :style="{overflow: 'hidden'}">
+        <side-menu  @on-coll-change="handleCollapsedChange" accordion ref="sideMenu" :active-name="$route.name" :collapsed="collapsed" @on-select="turnToPage" :menu-list="sidemenuList">
+
+        </side-menu>
+      </Sider>
+      <Content class="main-content-con">
+        <Layout class="main-layout-con">
+          <!-- <div class="tag-nav-wrapper">
+            <tags-nav :value="$route" @input="handleClick" :list="tagNavList" @on-close="handleCloseTag"/>
+          </div> -->
+          <custom-bread-crumb show-icon :list="breadCrumbList"></custom-bread-crumb>
+          <Content class="content-wrapper">
+            <keep-alive :include="cacheList">
+              <router-view/>
+            </keep-alive>
+            <ABackTop :height="100" :bottom="80" :right="50" container=".content-wrapper"></ABackTop>
+          </Content>
+        </Layout>
+      </Content>
     </Layout>
     <!-- <Footer>Footer</Footer> -->
   </Layout>
@@ -63,12 +81,13 @@ export default {
     breadCrumbList () {
       return this.$store.state.app.breadCrumbList
     },
-    // sidemenuList () {
-    //   return this.$store.getters.sidemenuList
-    // },
-    // tagRouter () {
-    //   return this.$store.state.app.tagRouter
-    // },
+    sidemenuList () {
+      console.log(this.$store.getters.sidemenuList)
+      return this.$store.getters.sidemenuList
+    },
+    tagRouter () {
+      return this.$store.state.app.tagRouter
+    },
     userAvatar () {
       return this.$store.state.user.avatarImgPath
     },
@@ -113,68 +132,67 @@ export default {
       })
       console.log(name, 'main.vue', this.$route.name)
     },
-    // turnToPage (route) {
-    //   let { name, params, query } = {}
-    //   if (typeof route === 'string') name = route
-    //   else {
-    //     name = route.name
-    //     params = route.params
-    //     query = route.query
-    //   }
-    //   if (name.indexOf('isTurnByHref_') > -1) {
-    //     window.open(name.split('_')[1])
-    //     return
-    //   }
-    //   this.$router.push({
-    //     name,
-    //     params,
-    //     query
-    //   })
-    // },
-    // handleCollapsedChange (state) {
-    //   this.collapsed = state
-    // },
-    // handleCloseTag (res, type, route) {
-    //   if (type !== 'others') {
-    //     if (type === 'all') {
-    //       this.turnToPage(this.$config.homeName)
-    //     } else {
-    //       if (routeEqual(this.$route, route)) {
-    //         this.closeTag(route)
-    //       }
-    //     }
-    //   }
-    //   this.setTagNavList(res)
-    // },
-    // handleClick (item) {
-    //   this.turnToPage(item)
-    // }
+    turnToPage (route) {
+      let { name, params, query } = {}
+      if (typeof route === 'string') name = route
+      else {
+        name = route.name
+        params = route.params
+        query = route.query
+      }
+      if (name.indexOf('isTurnByHref_') > -1) {
+        window.open(name.split('_')[1])
+        return
+      }
+      this.$router.push({
+        name,
+        params,
+        query
+      })
+    },
+    handleCollapsedChange (state) {
+      this.collapsed = state
+    },
+    handleCloseTag (res, type, route) {
+      if (type !== 'others') {
+        if (type === 'all') {
+          this.turnToPage(this.$config.homeName)
+        } else {
+          if (routeEqual(this.$route, route)) {
+            this.closeTag(route)
+          }
+        }
+      }
+      this.setTagNavList(res)
+    },
+    handleClick (item) {
+      this.turnToPage(item)
+    }
   },
   watch: {
-    // '$route' (newRoute) {
-    //   const { name, query, params, meta } = newRoute
-    //   this.addTag({
-    //     route: { name, query, params, meta },
-    //     type: 'push'
-    //   })
-    //   console.log('main.vue $route', newRoute)
-    //   this.setBreadCrumb(newRoute)
-    //   this.setTagNavList(getNewTagList(this.tagNavList, newRoute))
-    //   this.$refs.sideMenu.updateOpenName(newRoute.name)
-    // }
+    '$route' (newRoute) {
+      const { name, query, params, meta } = newRoute
+      this.addTag({
+        route: { name, query, params, meta },
+        type: 'push'
+      })
+      this.setBreadCrumb(newRoute)
+      this.setTagNavList(getNewTagList(this.tagNavList, newRoute))
+      this.$refs.sideMenu.updateOpenName(newRoute.name)
+    }
   },
   mounted () {
     /**
      * @description 初始化设置面包屑导航和标签导航
      */
-    // this.setTagNavList()
-    // this.setHomeRoute(this.$route)
-    // const { name, params, query, meta } = this.$route
-    // this.addTag({
-    //   route: { name, params, query, meta }
-    // })
+    this.setTagNavList()
+    this.setHomeRoute(this.$store.getters.routes)
+    const { name, params, query, meta } = this.$route
+    this.addTag({
+      route: { name, params, query, meta }
+    })
     
-    // this.setBreadCrumb(this.$route)
+    this.setBreadCrumb(this.$route)
     // 设置初始语言
     this.setLocal(this.$i18n.locale)
     // 如果当前打开页面不在标签栏中，跳到homeName页
@@ -186,5 +204,29 @@ export default {
     // 获取未读消息条数
     this.getUnreadMessageCount()
   }
+  // mounted () {
+    
+  //   /**
+  //    * @description 初始化设置面包屑导航和标签导航
+  //    */
+  //   this.setTagNavList()
+  //   this.setHomeRoute(this.$route)
+  //   const { name, params, query, meta } = this.$route
+  //   this.addTag({
+  //     route: { name, params, query, meta }
+  //   })
+    
+  //   this.setBreadCrumb(this.$route)
+  //   // 设置初始语言
+  //   this.setLocal(this.$i18n.locale)
+  //   // 如果当前打开页面不在标签栏中，跳到homeName页
+  //   if (!this.tagNavList.find(item => item.name === this.$route.name)) {
+  //     this.$router.push({
+  //       name: this.$config.homeName
+  //     })
+  //   }
+  //   // 获取未读消息条数
+  //   this.getUnreadMessageCount()
+  // }
 }
 </script>

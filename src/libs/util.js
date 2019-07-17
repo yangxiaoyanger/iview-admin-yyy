@@ -5,6 +5,7 @@ import { forEach, hasOneOf, objEqual } from '@/libs/tools'
 // 获取组件的方法
 import Main from '@/components/main'
 import SubMain from '@/components/main/submain.vue'
+import parentView from '@/components/parent-view'
 
 const { title, cookieExpires, useI18n } = config
 const _import = require('../router/_import_' + process.env.NODE_ENV) // Layout 是架构组件，不在后台返回，在文件里单独引入
@@ -108,6 +109,8 @@ export const filterAsyncRouter = (asyncRouterMap) => {
         route.component = Main
       } else if (route.component === 'SubMain') {
         route.component = SubMain
+      } else if (route.component === 'parentView') {
+        route.component = parentView
       } else {
         route.component = _import(route.component)
       }
@@ -177,7 +180,11 @@ export const getSidemenuList = (state, menulist) => {
   let res = []
   forEach(menulist, item => {
     if (item.name === state.navMenu) {
-      res = getMenuByRouterForSidemenu(state, item.children)
+      if (item.children.length === 1 && !hasChild(item.children[0])) {
+        return []
+      } else {
+        res = getMenuByRouterForSidemenu(state, item.children)
+      }
     }
   })
   return res
