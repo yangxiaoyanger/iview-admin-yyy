@@ -4,7 +4,6 @@ import config from '@/config'
 import { forEach, hasOneOf, objEqual } from '@/libs/tools'
 // 获取组件的方法
 import Main from '@/components/main'
-import SubMain from '@/components/main/submain.vue'
 import parentView from '@/components/parent-view'
 
 const { title, cookieExpires, useI18n } = config
