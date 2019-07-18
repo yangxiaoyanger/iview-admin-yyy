@@ -64,11 +64,9 @@ export const getNav = () => {
           component: 'Main',
           redirect: '/home',
           meta: {
-            hideInMenu: true,
             notCache: true,
             icon: 'md-home',
-            title: '首页',
-            hideInBread: true
+            title: '首页'
           },
           children: [
             {
@@ -76,8 +74,7 @@ export const getNav = () => {
               name: 'home',
               meta: {
                 icon: 'logo-buffer',
-                title: '首页',
-                showAlways: false
+                title: '首页'
               },
               component: 'single-page/home'
             }
@@ -89,7 +86,6 @@ export const getNav = () => {
           component: 'Main',
           meta: {
             icon: 'logo-buffer',
-            hideInMenu: true,
             notCache: true,
             title: '基础信息'
           },
@@ -98,7 +94,8 @@ export const getNav = () => {
             name: 'urban',
             meta: {
               icon: 'logo-buffer',
-              title: '城市基础信息'
+              title: '城市基础信息',
+              showAlways: true
             },
             component: 'parentView',
             children: [

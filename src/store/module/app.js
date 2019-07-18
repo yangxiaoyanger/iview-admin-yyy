@@ -47,7 +47,6 @@ export default {
   },
   mutations: {
     setBreadCrumb (state, route) {
-      console.log(state.homeRoute, route, 11)
       state.breadCrumbList = getBreadCrumbList(route, state.homeRoute)
     },
     setSidemenuList (state, sidemenuList) {

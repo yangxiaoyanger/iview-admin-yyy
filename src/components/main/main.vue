@@ -82,7 +82,6 @@ export default {
       return this.$store.state.app.breadCrumbList
     },
     sidemenuList () {
-      console.log(this.$store.getters.sidemenuList)
       return this.$store.getters.sidemenuList
     },
     tagRouter () {
@@ -130,7 +129,6 @@ export default {
       this.$router.push({
         name: getFirstChildForMenuByRequest(this.$store.getters.routes, name).name
       })
-      console.log(name, 'main.vue', this.$route.name)
     },
     turnToPage (route) {
       let { name, params, query } = {}
@@ -204,29 +202,5 @@ export default {
     // 获取未读消息条数
     this.getUnreadMessageCount()
   }
-  // mounted () {
-    
-  //   /**
-  //    * @description 初始化设置面包屑导航和标签导航
-  //    */
-  //   this.setTagNavList()
-  //   this.setHomeRoute(this.$route)
-  //   const { name, params, query, meta } = this.$route
-  //   this.addTag({
-  //     route: { name, params, query, meta }
-  //   })
-    
-  //   this.setBreadCrumb(this.$route)
-  //   // 设置初始语言
-  //   this.setLocal(this.$i18n.locale)
-  //   // 如果当前打开页面不在标签栏中，跳到homeName页
-  //   if (!this.tagNavList.find(item => item.name === this.$route.name)) {
-  //     this.$router.push({
-  //       name: this.$config.homeName
-  //     })
-  //   }
-  //   // 获取未读消息条数
-  //   this.getUnreadMessageCount()
-  // }
 }
 </script>

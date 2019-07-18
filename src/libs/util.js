@@ -153,21 +153,17 @@ export const getFirstChildForMenuByRequest = (list, name) => {
 export const getMenuByRouterForSidemenu = (state, navMenu) => {
   let res = []
   forEach(navMenu, item => {
-    let obj = {
-      icon: (item.meta && item.meta.icon) || '',
-      name: item.name,
-      meta: item.meta
+    if (!item.meta || (item.meta && !item.meta.hideInMenu)) {
+      let obj = {
+        icon: (item.meta && item.meta.icon) || '',
+        name: item.name,
+        meta: item.meta
+      }
+      if (hasChild(item)) {
+        obj.children = getMenuByRouterForSidemenu(state, item.children)
+      }
+      res.push(obj)
     }
-    // let obj = {
-    //   icon: item.iconcls ? item.iconcls : 'fa fa-credit-card',
-    //   request: item.request,
-    //   title: item.menuname,
-    //   name: item.request
-    // }
-    if (hasChild(item)) {
-      obj.children = getMenuByRouterForSidemenu(state, item.children)
-    }
-    res.push(obj)
   })
   return res
 }
