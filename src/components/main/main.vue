@@ -16,9 +16,9 @@
       </Sider>
       <Content class="main-content-con">
         <Layout class="main-layout-con">
-          <!-- <div class="tag-nav-wrapper">
+          <div class="tag-nav-wrapper">
             <tags-nav :value="$route" @input="handleClick" :list="tagNavList" @on-close="handleCloseTag"/>
-          </div> -->
+          </div>
           <custom-bread-crumb show-icon :list="breadCrumbList"></custom-bread-crumb>
           <Content class="content-wrapper">
             <keep-alive :include="cacheList">
@@ -169,15 +169,18 @@ export default {
   },
   watch: {
     '$route' (newRoute) {
-      console.log(newRoute, 7777)
       const { name, query, params, meta } = newRoute
       this.addTag({
         route: { name, query, params, meta },
         type: 'push'
       })
+      const navName = this.$route.matched.map(item => item.name).filter(item => item !== name)[0]
+      this.setNavMenu(navName)
+      this.setSidemenuList(navName)
       this.setBreadCrumb(newRoute)
       this.setTagNavList(getNewTagList(this.tagNavList, newRoute))
       this.$refs.sideMenu.updateOpenName(newRoute.name)
+      
     }
   },
   mounted () {

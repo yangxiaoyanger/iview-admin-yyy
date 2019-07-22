@@ -241,6 +241,15 @@ export const getNav = () => {
                     title: '自定义图标'
                   },
                   component: 'components/icons/icons.vue'
+                },
+                {
+                  path: 'demotable',
+                  name: 'demotable',
+                  meta: {
+                    icon: 'md-arrow-dropdown-circle',
+                    title: '列表'
+                  },
+                  component: 'components/demotable/demotable.vue'
                 }
               ]
             },

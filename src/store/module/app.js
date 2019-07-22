@@ -75,6 +75,7 @@ export default {
     closeTag (state, route) {
       let tag = state.tagNavList.filter(item => routeEqual(item, route))
       route = tag[0] ? tag[0] : null
+      console.log(tag, route, 'closeTag')
       if (!route) return
       closePage(state, route)
     },
