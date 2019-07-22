@@ -81,57 +81,127 @@ export const getNav = () => {
           ]
         },
         {
-          path: '/basicinfo',
-          name: 'basicinfo',
+          path: '/systemmng',
+          name: 'systemmng',
           component: 'Main',
           meta: {
             icon: 'logo-buffer',
             notCache: true,
-            title: '基础信息'
+            title: '平台管理'
           },
           children: [{
-            path: 'urban',
-            name: 'urban',
+            path: 'systembasicmng',
+            name: 'systembasicmng',
             meta: {
               icon: 'logo-buffer',
-              title: '城市基础信息',
+              title: '基础设置管理',
               showAlways: true
             },
             component: 'parentView',
             children: [
               {
-                path: 'urbanbase',
-                name: 'urbanbase',
+                path: 'systemcode',
+                name: 'systemcode',
                 meta: {
                   icon: 'md-arrow-dropdown-circle',
-                  title: '城市供水基础信息'
+                  title: '全局代码'
                 },
                 component: 'components/demotable/demotable'
               },
               {
-                path: 'secondarywater',
-                name: 'secondarywater',
+                path: 'systemparameter',
+                name: 'systemparameter',
                 meta: {
                   icon: 'md-arrow-dropdown-circle',
-                  title: '二次供水基础信息'
+                  title: '全局参数'
+                },
+                component: 'components/tree-select/index.vue'
+              }
+            ]
+          }, {
+            path: 'systemauthorizemng',
+            name: 'systemauthorizemng',
+            meta: {
+              icon: 'logo-buffer',
+              title: '权限管理',
+              showAlways: true
+            },
+            component: 'parentView',
+            children: [
+              {
+                path: 'systemdepartment',
+                name: 'systemdepartment',
+                meta: {
+                  icon: 'md-arrow-dropdown-circle',
+                  title: '机构管理'
+                },
+                component: 'components/demotable/demotable'
+              },
+              {
+                path: 'systemuser',
+                name: 'systemuser',
+                meta: {
+                  icon: 'md-arrow-dropdown-circle',
+                  title: '人员管理'
+                },
+                component: 'components/tree-select/index.vue'
+              },
+              {
+                path: 'systemrole',
+                name: 'systemrole',
+                meta: {
+                  icon: 'md-arrow-dropdown-circle',
+                  title: '角色管理'
+                },
+                component: 'components/tree-select/index.vue'
+              },
+              {
+                path: 'systemmenu',
+                name: 'systemmenu',
+                meta: {
+                  icon: 'md-arrow-dropdown-circle',
+                  title: '资源权限管理'
                 },
                 component: 'components/tree-select/index.vue'
               }
             ]
           },
           {
-            path: 'waterworksbase',
-            name: '_waterworksbase',
+            path: 'systemmonitormng',
+            name: 'systemmonitormng',
+            meta: {
+              icon: 'logo-buffer',
+              title: '平台监控管理',
+              showAlways: true
+            },
             component: 'parentView',
             children: [
               {
-                path: 'waterworksbase2',
-                name: 'waterworksbase',
+                path: 'systemevent',
+                name: 'systemevent',
                 meta: {
                   icon: 'md-arrow-dropdown-circle',
-                  title: '水厂基础信息'
+                  title: '系统审计日志'
                 },
-                component: 'components/org-tree'
+                component: 'components/demotable/demotable'
+              },
+              {
+                path: 'systemexception',
+                name: 'systemexception',
+                meta: {
+                  icon: 'md-arrow-dropdown-circle',
+                  title: '系统异常日志'
+                },
+                component: 'components/tree-select/index.vue'
+              },
+              {
+                path: 'msmonitor',
+                name: 'msmonitor',
+                meta: {
+                  icon: 'md-arrow-dropdown-circle',
+                  title: '微服务监控管理'
+                },
+                component: 'components/tree-select/index.vue'
               }
             ]
           }]
@@ -141,7 +211,7 @@ export const getNav = () => {
           name: 'components',
           meta: {
             icon: 'logo-buffer',
-            title: '组件'
+            title: '其他组件'
           },
           component: 'Main',
           children: [
@@ -203,50 +273,6 @@ export const getNav = () => {
                     title: '拖拽列表'
                   },
                   component: 'components/drag-list/drag-list'
-                }
-              ]
-            }
-          ]
-        },
-        {
-          path: '/realtimemonitor',
-          name: 'realtimemonitor',
-          meta: {
-            icon: 'logo-buffer',
-            title: '实时监控'
-          },
-          component: 'Main',
-          children: [
-            {
-              path: 'watersourealtimemonit',
-              name: '_watersourealtimemonit',
-              component: 'parentView',
-              children: [
-                {
-                  path: 'watersourealtimemonit2',
-                  name: 'watersourealtimemonit',
-                  meta: {
-                    icon: 'md-arrow-dropdown-circle',
-                    title: 'QQ群'
-                  },
-                  component: 'join-page'
-                }
-              ]
-            },
-            {
-              path: 'querymonitdata',
-              name: '_querymonitdata',
-              redirect: '/querymonitdata',
-              component: 'parentView',
-              children: [
-                {
-                  path: 'querymonitdata2',
-                  name: 'querymonitdata',
-                  meta: {
-                    icon: 'md-arrow-dropdown-circle',
-                    title: '消息中心'
-                  },
-                  component: 'single-page/message/index'
                 }
               ]
             }

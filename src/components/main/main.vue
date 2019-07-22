@@ -169,6 +169,7 @@ export default {
   },
   watch: {
     '$route' (newRoute) {
+      console.log(newRoute, 7777)
       const { name, query, params, meta } = newRoute
       this.addTag({
         route: { name, query, params, meta },
