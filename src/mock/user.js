@@ -106,7 +106,7 @@ export const getNav = () => {
                   icon: 'md-arrow-dropdown-circle',
                   title: '全局代码'
                 },
-                component: 'components/demotable/demotable'
+                component: 'system/systemcode.vue'
               },
               {
                 path: 'systemparameter',
@@ -115,7 +115,7 @@ export const getNav = () => {
                   icon: 'md-arrow-dropdown-circle',
                   title: '全局参数'
                 },
-                component: 'components/tree-select/index.vue'
+                component: 'system/systemparameter.vue'
               }
             ]
           }, {
@@ -135,7 +135,7 @@ export const getNav = () => {
                   icon: 'md-arrow-dropdown-circle',
                   title: '机构管理'
                 },
-                component: 'components/demotable/demotable'
+                component: 'system/systemdepartment.vue'
               },
               {
                 path: 'systemuser',
@@ -144,7 +144,7 @@ export const getNav = () => {
                   icon: 'md-arrow-dropdown-circle',
                   title: '人员管理'
                 },
-                component: 'components/tree-select/index.vue'
+                component: 'system/systemuser.vue'
               },
               {
                 path: 'systemrole',
@@ -153,7 +153,7 @@ export const getNav = () => {
                   icon: 'md-arrow-dropdown-circle',
                   title: '角色管理'
                 },
-                component: 'components/tree-select/index.vue'
+                component: 'system/systemrole.vue'
               },
               {
                 path: 'systemmenu',
@@ -162,7 +162,7 @@ export const getNav = () => {
                   icon: 'md-arrow-dropdown-circle',
                   title: '资源权限管理'
                 },
-                component: 'components/tree-select/index.vue'
+                component: 'system/systemmenu.vue'
               }
             ]
           },
