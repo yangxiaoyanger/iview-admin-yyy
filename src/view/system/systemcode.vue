@@ -2,41 +2,27 @@
     <Card shadow>
         <div>
             <div style="margin: 10px">
-                Display border <i-switch v-model="showBorder" style="margin-right: 5px"></i-switch>
-                Display stripe <i-switch v-model="showStripe" style="margin-right: 5px"></i-switch>
-                Display index <i-switch v-model="showIndex" style="margin-right: 5px"></i-switch>
-                Display multi choice <i-switch v-model="showCheckbox" style="margin-right: 5px"></i-switch>
-                Display header <i-switch v-model="showHeader" style="margin-right: 5px"></i-switch>
-                Table scrolling <i-switch v-model="fixedHeader" style="margin-right: 5px"></i-switch>
-                <br>
-                <br>
-                Table size
-                <Radio-group v-model="tableSize" type="button">
-                    <Radio label="large">large</Radio>
-                    <Radio label="default">medium(default)</Radio>
-                    <Radio label="small">small</Radio>
-                </Radio-group>
+                <div class="page-title">
+                    全局代码
+                </div>
                 <div class="button-group pull-right">
-                    <Button>Default</Button>
+                    <!-- <Button>Default</Button>
                     <Button type="primary">Primary</Button>
                     <Button type="dashed">Dashed</Button>
-                    <Button type="text">Text</Button>
+                    <Button type="text">Text</Button> -->
 
-                    <Button type="info">Info</Button>
-                    <Button type="success">Success</Button>
-                    <Button type="warning">Warning</Button>
-                    <Button type="error">Error</Button>
-                    <br><br>
+                    <Button type="info">新增</Button>
+                    <Button type="warning">搜索</Button>
+                    <Button type="error">删除</Button>
+                    <Button>导出</Button>
                 </div>
                 <div class="clear-fix"></div>
-                
-                
             </div>
             <Table :border="showBorder" :stripe="showStripe" :show-header="showHeader" 
             :height="fixedHeader ? 250 : ''" :size="tableSize" :data="tableData3" :columns="tableColumns3"></Table>
-            <Page :total="100" show-sizer show-elevator show-total :styles="pageStyle"/>
+            <Page :total="100" show-sizer show-elevator show-total :styles="pageStyle" :current="currentPage" @on-change="pageChange"/>
 
-            <Modal v-model="editModel" draggable scrollable width="70">
+            <Modal v-model="editModel" draggable scrollable width="80">
                 <p slot="header">
                     <span>编辑弹窗</span>
                 </p>
@@ -97,7 +83,7 @@
                 </div>
             </Modal>
 
-            <Modal v-model="detailModel" draggable scrollable width="60">
+            <Modal v-model="detailModel" draggable scrollable width="80">
                 <p slot="header">
                     <span>详情弹窗</span>
                 </p>
@@ -124,10 +110,6 @@
                         Gender
                     </FormItem>
             </Form>
-            <!-- <div slot="footer">
-                <Button type="primary" @click="handleSubmit('formValidate')">确定</Button>
-                <Button @click="handleReset('formValidate')" style="margin-left: 8px">重置</Button>
-            </div> -->
             </Modal>
         </div>
     </Card>
@@ -187,12 +169,13 @@
                         date: '2016-10-04'
                     }
                 ],
-                page: 1,
                 rows: 10,
+                totle: 0,
+                currentPage: 1,
                 showBorder: false,
                 showStripe: false,
                 showHeader: true,
-                showIndex: true,
+                showIndex: false,
                 showCheckbox: false,
                 fixedHeader: false,
                 tableSize: 'default',
@@ -261,18 +244,18 @@
                     })
                 }
                 columns.push({
-                    title: 'Date',
-                    key: 'date',
+                    title: '代码属性',
+                    key: 'field',
                     sortable: true,
                     fixed: 'left'
                 });
                 columns.push({
-                    title: 'Name',
-                    key: 'name'
+                    title: '代码属性名称',
+                    key: 'fieldname'
                 });
                 columns.push({
-                    title: 'Age',
-                    key: 'age',
+                    title: '代码值',
+                    key: 'code',
                     sortable: true,
                     filters: [
                         {
@@ -294,8 +277,8 @@
                     }
                 });
                 columns.push({
-                    title: 'Address',
-                    key: 'address',
+                    title: '代码描述',
+                    key: 'codedesc',
                     filters: [
                         {
                             label: 'New York',
@@ -323,43 +306,30 @@
                         return h('div', [
                             h('Button', {
                                 props: {
-                                    type: 'info',
+                                    type: 'success',
                                     size: 'small'
                                 },
                                 style: {
                                     marginRight: '5px'
-                                },
-                                on: {
-                                    click: () => {
-                                        this.show(params.index)
-                                    }
-                                }
-                            }, '详情'),
-                            h('Button', {
-                                props: {
-                                    type: 'error',
-                                    size: 'small'
-                                },
-                                style: {
-                                    marginRight: '5px'
-                                },
-                                on: {
-                                    click: () => {
-                                        this.remove(params.index)
-                                    }
-                                }
-                            }, '删除'),
-                            h('Button', {
-                                props: {
-                                    type: 'primary',
-                                    size: 'small'
                                 },
                                 on: {
                                     click: () => {
                                         this.edit(params.index)
                                     }
                                 }
-                            }, '编辑')
+                            }, '编辑'),
+                            h('Button', {
+                                props: {
+                                    type: 'info',
+                                    size: 'small'
+                                },
+                                on: {
+                                    click: () => {
+                                        this.show(params.index)
+                                    }
+                                }
+                            }, '详情')
+                            
                         ]);
                     }
                 });
@@ -387,15 +357,28 @@
             },
             handleReset (name) {
                 this.$refs[name].resetFields();
+            },
+            pageChange (page) {
+                console.log(page)
+                this.currentPage = page
+                queryForPage({
+                    page: page, 
+                    rows: this.rows
+                }).then(res => {
+                    console.log(res, 111)
+                    this.totle = res.data.total
+                    this.tableData3 = res.data.rows
+                })
             }
         },
         mounted() {
             queryForPage({
-                page: this.page, 
+                page: this.currentPage, 
                 rows: this.rows
             }).then(res => {
                 console.log(res, 8888)
-                this.tableData3 = res.data
+                this.totle = res.data.total
+                this.tableData3 = res.data.rows
             })
         }
     }

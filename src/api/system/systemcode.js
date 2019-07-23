@@ -2,10 +2,9 @@ import axios from '@/libs/api.request'
 import config from '../../config'
 const serviceName = config.serviceName.API_PLATFORM
 const moduleName = '/systemcode'
-console.log(serviceName, config)
 export const queryForPage = params => {
   return axios.request({
-    url: serviceName + moduleName + '/queryForList',
+    url: serviceName + moduleName + '/queryForPage',
     data: params,
     method: 'post'
   })

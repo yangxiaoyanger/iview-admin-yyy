@@ -1,42 +1,36 @@
 <template>
     <Card shadow>
         <div>
-            <div style="margin: 10px">
-                Display border <i-switch v-model="showBorder" style="margin-right: 5px"></i-switch>
-                Display stripe <i-switch v-model="showStripe" style="margin-right: 5px"></i-switch>
-                Display index <i-switch v-model="showIndex" style="margin-right: 5px"></i-switch>
-                Display multi choice <i-switch v-model="showCheckbox" style="margin-right: 5px"></i-switch>
-                Display header <i-switch v-model="showHeader" style="margin-right: 5px"></i-switch>
-                Table scrolling <i-switch v-model="fixedHeader" style="margin-right: 5px"></i-switch>
-                <br>
-                <br>
-                Table size
-                <Radio-group v-model="tableSize" type="button">
-                    <Radio label="large">large</Radio>
-                    <Radio label="default">medium(default)</Radio>
-                    <Radio label="small">small</Radio>
-                </Radio-group>
-                <div class="button-group pull-right">
-                    <Button>Default</Button>
-                    <Button type="primary">Primary</Button>
-                    <Button type="dashed">Dashed</Button>
-                    <Button type="text">Text</Button>
+             <Row>
+                <Col span="4" style="border: 1px solid #ccc">
+                    <Tree :data="data1"></Tree>
+                </Col>
+                <Col span="18" offset="2">
+                    <div style="margin: 10px">
+                        <div class="page-title">
+                            机构管理
+                        </div>
+                        <div class="button-group pull-right">
+                            <!-- <Button>Default</Button>
+                            <Button type="primary">Primary</Button>
+                            <Button type="dashed">Dashed</Button>
+                            <Button type="text">Text</Button> -->
 
-                    <Button type="info">Info</Button>
-                    <Button type="success">Success</Button>
-                    <Button type="warning">Warning</Button>
-                    <Button type="error">Error</Button>
-                    <br><br>
-                </div>
-                <div class="clear-fix"></div>
-                
-                
-            </div>
-            <Table :border="showBorder" :stripe="showStripe" :show-header="showHeader" 
-            :height="fixedHeader ? 250 : ''" :size="tableSize" :data="tableData3" :columns="tableColumns3"></Table>
-            <Page :total="100" show-sizer show-elevator show-total :styles="pageStyle"/>
-
-            <Modal v-model="editModel" draggable scrollable width="70">
+                            <Button type="info">新增</Button>
+                            <Button type="warning">搜索</Button>
+                            <Button type="error">删除</Button>
+                            <Button>导出</Button>
+                        </div>
+                        <div class="clear-fix"></div>
+                    </div>
+                    <Table :border="showBorder" :stripe="showStripe" :show-header="showHeader" 
+                    :height="fixedHeader ? 250 : ''" :size="tableSize" :data="tableData3" :columns="tableColumns3"></Table>
+                    <Page :total="100" show-sizer show-elevator show-total :styles="pageStyle"/>
+                </Col>
+            </Row>
+            
+            
+            <Modal v-model="editModel" draggable scrollable width="80">
                 <p slot="header">
                     <span>编辑弹窗</span>
                 </p>
@@ -136,6 +130,38 @@
     export default {
         data () {
             return {
+                data1: [
+                    {
+                        title: 'parent 1',
+                        expand: true,
+                        children: [
+                            {
+                                title: 'parent 1-1',
+                                expand: true,
+                                children: [
+                                    {
+                                        title: 'leaf 1-1-1'
+                                    },
+                                    {
+                                        title: 'leaf 1-1-2'
+                                    }
+                                ]
+                            },
+                            {
+                                title: 'parent 1-2',
+                                expand: true,
+                                children: [
+                                    {
+                                        title: 'leaf 1-2-1'
+                                    },
+                                    {
+                                        title: 'leaf 1-2-1'
+                                    }
+                                ]
+                            }
+                        ]
+                    }
+                ],
                 tableData3: [
                     {
                         name: 'John Brown',
