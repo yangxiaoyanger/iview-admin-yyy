@@ -18,8 +18,7 @@
                 </div>
                 <div class="clear-fix"></div>
             </div>
-            <Table :border="showBorder" :stripe="showStripe" :show-header="showHeader" 
-            :height="fixedHeader ? 250 : ''" :size="tableSize" :data="tableData3" :columns="tableColumns3"></Table>
+            <Table border :stripe="showStripe" show-header :height="fixedHeader ? 250 : ''" :data="tableData3" :columns="tableColumns3"></Table>
             <Page :total="100" show-sizer show-elevator show-total :styles="pageStyle" :current="currentPage" @on-change="pageChange"/>
 
             <Modal v-model="editModel" draggable scrollable width="80">
@@ -172,13 +171,10 @@
                 rows: 10,
                 totle: 0,
                 currentPage: 1,
-                showBorder: false,
                 showStripe: false,
-                showHeader: true,
                 showIndex: false,
                 showCheckbox: false,
                 fixedHeader: false,
-                tableSize: 'default',
                 pageStyle: {
                   marginTop: '20px'
                 },
