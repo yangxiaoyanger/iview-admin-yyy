@@ -34,6 +34,14 @@ export const getUnion = (arr1, arr2) => {
 }
 
 /**
+ * @param {Object} obj1
+ * @param {Object} obj2
+ * @description 得到对象的并集
+ */
+export const getAssign = (obj1, obj2) => {
+  return Object.assign(obj1, obj2)
+}
+/**
  * @param {Array} target 目标数组
  * @param {Array} arr 需要查询的数组
  * @description 判断要查询的数组是否至少有一个元素包含在目标数组中

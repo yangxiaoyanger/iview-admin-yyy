@@ -1,27 +1,59 @@
 <template>
     <Card shadow>
         <div>
-            <div style="margin: 10px">
+            <div>
                 <div class="page-title">
                     全局代码
                 </div>
-                <div class="button-group pull-right">
-                    <Button type="info">新增</Button>
-                    <Button type="warning">搜索</Button>
-                    <Button type="primary">刷新</Button>
-                    <Button type="error">删除</Button>
+                <div class="table-button-group pull-right">
+                    <Button type="warning" @click="openSearchBlock = !openSearchBlock">搜索</Button>
+                    <Button type="info" @click="edit()">新增</Button>
+                    <Button type="primary" @click="refresh()">刷新</Button>
+                    <Button type="error" @click="remove()">删除</Button>
                     <Button>导出</Button>
                 </div>
                 <div class="clear-fix"></div>
+                <div v-show="openSearchBlock" class="search-block">
+                    <div class="search-block-item">
+                        <label for="" >代码属性</label>
+                        <Input clearable placeholder="输入关键字搜索" class="search-input" style="width: auto" v-model="searchCondition.field"/>
+                    </div>
+                    <div class="search-block-item">
+                        <label for="" >代码属性名称</label>
+                        <Input clearable placeholder="输入关键字搜索" class="search-input" style="width: auto" v-model="searchCondition.fieldname"/>
+                    </div>
+                    <div class="search-block-footer">
+                        <Button type="primary" size="small" @click="pageChange(1)">查询</Button>
+                        <Button type="warning" size="small" @click="searchCondition = {}">重置</Button>
+                        <Button size="small" @click="openSearchBlock = false">取消</Button>
+                    </div>
+                </div>
             </div>
-            <Table border :stripe="showStripe" show-header :height="fixedHeader ? 250 : ''" :data="systemCodes" :columns="tableColumns3"></Table>
-            <Page :total="100" show-sizer show-elevator show-total :styles="pageStyle" :current="currentPage" @on-change="pageChange"/>
+            <Table 
+                ref="systemCodeTable" border 
+                :stripe="showStripe" show-header 
+                :height="fixedHeader ? 250 : ''" 
+                :data="systemCodes" 
+                :columns="tableColumns3"
+            >
+            </Table>
+            <Page 
+                :total=total 
+                show-sizer 
+                show-elevator 
+                show-total 
+                :styles="pageStyle" 
+                :current="currentPage" 
+                :page-size="rows"
+                @on-change="pageChange"
+                @on-page-size-change="onPageSizeChange"
+            />
 
             <Modal v-model="editModel" draggable scrollable width="80">
                 <p slot="header">
-                    <span>编辑-全局代码</span>
+                    <span>{{modelTitle}}-全局代码</span>
                 </p>
-                <Form ref="systemCode" :model="systemCode" :rules="ruleValidate" :label-width="120" inline>
+                <Form ref="systemCodeForEdit" :model="systemCode" :rules="ruleValidate" :label-width="120" inline>
                     <FormItem label="代码属性" prop="field">
                         <Input v-model="systemCode.field" placeholder="请输入代码属性"></Input>
                     </FormItem>
@@ -48,8 +80,8 @@
                     </FormItem>
                 </Form>
                 <div slot="footer">
-                    <Button type="primary" @click="handleSubmit('systemCode')">确定</Button>
-                    <Button @click="handleReset('systemCode')" style="margin-left: 8px">重置</Button>
+                    <Button type="primary" @click="handleSubmit('systemCodeForEdit')">确定</Button>
+                    <Button @click="handleReset('systemCodeForEdit')" style="margin-left: 8px">重置</Button>
                 </div>
             </Modal>
 
@@ -57,7 +89,7 @@
                 <p slot="header">
                     <span>详情-全局代码</span>
                 </p>
-                <Form ref="systemCode" :model="systemCode"  :label-width="120" inline class="detail-form">
+                <Form ref="systemCodeForDetail" :model="systemCode"  :label-width="120" inline class="detail-form">
                     <FormItem label="代码属性" prop="field">
                         {{systemCode.field}}
                     </FormItem>
@@ -79,68 +111,52 @@
                     <FormItem label="备注" prop="remark" style="width: 100%;">
                         {{systemCode.remark}}
                     </FormItem>
-                    
-            </Form>
+                </Form>
             </Modal>
+
+
+            <!-- <Modal v-model="exportModel" draggable scrollable width="80">
+                <p slot="header">
+                    <span>导出-全局代码</span>
+                </p>
+                <Form ref="systemCodeForExport" :label-width="120" inline class="detail-form">
+                </Form>
+            </Modal> -->
         </div>
     </Card>
 </template>
 <script>
-    import { queryForPage } from '@/api/system/systemcode'
+    import { queryForPage, saveItem, updateItem, deleteItems, exportExcel, exportPdf } from '@/api/system/systemcode'
+    import { forEach, getAssign } from '@/libs/tools'
     import {formatterEditMode} from '@/libs/formatter'
     export default {
         data () {
             return {
                 systemCodes: [],
+                searchCondition: {},
+                modelTitle: '新增',
                 rows: 10,
-                totle: 0,
+                total: 0,
                 currentPage: 1,
+                openSearchBlock: false,
                 showStripe: false,
                 showIndex: false,
-                showCheckbox: false,
+                showCheckbox: true,
                 fixedHeader: false,
                 pageStyle: {
                   marginTop: '20px'
                 },
                 detailModel: false,
                 editModel: false,
+                exportModel: false,
                 systemCode: {
-                    // name: '',
-                    // mail: '',
-                    // city: '',
-                    // gender: '',
-                    // interest: [],
-                    // date: '',
-                    // time: '',
-                    // desc: ''
                 },
                 ruleValidate: {
-                    name: [
-                        { required: true, message: 'The name cannot be empty', trigger: 'blur' }
+                    fieldname: [
+                        { required: true, message: '属性名称不能为空', trigger: 'blur' }
                     ],
-                    mail: [
-                        { required: true, message: 'Mailbox cannot be empty', trigger: 'blur' },
-                        { type: 'email', message: 'Incorrect email format', trigger: 'blur' }
-                    ],
-                    city: [
-                        { required: true, message: 'Please select the city', trigger: 'change' }
-                    ],
-                    gender: [
-                        { required: true, message: 'Please select gender', trigger: 'change' }
-                    ],
-                    interest: [
-                        { required: true, type: 'array', min: 1, message: 'Choose at least one hobby', trigger: 'change' },
-                        { type: 'array', max: 2, message: 'Choose two hobbies at best', trigger: 'change' }
-                    ],
-                    date: [
-                        { required: true, type: 'date', message: 'Please select the date', trigger: 'change' }
-                    ],
-                    time: [
-                        { required: true, type: 'string', message: 'Please select time', trigger: 'change' }
-                    ],
-                    desc: [
-                        { required: true, message: 'Please enter a personal introduction', trigger: 'blur' },
-                        { type: 'string', min: 20, message: 'Introduce no less than 20 words', trigger: 'blur' }
+                    codedesc: [
+                        { type: 'string', min: 20, message: '不能少于20个字', trigger: 'blur' }
                     ]
                 }
             }
@@ -152,7 +168,8 @@
                     columns.push({
                         type: 'selection',
                         width: 60,
-                        align: 'center'
+                        align: 'center',
+                        fixed: 'left'
                     })
                 }
                 if (this.showIndex) {
@@ -165,8 +182,7 @@
                 columns.push({
                     title: '代码属性',
                     key: 'field',
-                    sortable: true,
-                    fixed: 'left'
+                    sortable: true                    
                 });
                 columns.push({
                     title: '代码属性名称',
@@ -251,19 +267,51 @@
                 this.systemCode = JSON.parse(JSON.stringify(this.systemCodes[index]));
                 this.systemCode.editmode = formatterEditMode(this.systemCode.editmode) 
             },
-            remove (index) {
-                this.systemCodes.splice(index, 1);
+            remove () {
+                let removeids = [];
+                forEach(this.$refs.systemCodeTable.getSelection(), (item, index) => {
+                    removeids.push(item.codeid);
+                })
+                if (removeids.length) {
+                    deleteItems(removeids.join(',')).then(rs => {
+                        console.log(rs, 'delete')
+                        this.$Message.success('删除成功!');
+                        pageChange(1)
+                    })
+                } else {
+
+                }
             },
             edit (index) {
-              this.editModel = true;
-              this.systemCode = JSON.parse(JSON.stringify(this.systemCodes[index]));
+                console.log(index, 'edit')
+                this.editModel = true;
+                if (index !== undefined) {
+                    this.modelTitle = '编辑';
+                    this.systemCode = JSON.parse(JSON.stringify(this.systemCodes[index]));
+                }              
             },
             handleSubmit (name) {
                 this.$refs[name].validate((valid) => {
                     if (valid) {
-                        this.$Message.success('Success!');
+                        console.log(valid, this.systemCode ,99999)
+                        if (this.modelTitle == '新增') {
+                            saveItem(this.systemCode).then(res => {
+                                console.log(res, 'saveItem')
+                                this.$Message.success('添加成功!');
+                                this.editModel = false;
+                                this.pageChange(1);
+                            })
+                        } else {
+                            updateItem(this.systemCode).then(res => {
+                                console.log(res, 'updateItem')
+                                this.$Message.success('修改成功!');
+                                this.editModel = false;
+                                this.pageChange(1);
+                            })
+                        }
+                        
                     } else {
-                        this.$Message.error('Fail!');
+                        this.$Message.error('请注意格式!');
                     }
                 })
             },
@@ -273,14 +321,18 @@
             pageChange (page) {
                 console.log(page)
                 this.currentPage = page
-                queryForPage({
-                    page: page, 
-                    rows: this.rows
-                }).then(res => {
+                const params = getAssign(this.searchCondition, {page: page, rows: this.rows})
+                queryForPage(params).then(res => {
                     console.log(res, 111)
-                    this.totle = res.data.total
+                    this.total = res.data.total
                     this.systemCodes = res.data.rows
                 })
+            },
+            refresh () {
+                this.pageChange(1)
+            },
+            onPageSizeChange () {
+                console.log(this)
             }
         },
         mounted() {
@@ -289,7 +341,7 @@
                 rows: this.rows
             }).then(res => {
                 console.log(res, 8888)
-                this.totle = res.data.total
+                this.total = res.data.total
                 this.systemCodes = res.data.rows
             })
         }

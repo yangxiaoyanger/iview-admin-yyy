@@ -284,6 +284,22 @@ export const getNav = () => {
                   component: 'components/drag-list/drag-list'
                 }
               ]
+            },
+            {
+              path: 'tables',
+              name: 'tables',
+              component: 'parentView',
+              children: [
+                {
+                  path: 'tables2',
+                  name: 'tables',
+                  meta: {
+                    icon: 'ios-infinite',
+                    title: '多功能列表'
+                  },
+                  component: 'components/tables/tables.vue'
+                }
+              ]
             }
           ]
         }
