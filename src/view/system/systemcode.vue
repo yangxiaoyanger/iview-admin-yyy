@@ -23,9 +23,9 @@
                         <Input clearable placeholder="输入关键字搜索" class="search-input" style="width: auto" v-model="searchCondition.fieldname"/>
                     </div>
                     <div class="search-block-footer">
-                        <Button type="primary" size="small" @click="pageChange(1)">查询</Button>
-                        <Button type="warning" size="small" @click="searchCondition = {}">重置</Button>
-                        <Button size="small" @click="openSearchBlock = false">取消</Button>
+                        <Button type="primary" @click="pageChange(1)">查询</Button>
+                        <Button type="warning" @click="searchCondition = {}">重置</Button>
+                        <Button @click="openSearchBlock = false">取消</Button>
                     </div>
                 </div>
             </div>
