@@ -98,7 +98,7 @@ export default {
         getPublicKey().then(res => {
           commit('setModulus', res.data.data.modulus)
           commit('setExponent', res.data.data.exponent)
-          // this.setToken(res.data.data.token)
+          commit('setToken', res.data.data.token)
           resolve(res)
         }).catch(err => {
           reject(err)
@@ -115,7 +115,6 @@ export default {
         login(key).then(res => {
           const data = res.data
           commit('setUserInfo', res.data.data)
-          commit('setToken', data.token)
           commit('setHasGetInfo', true)
           resolve(data)
         }).catch(err => {

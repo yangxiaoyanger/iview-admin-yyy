@@ -1,5 +1,7 @@
 import axios from 'axios'
 import store from '@/store'
+import router from '../router';
+const LOGIN_PAGE_NAME = 'login'
 // import { Spin } from 'iview'
 const addErrorLog = errorInfo => {
   const { statusText, status, request: { responseURL } } = errorInfo
@@ -48,6 +50,14 @@ class HttpRequest {
     instance.interceptors.response.use(res => {
       this.destroy(url)
       const { data, status } = res
+      console.log(res, 'axios')
+      // 未登录
+      if (res.data && res.data.code === 9) {
+        console.log(router, 7777)
+        router.push({
+          name: LOGIN_PAGE_NAME
+        })
+      }
       return { data, status }
     }, error => {
       this.destroy(url)

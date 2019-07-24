@@ -1,9 +1,6 @@
 <template>
   <div class="nav-menu-bar">
       <Menu mode="horizontal">
-          <div class="logo">
-            城镇供水全过程监管业务平台
-          </div>
           <div class="layout-nav">
             <Menu ref="navmenu" mode="horizontal" :active-name="activeName" @on-select="handleSelect">
               <menuItem v-for="item in list" :key="`menu-${item.name}`" :name="item.name">
