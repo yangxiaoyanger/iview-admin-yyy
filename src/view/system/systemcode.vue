@@ -215,7 +215,7 @@
                                 props: {
                                     type: 'success',
                                     size: 'small',
-                                    icon: 'ios-download-outline'
+                                    icon: 'md-create'
                                 },
                                 style: {
                                     marginRight: '5px'
@@ -229,7 +229,8 @@
                             h('Button', {
                                 props: {
                                     type: 'info',
-                                    size: 'small'
+                                    size: 'small',
+                                    icon: 'md-eye'
                                 },
                                 on: {
                                     click: () => {
