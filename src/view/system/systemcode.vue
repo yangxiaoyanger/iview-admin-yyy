@@ -6,108 +6,80 @@
                     全局代码
                 </div>
                 <div class="button-group pull-right">
-                    <!-- <Button>Default</Button>
-                    <Button type="primary">Primary</Button>
-                    <Button type="dashed">Dashed</Button>
-                    <Button type="text">Text</Button> -->
-
                     <Button type="info">新增</Button>
                     <Button type="warning">搜索</Button>
+                    <Button type="primary">刷新</Button>
                     <Button type="error">删除</Button>
                     <Button>导出</Button>
                 </div>
                 <div class="clear-fix"></div>
             </div>
-            <Table border :stripe="showStripe" show-header :height="fixedHeader ? 250 : ''" :data="tableData3" :columns="tableColumns3"></Table>
+            <Table border :stripe="showStripe" show-header :height="fixedHeader ? 250 : ''" :data="systemCodes" :columns="tableColumns3"></Table>
             <Page :total="100" show-sizer show-elevator show-total :styles="pageStyle" :current="currentPage" @on-change="pageChange"/>
 
             <Modal v-model="editModel" draggable scrollable width="80">
                 <p slot="header">
-                    <span>编辑弹窗</span>
+                    <span>编辑-全局代码</span>
                 </p>
-                <Form ref="editFormValidate" :model="editFormValidate" :rules="ruleValidate" :label-width="80" inline>
-                    <FormItem label="Name" prop="name">
-                        <Input v-model="editFormValidate.name" placeholder="Enter your name"></Input>
+                <Form ref="systemCode" :model="systemCode" :rules="ruleValidate" :label-width="120" inline>
+                    <FormItem label="代码属性" prop="field">
+                        <Input v-model="systemCode.field" placeholder="请输入代码属性"></Input>
                     </FormItem>
-                    <FormItem label="E-mail" prop="mail">
-                        <Input v-model="editFormValidate.mail" placeholder="Enter your e-mail"></Input>
+                    <FormItem label="代码属性名称" prop="fieldname">
+                        <Input v-model="systemCode.fieldname" placeholder="请输入代码属性名称"></Input>
                     </FormItem>
-                    <FormItem label="City" prop="city">
-                        <Select v-model="editFormValidate.city" placeholder="Select your city">
-                            <Option value="beijing">New York</Option>
-                            <Option value="shanghai">London</Option>
-                            <Option value="shenzhen">Sydney</Option>
+                    <FormItem label="代码值" prop="code">
+                        <Input v-model="systemCode.code" placeholder="请输入代码值"></Input>
+                    </FormItem>
+                    <FormItem label="代码描述" prop="codedesc">
+                        <Input v-model="systemCode.codedesc" placeholder="请输入代码描述"></Input>
+                    </FormItem>
+                    <FormItem label="可编辑" prop="editmode">
+                        <Select v-model="systemCode.editmode" placeholder="请选择">
+                            <Option value="1">是</Option>
+                            <Option value="0">否</Option>
                         </Select>
                     </FormItem>
-                    <FormItem label="Date">
-                        <Row>
-                            <Col span="11">
-                                <FormItem prop="date">
-                                    <DatePicker type="date" placeholder="Select date" v-model="editFormValidate.date"></DatePicker>
-                                </FormItem>
-                            </Col>
-                            <Col span="2" style="text-align: center">-</Col>
-                            <Col span="11">
-                                <FormItem prop="time">
-                                    <TimePicker type="time" placeholder="Select time" v-model="editFormValidate.time"></TimePicker>
-                                </FormItem>
-                            </Col>
-                        </Row>
+                    <FormItem label="排序" prop="sortno">
+                        <Input v-model="systemCode.sortno" placeholder="请输入排序序号"></Input>
                     </FormItem>
-                    <FormItem label="Gender" prop="gender">
-                        <RadioGroup v-model="editFormValidate.gender">
-                            <Radio label="male">Male</Radio>
-                            <Radio label="female">Female</Radio>
-                        </RadioGroup>
+                    <FormItem label="备注" prop="remark" style="width: 100%;">
+                        <Input v-model="systemCode.remark" type="textarea" :autosize="{minRows: 2,maxRows: 5}" placeholder="请输入备注"></Input>
                     </FormItem>
-                    <FormItem label="Hobby" prop="interest">
-                        <CheckboxGroup v-model="editFormValidate.interest">
-                            <Checkbox label="Eat"></Checkbox>
-                            <Checkbox label="Sleep"></Checkbox>
-                            <Checkbox label="Run"></Checkbox>
-                            <Checkbox label="Movie"></Checkbox>
-                        </CheckboxGroup>
-                    </FormItem>
-                    <FormItem label="Desc" prop="desc" style="width: 100%;">
-                        <Input v-model="editFormValidate.desc" type="textarea" :autosize="{minRows: 2,maxRows: 5}" placeholder="Enter something..."></Input>
-                    </FormItem>
-                    <!-- <FormItem>
-                        <Button type="primary" @click="handleSubmit('formValidate')">Submit</Button>
-                        <Button @click="handleReset('formValidate')" style="margin-left: 8px">Reset</Button>
-                    </FormItem> -->
                 </Form>
                 <div slot="footer">
-                    <Button type="primary" @click="handleSubmit('editFormValidate')">确定</Button>
-                    <Button @click="handleReset('editFormValidate')" style="margin-left: 8px">重置</Button>
+                    <Button type="primary" @click="handleSubmit('systemCode')">确定</Button>
+                    <Button @click="handleReset('systemCode')" style="margin-left: 8px">重置</Button>
                 </div>
             </Modal>
 
             <Modal v-model="detailModel" draggable scrollable width="80">
                 <p slot="header">
-                    <span>详情弹窗</span>
+                    <span>详情-全局代码</span>
                 </p>
-                <Form ref="detailFormValidate" :model="detailFormValidate"  :label-width="80" inline class="detail-form">
-                    <FormItem label="Name" prop="name">
-                        Enter your name
+                <Form ref="systemCode" :model="systemCode"  :label-width="120" inline class="detail-form">
+                    <FormItem label="代码属性" prop="field">
+                        {{systemCode.field}}
                     </FormItem>
-                    <FormItem label="E-mail" prop="mail">
-                        Enter your e-mail
+                    <FormItem label="代码属性名称" prop="fieldname">
+                        {{systemCode.fieldname}}
                     </FormItem>
-                    <FormItem label="City" prop="city">
-                        Enter your e-mail
+                    <FormItem label="代码值" prop="code">
+                        {{systemCode.code}}
                     </FormItem>
-                    <FormItem label="Date">
-                        Enter your e-mail
+                    <FormItem label="代码描述" prop="fieldname">
+                        {{systemCode.fieldname}}
                     </FormItem>
-                    <FormItem label="Gender" prop="gender">
-                        Gender
+                    <FormItem label="可编辑" prop="editmode">
+                        {{systemCode.editmode}}
                     </FormItem>
-                    <FormItem label="Hobby" prop="interest">
-                        Gender
+                    <FormItem label="排序" prop="sortno">
+                        {{systemCode.sortno}}
                     </FormItem>
-                    <FormItem label="Desc" prop="desc">
-                        Gender
+                    <FormItem label="备注" prop="remark" style="width: 100%;">
+                        {{systemCode.remark}}
                     </FormItem>
+                    
             </Form>
             </Modal>
         </div>
@@ -115,10 +87,11 @@
 </template>
 <script>
     import { queryForPage } from '@/api/system/systemcode'
+    import {formatterEditMode} from '@/libs/formatter'
     export default {
         data () {
             return {
-                tableData3: [],
+                systemCodes: [],
                 rows: 10,
                 totle: 0,
                 currentPage: 1,
@@ -131,17 +104,16 @@
                 },
                 detailModel: false,
                 editModel: false,
-                editFormValidate: {
-                    name: '',
-                    mail: '',
-                    city: '',
-                    gender: '',
-                    interest: [],
-                    date: '',
-                    time: '',
-                    desc: ''
+                systemCode: {
+                    // name: '',
+                    // mail: '',
+                    // city: '',
+                    // gender: '',
+                    // interest: [],
+                    // date: '',
+                    // time: '',
+                    // desc: ''
                 },
-                detailFormValidate: {},
                 ruleValidate: {
                     name: [
                         { required: true, message: 'The name cannot be empty', trigger: 'blur' }
@@ -203,46 +175,34 @@
                 columns.push({
                     title: '代码值',
                     key: 'code',
-                    sortable: true,
-                    filters: [
-                        {
-                            label: 'Greater than 25',
-                            value: 1
-                        },
-                        {
-                            label: 'Less than 25',
-                            value: 2
-                        }
-                    ],
-                    filterMultiple: false,
-                    filterMethod (value, row) {
-                        if (value === 1) {
-                            return row.age > 25;
-                        } else if (value === 2) {
-                            return row.age < 25;
-                        }
-                    }
+                    sortable: true
+                    // render: (h, params) => {
+                    //     return h('div', [
+                    //         h('input', {
+
+                    //         })
+                    //     ]);
+                    // }
                 });
                 columns.push({
                     title: '代码描述',
                     key: 'codedesc',
-                    filters: [
-                        {
-                            label: 'New York',
-                            value: 'New York'
-                        },
-                        {
-                            label: 'London',
-                            value: 'London'
-                        },
-                        {
-                            label: 'Sydney',
-                            value: 'Sydney'
-                        }
-                    ],
-                    filterMethod (value, row) {
-                        return row.address.indexOf(value) > -1;
+                });
+                columns.push({
+                    title: '可编辑',
+                    key: 'editmode',
+                    render: (h, params) => {
+                        let value = formatterEditMode(params.row.editmode)
+                        return h('div', value);
                     }
+                });
+                columns.push({
+                    title: '排序',
+                    key: 'sortno'
+                });
+                columns.push({
+                    title: '备注',
+                    key: 'remark'
                 });
                 columns.push({
                     title: '操作',
@@ -254,7 +214,8 @@
                             h('Button', {
                                 props: {
                                     type: 'success',
-                                    size: 'small'
+                                    size: 'small',
+                                    icon: 'ios-download-outline'
                                 },
                                 style: {
                                     marginRight: '5px'
@@ -286,12 +247,15 @@
         methods: {
             show (index) {
                 this.detailModel = true;
+                this.systemCode = JSON.parse(JSON.stringify(this.systemCodes[index]));
+                this.systemCode.editmode = formatterEditMode(this.systemCode.editmode) 
             },
             remove (index) {
-                this.tableData3.splice(index, 1);
+                this.systemCodes.splice(index, 1);
             },
             edit (index) {
               this.editModel = true;
+              this.systemCode = JSON.parse(JSON.stringify(this.systemCodes[index]));
             },
             handleSubmit (name) {
                 this.$refs[name].validate((valid) => {
@@ -314,7 +278,7 @@
                 }).then(res => {
                     console.log(res, 111)
                     this.totle = res.data.total
-                    this.tableData3 = res.data.rows
+                    this.systemCodes = res.data.rows
                 })
             }
         },
@@ -325,7 +289,7 @@
             }).then(res => {
                 console.log(res, 8888)
                 this.totle = res.data.total
-                this.tableData3 = res.data.rows
+                this.systemCodes = res.data.rows
             })
         }
     }
