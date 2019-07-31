@@ -399,15 +399,17 @@ import { constants } from 'crypto';
                 }
             },
             formexport(url) {
-                let allColValueArr = [];
-                let allColNameArr = [];
+                let allColValueArr = '';
+                let allColNameArr = '';
                 for (var i = 0; i < this.checkedColums.length; i++) {
-                    allColValueArr.push(this.tableColumns3[this.checkedColums[i]].key);
-                    allColNameArr.push(this.tableColumns3[this.checkedColums[i]].title);
+                    if (this.tableColumns3[this.checkedColums[i]].key) {
+                        allColValueArr += this.tableColumns3[this.checkedColums[i]].key + ','
+                        allColNameArr += this.tableColumns3[this.checkedColums[i]].title + ','
+                    }
                 }
                 this.$refs.exportHiddenForm.action = url;
-                document.getElementById('allColNames').value = encodeURI(allColNameArr.join(','));
-				document.getElementById('allColValues').value =  encodeURI(allColValueArr.join(','));
+                document.getElementById('allColNames').value = encodeURI(allColNameArr);
+				document.getElementById('allColValues').value =  encodeURI(allColValueArr);
                 console.log(this.$refs.exportHiddenForm, 8888)
                 this.$refs.exportHiddenForm.submit();
             },
