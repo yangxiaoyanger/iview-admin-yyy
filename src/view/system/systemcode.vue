@@ -136,13 +136,13 @@
                         </Checkbox>
                     </CheckboxGroup>
                 </Form>
-                <form ref="exportHiddenForm" target="_blank" style="visibility:hidden;" method="POST" action="">
+                <form ref="exportHiddenForm" id="exportHiddenForm" target="_blank" style="visibility:hidden;" method="POST" action="">
                     <input type="hidden" ref="allColValues" id="allColValues" name="allColValues" value="" />
                     <input type="hidden" ref="allColNames" id="allColNames" name="allColValues" value="" />
                 </form>
                 <div slot="footer">
                     <Button type="primary" @click="exportForPDF()">导出PDF文件</Button>
-                    <Button @click="exportForEXCEL()" style="margin-left: 8px">导出Excel文件</Button>
+                    <Button type="warning" @click="exportForEXCEL()" style="margin-left: 8px">导出Excel文件</Button>
                     <Button @click="cancel()" style="margin-left: 8px">取消</Button>
                 </div>
             </Modal>
@@ -370,6 +370,9 @@ import { constants } from 'crypto';
                 this.exportModel = true
 
             },
+            cancel () {
+                this.exportModel = false
+            },
             handleCheckAll () {
                 if (this.indeterminate) {
                     this.checkAll = false;
@@ -407,11 +410,11 @@ import { constants } from 'crypto';
                         allColNameArr += this.tableColumns3[this.checkedColums[i]].title + ','
                     }
                 }
-                this.$refs.exportHiddenForm.action = url;
+               document.getElementById('exportHiddenForm').action = url;
                 document.getElementById('allColNames').value = encodeURI(allColNameArr);
 				document.getElementById('allColValues').value =  encodeURI(allColValueArr);
                 console.log(this.$refs.exportHiddenForm, 8888)
-                this.$refs.exportHiddenForm.submit();
+                document.getElementById('exportHiddenForm').submit();
             },
             exportForPDF () {
                 console.log(exportPdf())

@@ -11,7 +11,7 @@
     <!-- <custom-bread-crumb show-icon style="margin-left: 30px;" :list="breadCrumbList"></custom-bread-crumb> -->
     <div class="custom-content-con">
       <slot></slot>
-      <nav-menu :list="navMenuList" @on-select="selectNav" :active-name="$store.state.app.navMenu"></nav-menu>
+      <nav-menu :list="navMenuList" @on-select="selectNav" :active-name="$store.getters.navMenu"></nav-menu>
       
     </div>
   </div>

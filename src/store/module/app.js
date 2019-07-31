@@ -43,7 +43,8 @@ export default {
     errorCount: state => state.errorList.length,
     sidemenuList: (state, getters, rootState) => { // 侧边栏
       return state.sidemenuList
-    }
+    },
+    navMenu: state => state.navMenu
   },
   mutations: {
     setBreadCrumb (state, route) {

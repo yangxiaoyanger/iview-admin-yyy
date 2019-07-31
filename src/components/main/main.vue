@@ -174,6 +174,7 @@ export default {
         route: { name, query, params, meta },
         type: 'push'
       })
+      
       const navName = this.$route.matched.map(item => item.name).filter(item => item !== name)[0]
       this.setNavMenu(navName)
       this.setSidemenuList(navName)
@@ -193,7 +194,9 @@ export default {
     this.addTag({
       route: { name, params, query, meta }
     })
-    
+    const navName = this.$route.matched.map(item => item.name).filter(item => item !== name)[0]
+    this.setNavMenu(navName)
+    this.setSidemenuList(navName)
     this.setBreadCrumb(this.$route)
     // 设置初始语言
     this.setLocal(this.$i18n.locale)

@@ -46,6 +46,7 @@ router.beforeEach((to, from, next) => {
       name: homeName // 跳转到homeName页
     })
   } else {
+    console.log('已登录且要跳转的页面不是登录页')
     if (!getRouter) {
       if (!store.state.user.routes) {
         store.dispatch('getNav').then(res => {
@@ -54,9 +55,8 @@ router.beforeEach((to, from, next) => {
           router.addRoutes(getRouter) // 动态添加路由
           console.log('已经登陆跳转的不是登录页，并且没有getRouter', to.name)
           next({
-            name: homeName
+            path: to.path
           })
-          // next()
         })
       } else {
         console.log('已经登陆跳转的不是登录页，并且有getRouter', to.name)

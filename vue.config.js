@@ -44,7 +44,7 @@ module.exports = {
     proxy: {
       '/api': {// 代理api
         // target: 'http://10.0.30.163:19090', // 服务器api地址
-        target: 'https://water.randee.cn/', // 服务器api地址
+        target: 'http://water.randee.cn/', // 服务器api地址
         changeOrigin: true, // 是否跨域
         ws: true, // proxy websockets
         pathRewrite: {// 重写路径
