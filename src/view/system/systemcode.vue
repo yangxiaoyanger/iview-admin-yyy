@@ -10,7 +10,7 @@
                     <Button type="info" @click="edit()">新增</Button>
                     <Button type="primary" @click="refresh()">刷新</Button>
                     <Button type="error" @click="remove()">删除</Button>
-                    <Button>导出</Button>
+                    <Button @click="exportList()">导出</Button>
                 </div>
                 <div class="clear-fix"></div>
                 <div v-show="openSearchBlock" class="search-block">
@@ -49,7 +49,7 @@
                 @on-page-size-change="onPageSizeChange"
             />
 
-            <Modal v-model="editModel" draggable scrollable width="80">
+            <Modal v-model="editModel"  scrollable width="80">
                 <p slot="header">
                     <span>{{modelTitle}}-全局代码</span>
                 </p>
@@ -84,8 +84,8 @@
                     <Button @click="handleReset('systemCodeForEdit')" style="margin-left: 8px">重置</Button>
                 </div>
             </Modal>
-
-            <Modal v-model="detailModel" draggable scrollable width="80">
+            
+            <Modal v-model="detailModel" scrollable width="80">
                 <p slot="header">
                     <span>详情-全局代码</span>
                 </p>
@@ -115,13 +115,29 @@
             </Modal>
 
 
-            <!-- <Modal v-model="exportModel" draggable scrollable width="80">
+            <Modal v-model="exportModel"  scrollable width="80">
                 <p slot="header">
                     <span>导出-全局代码</span>
                 </p>
                 <Form ref="systemCodeForExport" :label-width="120" inline class="detail-form">
+                    <div style="border-bottom: 1px solid #e9e9e9;padding-bottom:6px;margin-bottom:6px;">
+                        <Checkbox
+                            :indeterminate="indeterminate"
+                            :value="checkAll"
+                            
+                            @click.prevent.native="handleCheckAll">全选</Checkbox>
+                    </div>
+                    <CheckboxGroup ref="checkboxGroup" v-model="checkAllGroup" @on-change="checkAllGroupChange">
+                         <Checkbox :label="colum.key" v-for="(colum, index) in tableColumns3" :key="index" :show="colum.key">
+                            <span>{{colum.title}}</span>
+                        </Checkbox>
+                    </CheckboxGroup>
                 </Form>
-            </Modal> -->
+                <form ref="exportHiddenForm" target="_blank" style="visibility:hidden;" method="POST" action="">
+                    <input type="hidden" name="allColValues" id="allColValues" value="" />
+                    <input type="hidden" name="allColNames" id="allColNames" value="" />
+                </form>
+            </Modal>
         </div>
     </Card>
 </template>
@@ -129,6 +145,7 @@
     import { queryForPage, saveItem, updateItem, deleteItems, exportExcel, exportPdf } from '@/api/system/systemcode'
     import { forEach, getAssign } from '@/libs/tools'
     import {formatterEditMode} from '@/libs/formatter'
+import { constants } from 'crypto';
     export default {
         data () {
             return {
@@ -158,7 +175,10 @@
                     codedesc: [
                         { type: 'string', min: 20, message: '不能少于20个字', trigger: 'blur' }
                     ]
-                }
+                },
+                indeterminate: false,
+                checkAll: false,
+                checkAllGroup: []
             }
         },
         computed: {
@@ -333,6 +353,37 @@
             },
             onPageSizeChange () {
                 console.log(this)
+            },
+            exportList () {
+                this.exportModel = true
+
+            },
+            handleCheckAll () {
+                if (this.indeterminate) {
+                    this.checkAll = false;
+                } else {
+                    this.checkAll = !this.checkAll;
+                }
+                this.indeterminate = false;
+
+                if (this.checkAll) {
+                    this.checkAllGroup = [];
+                } else {
+                    this.checkAllGroup = [];
+                }
+            },
+            checkAllGroupChange (data) {
+                console.log(this.checkAllGroup, 777777)
+                if (data.length === 3) {
+                    this.indeterminate = false;
+                    this.checkAll = true;
+                } else if (data.length > 0) {
+                    this.indeterminate = true;
+                    this.checkAll = false;
+                } else {
+                    this.indeterminate = false;
+                    this.checkAll = false;
+                }
             }
         },
         mounted() {
