@@ -49,7 +49,11 @@
                 @on-page-size-change="onPageSizeChange"
             />
 
-            <Modal v-model="editModel"  scrollable width="80">
+            <Modal 
+                v-model="editModel"  
+                scrollable 
+                :loading="loading"
+                width="60">
                 <p slot="header">
                     <span>{{modelTitle}}-全局代码</span>
                 </p>
@@ -124,19 +128,23 @@
                         <Checkbox
                             :indeterminate="indeterminate"
                             :value="checkAll"
-                            
                             @click.prevent.native="handleCheckAll">全选</Checkbox>
                     </div>
-                    <CheckboxGroup ref="checkboxGroup" v-model="checkAllGroup" @on-change="checkAllGroupChange">
-                         <Checkbox :label="colum.key" v-for="(colum, index) in tableColumns3" :key="index" :show="colum.key">
+                    <CheckboxGroup ref="checkboxGroupForColums" v-model="checkedColums" @on-change="checkColumChange">
+                         <Checkbox :label="index" v-for="(colum, index) in tableColumns3" :key="index" v-show="colum.key">
                             <span>{{colum.title}}</span>
                         </Checkbox>
                     </CheckboxGroup>
                 </Form>
                 <form ref="exportHiddenForm" target="_blank" style="visibility:hidden;" method="POST" action="">
-                    <input type="hidden" name="allColValues" id="allColValues" value="" />
-                    <input type="hidden" name="allColNames" id="allColNames" value="" />
+                    <input type="hidden" ref="allColValues" id="allColValues" name="allColValues" value="" />
+                    <input type="hidden" ref="allColNames" id="allColNames" name="allColValues" value="" />
                 </form>
+                <div slot="footer">
+                    <Button type="primary" @click="exportForPDF()">导出PDF文件</Button>
+                    <Button @click="exportForEXCEL()" style="margin-left: 8px">导出Excel文件</Button>
+                    <Button @click="cancel()" style="margin-left: 8px">取消</Button>
+                </div>
             </Modal>
         </div>
     </Card>
@@ -166,6 +174,7 @@ import { constants } from 'crypto';
                 detailModel: false,
                 editModel: false,
                 exportModel: false,
+                loading: false,
                 systemCode: {
                 },
                 ruleValidate: {
@@ -178,7 +187,7 @@ import { constants } from 'crypto';
                 },
                 indeterminate: false,
                 checkAll: false,
-                checkAllGroup: []
+                checkedColums: []
             }
         },
         computed: {
@@ -311,12 +320,14 @@ import { constants } from 'crypto';
                 }              
             },
             handleSubmit (name) {
+                this.loading = true
                 this.$refs[name].validate((valid) => {
                     if (valid) {
                         console.log(valid, this.systemCode ,99999)
                         if (this.modelTitle == '新增') {
                             saveItem(this.systemCode).then(res => {
                                 console.log(res, 'saveItem')
+                                this.loading = false
                                 this.$Message.success('添加成功!');
                                 this.editModel = false;
                                 this.pageChange(1);
@@ -324,6 +335,7 @@ import { constants } from 'crypto';
                         } else {
                             updateItem(this.systemCode).then(res => {
                                 console.log(res, 'updateItem')
+                                this.loading = false
                                 this.$Message.success('修改成功!');
                                 this.editModel = false;
                                 this.pageChange(1);
@@ -367,13 +379,14 @@ import { constants } from 'crypto';
                 this.indeterminate = false;
 
                 if (this.checkAll) {
-                    this.checkAllGroup = [];
+                    forEach(this.tableColumns3, (item, index) => {
+                        this.checkedColums.push(index);
+                    })
                 } else {
-                    this.checkAllGroup = [];
+                    this.checkedColums = [];
                 }
             },
-            checkAllGroupChange (data) {
-                console.log(this.checkAllGroup, 777777)
+            checkColumChange (data) {
                 if (data.length === 3) {
                     this.indeterminate = false;
                     this.checkAll = true;
@@ -384,6 +397,26 @@ import { constants } from 'crypto';
                     this.indeterminate = false;
                     this.checkAll = false;
                 }
+            },
+            formexport(url) {
+                let allColValueArr = [];
+                let allColNameArr = [];
+                for (var i = 0; i < this.checkedColums.length; i++) {
+                    allColValueArr.push(this.tableColumns3[this.checkedColums[i]].key);
+                    allColNameArr.push(this.tableColumns3[this.checkedColums[i]].title);
+                }
+                this.$refs.exportHiddenForm.action = url;
+                document.getElementById('allColNames').value = encodeURI(allColNameArr.join(','));
+				document.getElementById('allColValues').value =  encodeURI(allColValueArr.join(','));
+                console.log(this.$refs.exportHiddenForm, 8888)
+                this.$refs.exportHiddenForm.submit();
+            },
+            exportForPDF () {
+                console.log(exportPdf())
+                this.formexport(exportPdf())
+            },
+            exportForEXCEL () {
+                this.formexport(exportExcel())
             }
         },
         mounted() {
