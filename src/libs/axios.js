@@ -50,11 +50,9 @@ class HttpRequest {
     instance.interceptors.response.use(res => {
       this.destroy(url)
       const { data, status } = res
-      console.log(res, 'axios')
       // 未登录
       if (res.data && res.data.code === 9) {
         // 如果是9应该没登陆，清除tocken
-        console.log(router, 7777)
         store.commit('setToken', '')
         store.commit('setAccess', [])
         router.push({

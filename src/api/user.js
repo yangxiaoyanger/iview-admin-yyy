@@ -26,6 +26,7 @@ export const getUserInfo = (token) => {
   })
 }
 export const getNav = () => {
+  console.log('getNav axios')
   return axios.request({
     // url: '/api/system/index/getNav',
     url: 'https://www.easy-mock.com/mock/5add9213ce4d0e69998a6f51/iview-admin/getNav',

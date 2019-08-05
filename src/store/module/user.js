@@ -169,6 +169,7 @@ export default {
             getRouter = filterAsyncRouter(getRouter)
             commit('setRoutes', getRouter)
             resolve(getRouter)
+            console.log(res, 'axsic 完毕')
           }).catch(err => {
             reject(err)
           })

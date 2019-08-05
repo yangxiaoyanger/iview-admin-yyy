@@ -11,7 +11,7 @@
     <!-- <custom-bread-crumb show-icon style="margin-left: 30px;" :list="breadCrumbList"></custom-bread-crumb> -->
     <div class="custom-content-con">
       <slot></slot>
-      <nav-menu :list="navMenuList" @on-select="selectNav" :active-name="$store.getters.navMenu"></nav-menu>
+      <nav-menu :list="navMenuList" @on-select="selectNav" :active-name="navMenu"></nav-menu>
       
     </div>
   </div>
@@ -19,6 +19,7 @@
 <script>
 import NavMenu from './nav-menu'
 import './header-bar.less'
+import { mapActions } from 'vuex'
 import { constants } from 'crypto';
 export default {
   name: 'HeaderBar',
@@ -31,34 +32,27 @@ export default {
   computed: {
     navMenuList() {
       return this.$store.getters.menuList
-    }
+    },
+    navMenu () {
+      console.log(this.$store.getters.navMenu)
+      return this.$store.getters.navMenu
+    },
   },
   methods: {
+     ...mapActions([
+      'setNavMenu'
+    ]),
     selectNav (name) {
       this.$emit('on-select', name)
-    }
-
-
-    // turnToPage (route) {
-    //   console.log(route, 'route hader-bar')
-    //   let { name, params, query } = {}
-    //   if (typeof route === 'string') name = route
-    //   else {
-    //     name = route.name
-    //     params = route.params
-    //     query = route.query
-    //   }
-    //   if (name.indexOf('isTurnByHref_') > -1) {
-    //     window.open(name.split('_')[1])
-    //     return
-    //   }
-    //   this.$router.push({
-    //     name,
-    //     params,
-    //     query
-    //   })
-    // }
-    
+    }    
+  },
+  mounted () {
+    /**
+     * @description 初始化设置面包屑导航和标签导航
+     */
+    const navName = this.$route.matched.map(item => item.name).filter(item => item !== name)[0]
+    console.log(navName, 1111111111)
+    this.setNavMenu(navName)
   }
 }
 </script>

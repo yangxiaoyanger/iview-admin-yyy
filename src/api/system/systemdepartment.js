@@ -40,7 +40,9 @@ export const getItem = params => {
 export const deleteItems = params => {
   return axios.request({
     url: serviceName + moduleName + '/deleteItems',
-    data: params,
+    data: {
+      strChecked: params
+    },
     method: 'post'
   })
 }

@@ -48,7 +48,6 @@
                 @on-change="pageChange"
                 @on-page-size-change="onPageSizeChange"
             />
-
             <Modal 
                 v-model="editModel"  
                 scrollable 
@@ -153,7 +152,7 @@
     import { queryForPage, saveItem, updateItem, deleteItems, exportExcel, exportPdf } from '@/api/system/systemcode'
     import { forEach, getAssign } from '@/libs/tools'
     import {formatterEditMode} from '@/libs/formatter'
-import { constants } from 'crypto';
+    import { constants } from 'crypto';
     export default {
         data () {
             return {

@@ -64,6 +64,7 @@ router.beforeEach((to, from, next) => {
         next()
       }
     } else {
+      console.log('已经登陆跳转的不是登录页，并且有getRouter222', to.name)
       next()
     }
   }

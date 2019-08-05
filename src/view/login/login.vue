@@ -37,6 +37,7 @@ export default {
       this.handleLogin({ userName, password }).then(res => {
         this.getNav().then(res => {
           const getRouter= res
+          console.log('login vue')
           this.$router.options.routes = getRouter // 必须在addroutes前，使用router.options.routes=XXXXX的方法手动添加
           this.$router.addRoutes(getRouter) // 动态添加路由
           this.setNavMenu(getRouter[0].name)
@@ -44,6 +45,7 @@ export default {
           this.$router.push({
             name: this.$config.homeName
           })
+          
         })
       })
     }
