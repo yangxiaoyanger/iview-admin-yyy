@@ -1,0 +1,53 @@
+@import '~iview/src/styles/index.less';
+
+@menu-dark-title: #001529;
+@menu-dark-active-bg: #000c17;
+@layout-sider-background: #001529;
+
+
+.table-button-group {
+    float: right;
+    margin-bottom: 10px;
+    .ivu-btn {
+        margin-left: 3px;
+    }
+}
+.clear-fix {
+    clear: both;
+}
+.pull-left {
+    float: left;
+}
+.pull-right {
+    float: right;
+}
+.page-title {
+    float: left;
+    color: #464c5b;
+    font-size: 16px;
+    font-weight: bold;
+    line-height: 31.89px;
+}
+// 搜索框的样式
+.search-block {
+    border: #eee 1px solid;
+    overflow: auto;
+    padding: 10px;
+    margin: 10px 0;
+    div.search-block-item {
+        margin-right: 10px;
+        line-height: 32px;
+        display: inline-block;
+        label {
+            margin-right: 5px;
+        }
+    }
+    .search-block-footer {
+        margin-top: 10px;
+        text-align: center;
+        .ivu-btn {
+            margin-right: 10px;
+        }
+    }
+}
+

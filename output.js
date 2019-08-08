@@ -13,7 +13,7 @@
   output: {
     path: 'D:\\iview-admin-master\\dist',
     filename: '[name].js',
-    publicPath: '/',
+    publicPath: './',
     globalObject: '(typeof self !== \'undefined\' ? self : this)'
   },
   resolve: {
