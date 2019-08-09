@@ -10,7 +10,7 @@
                     <Button type="info" @click="edit()">新增</Button>
                     <Button type="primary" @click="refresh()">刷新</Button>
                     <Button type="error" @click="remove()">删除</Button>
-                    <Button @click="exportModel = true">导出</Button>
+                    <Button @click="showExportModal = true">导出</Button>
                 </div>
                 <div class="clear-fix"></div>
                 <div v-show="openSearchBlock" class="search-block">
@@ -50,104 +50,27 @@
                 @on-change="pageChange"
                 @on-page-size-change="onPageSizeChange"
             />
-            <Modal 
-                v-model="editModel"  
-                scrollable 
-                :loading="loading"
-                width="60">
-                <p slot="header">
-                    <span>{{modelTitle}}-全局代码</span>
-                </p>
-                <Form ref="systemCodeForEdit" :model="systemCode" :rules="ruleValidate" :label-width="120" inline>
-                    <FormItem label="代码属性" prop="field">
-                        <Input v-model="systemCode.field" placeholder="请输入代码属性"></Input>
-                    </FormItem>
-                    <FormItem label="代码属性名称" prop="fieldname">
-                        <Input v-model="systemCode.fieldname" placeholder="请输入代码属性名称"></Input>
-                    </FormItem>
-                    <FormItem label="代码值" prop="code">
-                        <Input v-model="systemCode.code" placeholder="请输入代码值"></Input>
-                    </FormItem>
-                    <FormItem label="代码描述" prop="codedesc">
-                        <Input v-model="systemCode.codedesc" placeholder="请输入代码描述"></Input>
-                    </FormItem>
-                    <FormItem label="可编辑" prop="editmode">
-                        <Select v-model="systemCode.editmode" placeholder="请选择">
-                            <Option value="1">是</Option>
-                            <Option value="0">否</Option>
-                        </Select>
-                    </FormItem>
-                    <FormItem label="排序" prop="sortno">
-                        <Input v-model="systemCode.sortno" placeholder="请输入排序序号"></Input>
-                    </FormItem>
-                    <FormItem label="备注" prop="remark" style="width: 100%;">
-                        <Input v-model="systemCode.remark" type="textarea" :autosize="{minRows: 2,maxRows: 5}" placeholder="请输入备注"></Input>
-                    </FormItem>
-                </Form>
-                <div slot="footer">
-                    <Button type="primary" @click="handleSubmit('systemCodeForEdit')">保存</Button>
-                    <Button @click="handleReset('systemCodeForEdit')" style="margin-left: 8px">重置</Button>
-                    <Button type="primary" @click="cancel('editModel')">取消</Button>
-                </div>
-            </Modal>
-            
-            <Modal v-model="detailModel" scrollable width="80">
-                <p slot="header">
-                    <span>详情-全局代码</span>
-                </p>
-                <Form ref="systemCodeForDetail" :model="systemCode"  :label-width="120" inline class="detail-form">
-                    <FormItem label="代码属性" prop="field">
-                        {{systemCode.field}}
-                    </FormItem>
-                    <FormItem label="代码属性名称" prop="fieldname">
-                        {{systemCode.fieldname}}
-                    </FormItem>
-                    <FormItem label="代码值" prop="code">
-                        {{systemCode.code}}
-                    </FormItem>
-                    <FormItem label="代码描述" prop="fieldname">
-                        {{systemCode.fieldname}}
-                    </FormItem>
-                    <FormItem label="可编辑" prop="editmode">
-                        {{systemCode.editmode}}
-                    </FormItem>
-                    <FormItem label="排序" prop="sortno">
-                        {{systemCode.sortno}}
-                    </FormItem>
-                    <FormItem label="备注" prop="remark" style="width: 100%;">
-                        {{systemCode.remark}}
-                    </FormItem>
-                </Form>
-            </Modal>
+
+            <edit-modal 
+                v-if="showEditModal" 
+                :show-edit-modal="showEditModal" 
+                :system-code="systemCode"
+                :model-title="modelTitle"
+                @clickedhidemodal="hideEditModal"></edit-modal>
+
+            <detail-modal 
+                v-if="showDetailModal" 
+                :show-detail-modal="showDetailModal" 
+                :system-code="systemCode"
+                @clickedhidemodal="showDetailModal = false"></detail-modal>
+
+            <export-modal 
+                v-if="showExportModal" 
+                :show-export-modal="showExportModal" 
+                :system-code-columns="systemCodeColumns"
+                @clickedhidemodal="showExportModal = false"></export-modal>
 
 
-            <Modal v-model="exportModel"  scrollable width="80">
-                <p slot="header">
-                    <span>导出-全局代码</span>
-                </p>
-                <Form ref="systemCodeForExport" :label-width="120" inline class="detail-form">
-                    <div style="border-bottom: 1px solid #e9e9e9;padding-bottom:6px;margin-bottom:6px;">
-                        <Checkbox
-                            :indeterminate="indeterminate"
-                            :value="checkAll"
-                            @click.prevent.native="handleCheckAll">全选</Checkbox>
-                    </div>
-                    <CheckboxGroup ref="checkboxGroupForColums" v-model="checkedColums" @on-change="checkColumChange">
-                         <Checkbox :label="index" v-for="(colum, index) in systemCodeColumns" :key="index" v-show="colum.key">
-                            <span>{{colum.title}}</span>
-                        </Checkbox>
-                    </CheckboxGroup>
-                </Form>
-                <form ref="exportHiddenForm" id="exportHiddenForm" target="_blank" style="visibility:hidden;" method="POST" action="">
-                    <input type="hidden" ref="allColValues" id="allColValues" name="allColValues" value="" />
-                    <input type="hidden" ref="allColNames" id="allColNames" name="allColValues" value="" />
-                </form>
-                <div slot="footer">
-                    <Button type="primary" @click="exportForPDF()">导出PDF文件</Button>
-                    <Button type="warning" @click="exportForEXCEL()" style="margin-left: 8px">导出Excel文件</Button>
-                    <Button @click="cancel('exportModel')" style="margin-left: 8px">取消</Button>
-                </div>
-            </Modal>
         </div>
     </Card>
 </template>
@@ -155,8 +78,16 @@
     import { queryForPage, saveItem, updateItem, deleteItems, exportExcel, exportPdf } from './systemcode'
     import { forEach, getAssign } from '@/libs/tools'
     import {formatterEditMode} from '@/libs/formatter'
-    import { constants } from 'crypto';
+    import { constants } from 'crypto'
+    const ExportModal = () => import('./ExportModal.vue')
+    const DetailModal = () => import('./DetailModal.vue')
+    const EditModal = () => import('./EditModal.vue')
     export default {
+        components: {
+            ExportModal,
+            DetailModal,
+            EditModal
+        },
         data () {
             return {
                 systemCodes: [],
@@ -173,23 +104,12 @@
                 pageStyle: {
                   marginTop: '20px'
                 },
-                detailModel: false,
-                editModel: false,
-                exportModel: false,
+                showDetailModal: false,
+                showEditModal: false,
+                showExportModal: false,
                 loading: false,
                 systemCode: {
-                },
-                ruleValidate: {
-                    fieldname: [
-                        { required: true, message: '属性名称不能为空', trigger: 'blur' }
-                    ],
-                    codedesc: [
-                        { type: 'string', min: 20, message: '不能少于20个字', trigger: 'blur' }
-                    ]
-                },
-                indeterminate: false,
-                checkAll: false,
-                checkedColums: []
+                }                
             }
         },
         computed: {
@@ -281,7 +201,7 @@
                                 },
                                 on: {
                                     click: () => {
-                                        this.show(params.index)
+                                        this.showDetail(params.index)
                                     }
                                 }
                             }, '详情')
@@ -293,8 +213,13 @@
             }
         },
         methods: {
-            show (index) {
-                this.detailModel = true;
+            hideEditModal () {
+                this.showEditModal = false;
+                this.pageChange(1)
+            },
+            // 打开详情弹窗
+            showDetail (index) { 
+                this.showDetailModal = true;
                 this.systemCode = JSON.parse(JSON.stringify(this.systemCodes[index]));
                 this.systemCode.editmode = formatterEditMode(this.systemCode.editmode) 
             },
@@ -326,43 +251,12 @@
                 }
             },
             edit (index) {
-                console.log(index, 'edit')
-                this.editModel = true;
+                this.showEditModal = true;
                 if (index !== undefined) {
                     this.modelTitle = '编辑';
+                    // 类似angular.copy()深复制
                     this.systemCode = JSON.parse(JSON.stringify(this.systemCodes[index]));
                 }              
-            },
-            handleSubmit (name) {
-                this.loading = true
-                this.$refs[name].validate((valid) => {
-                    if (valid) {
-                        console.log(valid, this.systemCode ,99999)
-                        if (this.modelTitle == '新增') {
-                            saveItem(this.systemCode).then(res => {
-                                console.log(res, 'saveItem')
-                                this.loading = false
-                                this.$Message.success('添加成功!');
-                                this.editModel = false;
-                                this.pageChange(1);
-                            })
-                        } else {
-                            updateItem(this.systemCode).then(res => {
-                                console.log(res, 'updateItem')
-                                this.loading = false
-                                this.$Message.success('修改成功!');
-                                this.editModel = false;
-                                this.pageChange(1);
-                            })
-                        }
-                        
-                    } else {
-                        this.$Message.error('请注意格式!');
-                    }
-                })
-            },
-            handleReset (name) {
-                this.$refs[name].resetFields();
             },
             pageChange (page) {
                 this.currentPage = page
@@ -380,63 +274,8 @@
             onPageSizeChange (pageSize) {
                 this.rows = pageSize
                 this.pageChange(1);
-            },
-            cancel (modelName) {
-                if (modelName == 'exportModel') {
-                    this.exportModel = false
-                } else if (modelName = 'editModel') {
-                    this.exportModel = false
-                }
-            },
-            handleCheckAll () {
-                if (this.indeterminate) {
-                    this.checkAll = false;
-                } else {
-                    this.checkAll = !this.checkAll;
-                }
-                this.indeterminate = false;
-
-                if (this.checkAll) {
-                    forEach(this.systemCodeColumns, (item, index) => {
-                        this.checkedColums.push(index);
-                    })
-                } else {
-                    this.checkedColums = [];
-                }
-            },
-            checkColumChange (data) {
-                if (data.length === 3) {
-                    this.indeterminate = false;
-                    this.checkAll = true;
-                } else if (data.length > 0) {
-                    this.indeterminate = true;
-                    this.checkAll = false;
-                } else {
-                    this.indeterminate = false;
-                    this.checkAll = false;
-                }
-            },
-            formexport(url) {
-                let allColValueArr = '';
-                let allColNameArr = '';
-                for (var i = 0; i < this.checkedColums.length; i++) {
-                    if (this.systemCodeColumns[this.checkedColums[i]].key) {
-                        allColValueArr += this.systemCodeColumns[this.checkedColums[i]].key + ','
-                        allColNameArr += this.systemCodeColumns[this.checkedColums[i]].title + ','
-                    }
-                }
-               document.getElementById('exportHiddenForm').action = url;
-                document.getElementById('allColNames').value = encodeURI(allColNameArr);
-				document.getElementById('allColValues').value =  encodeURI(allColValueArr);
-                console.log(this.$refs.exportHiddenForm, 8888)
-                document.getElementById('exportHiddenForm').submit();
-            },
-            exportForPDF () {
-                this.formexport(exportPdf())
-            },
-            exportForEXCEL () {
-                this.formexport(exportExcel())
             }
+            
         },
         mounted() {
             queryForPage({
@@ -450,20 +289,6 @@
         }
     }
 </script>
-<style>
-  .ivu-form-inline .ivu-form-item {
-    width: 50%;
-    margin-right: 0;
-  }
-  .ivu-modal-footer {
-    text-align: center
-  }
-  .detail-form .ivu-form-item {
-    margin-bottom: 5px;
-    margin-left: 15%;
-    width: 35%;
-  }
-</style>
 
 
 

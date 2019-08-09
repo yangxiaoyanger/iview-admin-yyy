@@ -388,20 +388,6 @@
         }
     }
 </script>
-<style>
-  .ivu-form-inline .ivu-form-item {
-    width: 50%;
-    margin-right: 0;
-  }
-  .ivu-modal-footer {
-    text-align: center
-  }
-  .detail-form .ivu-form-item {
-    margin-bottom: 5px;
-    margin-left: 15%;
-    width: 35%;
-  }
-</style>
 
 
 

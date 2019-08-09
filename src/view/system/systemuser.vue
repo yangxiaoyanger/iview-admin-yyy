@@ -389,7 +389,7 @@
     }
 </script>
 <style>
-  .ivu-form-inline .ivu-form-item {
+  /* .ivu-form-inline .ivu-form-item {
     width: 50%;
     margin-right: 0;
   }
@@ -400,7 +400,7 @@
     margin-bottom: 5px;
     margin-left: 15%;
     width: 35%;
-  }
+  } */
 </style>
 
 
