@@ -256,7 +256,10 @@
                     this.modelTitle = '编辑';
                     // 类似angular.copy()深复制
                     this.systemCode = JSON.parse(JSON.stringify(this.systemCodes[index]));
-                }              
+                } else {
+                    this.modelTitle = '新增';
+                    this.systemCode = {};
+                }             
             },
             pageChange (page) {
                 this.currentPage = page
