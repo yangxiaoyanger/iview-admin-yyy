@@ -75,9 +75,9 @@
     </Card>
 </template>
 <script>
-    import { queryForPage, saveItem, updateItem, deleteItems, exportExcel, exportPdf } from './systemcode'
+    import { queryForPage } from './systemcode'
     import { forEach, getAssign } from '@/libs/tools'
-    import {formatterEditMode} from '@/libs/formatter'
+    import { formatterEditMode } from '@/libs/formatter'
     import { constants } from 'crypto'
     const ExportModal = () => import('./ExportModal.vue')
     const DetailModal = () => import('./DetailModal.vue')
@@ -231,7 +231,7 @@
                 if (removeids.length) {
                     this.$Modal.confirm({
                         title: '删除确认',
-                        content: '是否确定',
+                        content: '是否确定要删除所选择的条目？',
                         onOk: () => {
                             deleteItems(removeids.join(',')).then(rs => {
                                 console.log(rs, 'delete')
@@ -241,6 +241,7 @@
                         },
                         onCancel: () => {
                             this.$Message.info('取消删除');
+                            this.$refs.systemCodeTable.selectAll(false)
                         }
                     });
                 } else {

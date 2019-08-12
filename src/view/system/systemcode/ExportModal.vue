@@ -22,8 +22,8 @@
                 <input type="hidden" ref="allColNames" id="allColNames" name="allColValues" value="" />
             </form>
             <div slot="footer">
-                <Button type="primary" @click="exportForPDF()">导出PDF文件</Button>
-                <Button type="warning" @click="exportForEXCEL()" style="margin-left: 8px">导出Excel文件</Button>
+                <Button type="primary" @click="exportForPDF">导出PDF文件</Button>
+                <Button type="warning" @click="exportForEXCEL" style="margin-left: 8px">导出Excel文件</Button>
                 <Button @click="hideModal" style="margin-left: 8px">取消</Button>
             </div>
         </Modal>

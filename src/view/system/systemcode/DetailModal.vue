@@ -1,6 +1,6 @@
 <template>
     <div>
-        <Modal v-model="currentShowDetailModal" scrollable width="60"  @on-ok="hideModal" @on-cancel="hideModal">
+        <Modal v-model="currentShowDetailModal" scrollable width="60" @on-cancel="hideModal">
             <p slot="header">
                 <span>详情-全局代码</span>
             </p>
@@ -27,6 +27,10 @@
                     {{systemCode.remark}}
                 </FormItem>
             </Form>
+            <div slot="footer">
+                <Button type="primary" @click="hideModal">确定</Button>
+                <Button @click="hideModal">取消</Button>
+            </div>
         </Modal>
     </div>
 </template>

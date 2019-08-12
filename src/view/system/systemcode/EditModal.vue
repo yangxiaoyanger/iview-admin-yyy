@@ -4,39 +4,40 @@
             v-model="currentShowEditModal"  
             scrollable 
             :loading="loading"
-            width="60">
+            width="60"
+            @on-cancel="hideModal">
             <p slot="header">
                 <span>{{modelTitle}}-全局代码</span>
             </p>
-            <Form ref="systemCodeForEdit" :model="systemCode" :rules="ruleValidate" :label-width="120" inline>
+            <Form ref="systemCodeForEdit" :model="currentSystemCode" :rules="ruleValidate" :label-width="120" inline>
                 <FormItem label="代码属性" prop="field">
-                    <Input v-model="systemCode.field" placeholder="请输入代码属性"></Input>
+                    <Input v-model="currentSystemCode.field" placeholder="请输入代码属性"></Input>
                 </FormItem>
                 <FormItem label="代码属性名称" prop="fieldname">
-                    <Input v-model="systemCode.fieldname" placeholder="请输入代码属性名称"></Input>
+                    <Input v-model="currentSystemCode.fieldname" placeholder="请输入代码属性名称"></Input>
                 </FormItem>
                 <FormItem label="代码值" prop="code">
-                    <Input v-model="systemCode.code" placeholder="请输入代码值"></Input>
+                    <Input v-model="currentSystemCode.code" placeholder="请输入代码值"></Input>
                 </FormItem>
                 <FormItem label="代码描述" prop="codedesc">
-                    <Input v-model="systemCode.codedesc" placeholder="请输入代码描述"></Input>
+                    <Input v-model="currentSystemCode.codedesc" placeholder="请输入代码描述"></Input>
                 </FormItem>
                 <FormItem label="可编辑" prop="editmode">
-                    <Select v-model="systemCode.editmode" placeholder="请选择">
+                    <Select v-model="currentSystemCode.editmode" placeholder="请选择">
                         <Option value="1">是</Option>
                         <Option value="0">否</Option>
                     </Select>
                 </FormItem>
                 <FormItem label="排序" prop="sortno">
-                    <Input v-model="systemCode.sortno" placeholder="请输入排序序号"></Input>
+                    <Input v-model="currentSystemCode.sortno" placeholder="请输入排序序号"></Input>
                 </FormItem>
                 <FormItem label="备注" prop="remark" style="width: 100%;">
-                    <Input v-model="systemCode.remark" type="textarea" :autosize="{minRows: 2,maxRows: 5}" placeholder="请输入备注"></Input>
+                    <Input v-model="currentSystemCode.remark" type="textarea" :autosize="{minRows: 2,maxRows: 5}" placeholder="请输入备注"></Input>
                 </FormItem>
             </Form>
             <div slot="footer">
-                <Button type="primary" @click="handleSubmit('systemCodeForEdit')">保存</Button>
-                <Button type="warning" @click="handleReset('systemCodeForEdit')" style="margin-left: 8px">重置</Button>
+                <Button type="primary" @click="handleSubmit">保存</Button>
+                <Button type="warning" @click="handleReset" style="margin-left: 8px">重置</Button>
                 <Button @click="hideModal">取消</Button>
             </div>
         </Modal>
@@ -50,6 +51,7 @@ export default {
         return {
             loading: false,
             currentShowEditModal: this.showEditModal,
+            currentSystemCode: this.systemCode,
             ruleValidate: {
                 fieldname: [
                     { required: true, message: '属性名称不能为空', trigger: 'blur' }
@@ -65,24 +67,27 @@ export default {
     watch: {
         showEditModal (newV, oldV) {
             this.currentShowEditModal = newV
+        },
+        currentSystemCode (newV, oldV) {
+            this.currentSystemCode = newV
         }
     },
     methods: {
         hideModal() {
             this.$emit("clickedhidemodal", false);
         },
-        handleSubmit (name) {
+        handleSubmit () {
             this.loading = true
-            this.$refs[name].validate((valid) => {
+            this.$refs['systemCodeForEdit'].validate((valid) => {
                 if (valid) {
                     if (this.modelTitle == '新增') {
-                        saveItem(this.systemCode).then(res => {
+                        saveItem(this.currentSystemCode).then(res => {
                             this.loading = false
                             this.$Message.success('添加成功!');
                             this.$emit("clickedhidemodal", false)
                         })
                     } else {
-                        updateItem(this.systemCode).then(res => {
+                        updateItem(this.currentSystemCode).then(res => {
                             this.loading = false
                             this.$Message.success('修改成功!');
                             this.$emit("clickedhidemodal", false)
@@ -94,8 +99,8 @@ export default {
                 }
             })
         },
-        handleReset (name) {
-            this.$refs[name].resetFields();
+        handleReset () {
+            // this.currentSystemCode = {};
         },
     }
 }

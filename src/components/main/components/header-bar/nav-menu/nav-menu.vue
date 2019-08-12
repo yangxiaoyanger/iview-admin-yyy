@@ -1,15 +1,15 @@
 <template>
   <div class="nav-menu-bar">
-      <Menu mode="horizontal">
-          <div class="layout-nav">
-            <Menu ref="navmenu" mode="horizontal" :active-name="activeName" @on-select="handleSelect">
+      <!-- <Menu mode="horizontal" theme="primary">
+          <div class="layout-nav"> -->
+            <Menu ref="navmenu" mode="horizontal" theme="primary" :active-name="activeName" @on-select="handleSelect">
               <menuItem v-for="item in list" :key="`menu-${item.name}`" :name="item.name">
                   <Icon type="ios-navigate"></Icon>
                   {{ showTitle(item) }}
               </MenuItem>
             </Menu>
-          </div>
-      </Menu>
+          <!-- </div>
+      </Menu> -->
   </div>
 </template>
 <script>
