@@ -32,8 +32,8 @@
             <Table 
                 ref="systemCodeTable" 
                 border 
-                show-header
-                :stripe="showStripe" 
+                stripe 
+                show-header 
                 :height="fixedHeader ? 250 : ''" 
                 :data="systemCodes" 
                 :columns="systemCodeColumns"
@@ -44,11 +44,11 @@
                 show-sizer 
                 show-elevator 
                 show-total 
-                :styles="pageStyle" 
                 :current="currentPage" 
                 :page-size="rows"
                 @on-change="pageChange"
                 @on-page-size-change="onPageSizeChange"
+                class="m-table-ivu-page"
             />
 
             <edit-modal 
@@ -97,19 +97,13 @@
                 total: 0,
                 currentPage: 1,
                 openSearchBlock: false,
-                showStripe: false,
-                showIndex: false,
                 showCheckbox: true,
                 fixedHeader: false,
-                pageStyle: {
-                  marginTop: '20px'
-                },
                 showDetailModal: false,
                 showEditModal: false,
                 showExportModal: false,
                 loading: false,
-                systemCode: {
-                }                
+                systemCode: {}                
             }
         },
         computed: {
@@ -121,13 +115,6 @@
                         width: 60,
                         align: 'center',
                         fixed: 'left'
-                    })
-                }
-                if (this.showIndex) {
-                    columns.push({
-                        type: 'index',
-                        width: 60,
-                        align: 'center'
                     })
                 }
                 columns.push({

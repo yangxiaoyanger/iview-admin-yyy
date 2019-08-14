@@ -13,6 +13,7 @@ import {
   localRead
 } from '@/libs/util'
 import { saveErrorLogger } from '@/api/data'
+import { getIndexParam } from '@/api/user'
 import router from '@/router'
 import config from '@/config'
 const { homeName } = config
@@ -27,6 +28,8 @@ const closePage = (state, route) => {
 
 export default {
   state: {
+    bottom_copyright: '',
+    title: '',
     navMenu: '',
     breadCrumbList: [],
     sidemenuList: [],
@@ -47,6 +50,12 @@ export default {
     navMenu: state => state.navMenu
   },
   mutations: {
+    setTitle (state, title) {
+      state.title = title
+    },
+    setBottomCopyright (state, bottom_copyright) {
+      state.bottom_copyright = bottom_copyright
+    },
     setBreadCrumb (state, route) {
       state.breadCrumbList = getBreadCrumbList(route, state.homeRoute)
     },
@@ -104,6 +113,18 @@ export default {
     }
   },
   actions: {
+    // 获取title和copyright
+    getIndexParam ({ commit }) {
+      return new Promise((resolve, reject) => {
+        getIndexParam().then(res => {
+          commit('setBottomCopyright', res.data.data.BOTTOM_COPYRIGHT)
+          commit('setTitle', res.data.data.LOGIN_TITLE)
+          resolve(res)
+        }).catch(err => {
+          reject(err)
+        })
+      })
+    },
     addErrorLog ({ commit, rootState }, info) {
       if (!window.location.href.includes('error_logger_page')) commit('setHasReadErrorLoggerStatus', false)
       const { user: { token, userId, userName } } = rootState

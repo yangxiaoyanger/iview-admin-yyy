@@ -29,7 +29,7 @@
         </Layout>
       </Content>
     </Layout>
-    <!-- <Footer>Footer</Footer> -->
+    <!-- <Footer class="layout-footer-center" v-html="bottom_copyright"></Footer> -->
   </Layout>
 </template>
 <script>
@@ -77,9 +77,9 @@ export default {
       'errorCount'
     ]),
     // 标签导航暂时去掉
-    // tagNavList () {
-    //   return this.$store.state.app.tagNavList
-    // },
+    bottom_copyright () {
+      return this.$store.state.app.bottom_copyright
+    },
     breadCrumbList () {
       return this.$store.state.app.breadCrumbList
     },

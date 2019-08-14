@@ -15,6 +15,13 @@ export const login = (key) => {
     method: 'POST'
   })
 }
+
+export const getIndexParam = () => {
+  return axios.request({
+    url: '/api/system/index/getIndexParam',
+    method: 'get'
+  })
+}
 export const getUserInfo = (token) => {
   console.log(tocken)
   return axios.request({

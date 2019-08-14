@@ -65,17 +65,18 @@ export const getMenuByRouter = (list, access) => {
       name: item.name,
       meta: item.meta
     }
-    if ((hasChild(item) || (item.meta && item.meta.showAlways)) && showThisMenuEle(item, access)) {
+    if (hasChild(item)) {
       obj.children = getMenuByRouter(item.children, access)
     }
-    if (item.meta && item.meta.href) obj.href = item.meta.href
-    if (showThisMenuEle(item, access)) res.push(obj)
+    // if (item.meta && item.meta.href) obj.href = item.meta.href // 外链
+    res.push(obj)
+    // if (showThisMenuEle(item, access)) res.push(obj)
     // }
   })
   return res
 }
 /**
- * @param {Array} list 通过路由列表得到菜单列表
+ * @param {Array} list 通过路由列表得到第一级菜单列表
  * @returns {Array}
  */
 export const getNavlistByRouter = (list, access) => {

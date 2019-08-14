@@ -47,6 +47,13 @@ Vue.prototype.$config = config
 importDirective(Vue)
 Vue.directive('clickOutside', clickOutside)
 
+store.dispatch('getIndexParam').then(res => {
+  console.log(res, 11)
+  // $scope.bottom_copyright = data.data.data.BOTTOM_COPYRIGHT;
+  // $scope.title = data.data.data.LOGIN_TITLE;
+})
+
+
 /* eslint-disable no-new */
 new Vue({
   el: '#app',

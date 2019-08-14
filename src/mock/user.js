@@ -62,15 +62,14 @@ export const getNav = () => {
           path: '/',
           name: '_home',
           component: 'Main',
-          redirect: '/home',
+          // redirect: '/home',
           meta: {
-            notCache: true,
             icon: 'md-home',
             title: '首页'
           },
           children: [
             {
-              path: '/home',
+              path: '/',
               name: 'home',
               meta: {
                 icon: 'logo-buffer',
@@ -86,7 +85,6 @@ export const getNav = () => {
           component: 'Main',
           meta: {
             icon: 'logo-buffer',
-            notCache: true,
             title: '平台管理'
           },
           children: [{
@@ -94,8 +92,7 @@ export const getNav = () => {
             name: 'systembasicmng',
             meta: {
               icon: 'logo-buffer',
-              title: '基础设置管理',
-              showAlways: true
+              title: '基础设置管理'
             },
             component: 'parentView',
             children: [
@@ -123,8 +120,7 @@ export const getNav = () => {
             name: 'systemauthorizemng',
             meta: {
               icon: 'logo-buffer',
-              title: '权限管理',
-              showAlways: true
+              title: '权限管理'
             },
             component: 'parentView',
             children: [
@@ -171,8 +167,7 @@ export const getNav = () => {
             name: 'systemmonitormng',
             meta: {
               icon: 'logo-buffer',
-              title: '平台监控管理',
-              showAlways: true
+              title: '平台监控管理'
             },
             component: 'parentView',
             children: [

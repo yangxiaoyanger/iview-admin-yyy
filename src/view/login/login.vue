@@ -5,10 +5,10 @@
 <template>
   <div class="login">
     <div class="login-con">
-      <Card icon="log-in" title="欢迎登录" :bordered="false">
+      <Card icon="log-in" :title="title" :bordered="false">
         <div class="form-con">
           <login-form @on-success-valid="handleSubmit"></login-form>
-          <p class="login-tip">输入任意用户名和密码即可</p>
+          <p class="login-tip">输入用户名和密码</p>
         </div>
       </Card>
     </div>
@@ -17,10 +17,15 @@
 
 <script>
 import LoginForm from '_c/login-form'
-import { mapActions } from 'vuex'
+import { mapActions, Store } from 'vuex'
 import { getFirstChildForMenu, setRouterInLocalstorage } from '@/libs/util'
 import { constants } from 'crypto';
 export default {
+  computed: {
+    title () {
+      return this.$store.state.app.title
+    },
+  },
   components: {
     LoginForm
   },

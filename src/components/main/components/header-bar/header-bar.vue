@@ -1,7 +1,7 @@
 <template>
   <div class="header-bar">
     <div class="logo">
-      城镇供水全过程监管业务平台
+      {{title}}
     </div>
     <!-- 需要放在菜单上面的内容，如Logo，写在side-menu标签内部，如下 -->
         <!-- <div class="logo-con">
@@ -30,6 +30,9 @@ export default {
     
   },
   computed: {
+    title () {
+      return this.$store.state.app.title
+    },
     navMenuList() {
       return this.$store.getters.menuList
     },

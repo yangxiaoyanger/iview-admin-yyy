@@ -3,7 +3,7 @@ import Router from 'vue-router'
 import routes from './routers'
 import store from '@/store'
 import iView from 'iview'
-import { setToken, getToken, canTurnTo, setTitle, setRouterInLocalstorage, getRouterFromLocalstorage } from '@/libs/util'
+import { setToken, getToken, setTitle, setRouterInLocalstorage, getRouterFromLocalstorage } from '@/libs/util'
 import config from '@/config'
 const { homeName } = config
 var getRouter
@@ -15,16 +15,21 @@ const router = new Router({
 })
 const LOGIN_PAGE_NAME = 'login'
 
-const turnTo = (to, access, next) => {
-  console.log('turnto')
-  if (canTurnTo(to.name, access, routes)) next() // 有权限，可访问
+// const turnTo = (to, access, next) => {
+//   if (canTurnTo(to.name, access, routes)) next() // 有权限，可访问
+//   else next({ replace: true, name: 'error_401' }) // 无权限，重定向到401页面
+// }
+
+const turnTo = (to, next) => {
+  if (to.name) {
+    next()
+  }
   else next({ replace: true, name: 'error_401' }) // 无权限，重定向到401页面
 }
 
 router.beforeEach((to, from, next) => {
   iView.LoadingBar.start()
   const token = getToken()
-  console.log(from, to, 888)
   if (!token && to.name !== LOGIN_PAGE_NAME) {
     // 未登录且要跳转的页面不是登录页
     console.log('未登录且要跳转的页面不是登录页')
@@ -61,11 +66,13 @@ router.beforeEach((to, from, next) => {
       } else {
         console.log('已经登陆跳转的不是登录页，并且有getRouter', to.name)
         getRouter = store.state.user.routes
-        next()
+        // next()
+        turnTo(to, next)
       }
     } else {
       console.log('已经登陆跳转的不是登录页，并且有getRouter222', to.name)
-      next()
+      // next()
+      turnTo(to, next)
     }
   }
 })
